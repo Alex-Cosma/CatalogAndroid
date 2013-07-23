@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/border"
+    android:padding="25dp" >
+
+    <RelativeLayout
+        android:id="@+id/lay_studentName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp" >
+
+        <com.catalog.helper.ScrollingTextView
+            android:id="@+id/tv_studentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@id/lay_studentName"
+        android:background="@drawable/border_left"
+        android:padding="15dp" >
+
+        <TextView
+            android:id="@+id/tv_avarage_generic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/tv_avarage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_avarage_generic"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@drawable/border"
+	android:padding="25dp" >
+
+	<RelativeLayout
+		android:id="@+id/lay_studentName"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:padding="15dp" >
+
+		<TextView
+			android:id="@+id/tv_studentName"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceLarge" />
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:id="@+id/relativeLayout1"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_below="@id/lay_studentName"
+		android:background="@drawable/border_left"
+		android:padding="15dp" >
+
+		<TextView
+			android:id="@+id/tv_grades"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceSmall" />
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_alignTop="@+id/relativeLayout1"
+		android:layout_marginLeft="25dp"
+		android:layout_toRightOf="@+id/relativeLayout1"
+		android:background="@drawable/border_left"
+		android:padding="15dp" >
+
+		<TextView
+			android:id="@+id/tv_absences"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" />
+	</RelativeLayout>
+
+</RelativeLayout>

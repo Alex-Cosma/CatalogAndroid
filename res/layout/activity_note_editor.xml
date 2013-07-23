@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="#FFF449"
+	android:padding="5dp" >
+
+	<view
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/note"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		class="com.example.android.notepad.NoteEditor$LinedEditText"
+		android:background="@android:color/transparent"
+		android:fadingEdge="vertical"
+		android:gravity="top"
+		android:padding="5dip"
+		android:scrollbars="vertical"
+		android:textSize="25sp" />
+
+</RelativeLayout>
