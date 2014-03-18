@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="window_background">#30333A</color>
+	<color name="btn_text">#FFFFFF</color>
+	<color name="action_bar_divider">#44FFFFFF</color>
+	<color name="action_bar_text">#FFFFFF</color>
+	<color name="action_bar_start">#535861</color>
+	<color name="action_bar_end">#272A30</color>
+	<color name="balance_text">#999999</color>
+	<color name="balance_value">#FFFFFF</color>
+	<color name="black">#000000</color>
+	<color name="gray">#CCCCCC</color>
+	<color name="dark_gray">#838588</color>
+	<color name="white">#FFFFFF</color>
+	<color name="income_fill">#3300FF00</color>
+	<color name="income_border">#FF00FF00</color>
+	<color name="expenses_fill">#33FF0000</color>
+	<color name="expenses_border">#FFFF0000</color>
+	<color name="list_divider">#000000</color>
+</resources>

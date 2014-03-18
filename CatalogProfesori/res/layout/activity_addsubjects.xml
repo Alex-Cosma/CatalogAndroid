@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:minHeight="60dip"
+	android:padding="5dip" >
+
+	<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:orientation="vertical" >
+
+		<TextView
+			android:id="@+id/add"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:autoText="false"
+			android:clickable="true"
+			android:drawableLeft="@android:drawable/ic_input_add"
+			android:onClick="addSubject"
+			android:text="@string/adauga_materie"
+			android:textAppearance="?android:attr/textAppearanceMedium" >
+		</TextView>
+
+		<ListView
+			android:id="@+id/Slist"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1" >
+		</ListView>
+	</LinearLayout>
+
+</RelativeLayout>

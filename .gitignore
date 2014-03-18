@@ -11,3 +11,6 @@
 /CatalogProfesori/bin/classes/org/achartengine/chartdemo/demo/chart/*.class
 /CatalogProfesori/gen
 /CatalogProfesori/bin
+/CatalogProfesori/.settings/org.eclipse.jdt.core.prefs
+/CatalogProfesori/.settings/org.eclipse.m2e.core.prefs
+/CatalogProfesori/.classpath

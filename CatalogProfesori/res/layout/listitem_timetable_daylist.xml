@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:minHeight="60dip"
+    android:paddingLeft="2dip"
+    android:paddingRight="5dip"
+    android:paddingTop="1dip" >
+
+    <RelativeLayout
+        android:id="@+id/hourLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_container_for_hours"
+        android:padding="5dp" >
+
+        <View
+            android:id="@+id/colorLabel"
+            android:layout_width="5dip"
+            android:layout_height="0dp"
+            android:background="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/HStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/HEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/HStart"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/SName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_toRightOf="@id/hourLayout"
+        android:maxWidth="200dip"
+        android:minHeight="45dip"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/HRoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/SName"
+        android:layout_marginLeft="10dip"
+        android:layout_toRightOf="@id/hourLayout"
+        android:maxWidth="200dip"
+        android:minHeight="15dip"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/STeacher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:maxWidth="80dip"
+        android:textAppearance="?android:attr/textAppearanceSmall" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/HClass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textAppearance="?android:attr/textAppearanceMedium" >
+    </TextView>
+
+</RelativeLayout>
