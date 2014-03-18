@@ -1,1 +1,13 @@
 /CatalogProfesori/bin/classes/com/catalog/activities/*.class
+/CatalogProfesori/bin/classes/com/catalog/activities/extras/*.class
+/CatalogProfesori/bin/classes/com/catalog/game/*.class
+/CatalogProfesori/bin/classes/com/catalog/helper/*.class
+/CatalogProfesori/bin/classes/com/catalog/model/*.class
+/CatalogProfesori/bin/classes/com/catalog/model/views/*.class
+/CatalogProfesori/bin/classes/com/devsmart/android/*.class
+/CatalogProfesori/bin/classes/com/example/android/notepad/*.class
+/CatalogProfesori/bin/classes/it/sephiroth/android/library/widget/*.class
+/CatalogProfesori/bin/classes/org/achartengine/chartdemo/demo/*.class
+/CatalogProfesori/bin/classes/org/achartengine/chartdemo/demo/chart/*.class
+/CatalogProfesori/gen
+/CatalogProfesori/bin
