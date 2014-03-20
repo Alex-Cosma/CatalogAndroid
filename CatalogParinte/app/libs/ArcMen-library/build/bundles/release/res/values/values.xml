@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/C:/Users/Alex/Desktop/Code/CatalogAndroid/CatalogParinte/app/libs/ArcMen-library/res/values/attrs.xml -->
+    <eat-comment />
+
+    <declare-styleable name="ArcLayout">
+        <attr name="fromDegrees" format="float" />
+        <attr name="toDegrees" format="float" />
+        <attr name="childSize" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="ArcMenu">
+        <attr name="viewToBlur_layout_id" format="reference" />
+        <attr name="parentView_layout_id" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="RayLayout">
+        <attr name="leftHolderWidth" format="dimension" />
+    </declare-styleable>
+
+</resources>
