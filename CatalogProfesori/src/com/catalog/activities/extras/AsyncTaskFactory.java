@@ -258,9 +258,7 @@ public class AsyncTaskFactory {
 				for (int i = 0; i < activity.students.size(); i++) {
 					// gradesContainer
 					// .addView(buildSubjectItem(m_students.get(i)));
-					activity.students.get(i).setFirstName("" + i);
-					activity.students.get(i).setLastName("Student ");
-
+					
 					activity.m_adapter.add(activity.students.get(i));
 				}
 			}
@@ -337,9 +335,6 @@ public class AsyncTaskFactory {
 			if (activity.students != null && activity.students.size() > 0) {
 
 				for (int i = 0; i < activity.students.size(); i++) {
-					activity.students.get(i).setFirstName("" + i);
-					activity.students.get(i).setLastName("Student ");
-					
 					activity.adapter.add(i + 1 + ". "
 							+ activity.students.get(i).getLastName() + " "
 							+ activity.students.get(i).getFirstName());

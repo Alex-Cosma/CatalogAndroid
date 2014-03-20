@@ -12,7 +12,8 @@ public class GradesAttendForSubject implements Serializable {
 	private float studentAverage2;
 	private StudentReport studentReport1;
 	private StudentReport studentReport2;
-	
+	private Semester semester;
+
 	public GradesAttendForSubject(List<StudentMark> marks,
 			List<Attendance> attendaces, Subject subject) {
 		this.marks = marks;
@@ -55,7 +56,8 @@ public class GradesAttendForSubject implements Serializable {
 	}
 
 	/**
-	 * @param noOfAttendances the noOfAttendances to set
+	 * @param noOfAttendances
+	 *            the noOfAttendances to set
 	 */
 	public void setNoOfAttendances(int noOfAttendances) {
 		this.noOfAttendances = noOfAttendances;
@@ -69,7 +71,8 @@ public class GradesAttendForSubject implements Serializable {
 	}
 
 	/**
-	 * @param studentAverage the studentAverage to set
+	 * @param studentAverage
+	 *            the studentAverage to set
 	 */
 	public void setStudentAverage1(float studentAverage1) {
 		this.studentAverage1 = studentAverage1;
@@ -83,7 +86,8 @@ public class GradesAttendForSubject implements Serializable {
 	}
 
 	/**
-	 * @param studentAverage2 the studentAverage2 to set
+	 * @param studentAverage2
+	 *            the studentAverage2 to set
 	 */
 	public void setStudentAverage2(float studentAverage2) {
 		this.studentAverage2 = studentAverage2;
@@ -97,7 +101,8 @@ public class GradesAttendForSubject implements Serializable {
 	}
 
 	/**
-	 * @param studentReport1 the studentReport1 to set
+	 * @param studentReport1
+	 *            the studentReport1 to set
 	 */
 	public void setStudentReport1(StudentReport studentReport1) {
 		this.studentReport1 = studentReport1;
@@ -111,10 +116,26 @@ public class GradesAttendForSubject implements Serializable {
 	}
 
 	/**
-	 * @param studentReport2 the studentReport2 to set
+	 * @param studentReport2
+	 *            the studentReport2 to set
 	 */
 	public void setStudentReport2(StudentReport studentReport2) {
 		this.studentReport2 = studentReport2;
+	}
+
+	/**
+	 * @return the semester
+	 */
+	public Semester getSemester() {
+		return semester;
+	}
+
+	/**
+	 * @param semester
+	 *            the semester to set
+	 */
+	public void setSemester(Semester semester) {
+		this.semester = semester;
 	}
 
 }

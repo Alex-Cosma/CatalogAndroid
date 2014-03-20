@@ -109,7 +109,7 @@ public class AddGradesClassListFragment extends ListFragment {
 			int posInList = pos - 1;
 
 			for (int i = 0; i < numberOfSubjects; i++) {
-
+					
 				if (posInList <= classesAdapter[i].getCount()) {
 					myActivity
 							.showStudents(
@@ -119,7 +119,7 @@ public class AddGradesClassListFragment extends ListFragment {
 					mCurCheckPosition = posInList;
 					break;
 				} else {
-					posInList -= classesAdapter[i].getCount();
+					posInList -= (classesAdapter[i].getCount()+1);
 
 				}
 

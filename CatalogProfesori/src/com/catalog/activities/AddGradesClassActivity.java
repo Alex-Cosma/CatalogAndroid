@@ -146,7 +146,7 @@ public class AddGradesClassActivity extends Activity {
 				List<ClassGroup> classes = subjectClass.getClasses();
 
 				if (classes != null) {
-					classGroup = classes.get(position - subjectNumber);
+					classGroup = classes.get(position);
 					classTitle.setText("Clasa a" + classGroup.getYearOfStudy()
 							+ "-a " + classGroup.getName());
 
