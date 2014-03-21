@@ -4,18 +4,14 @@ import java.io.Serializable;
 
 import com.catalog.model.SubjectTeacherForClass;
 
-public class SubjectTeacherForClassVM implements Serializable {
+public class SubjectTeacherForClassVM extends GenericVM implements Serializable {
 
-	private String status;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private SubjectTeacherForClass subjectTeacherForClass;
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	public SubjectTeacherForClass getSubjectTeacherForClass() {
 		return subjectTeacherForClass;

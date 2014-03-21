@@ -4,18 +4,14 @@ import java.io.Serializable;
 
 import com.catalog.model.ClassGroup;
 
-public class MasterClassVM implements Serializable {
-	private String status;
+public class MasterClassVM extends GenericVM implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private ClassGroup classGroup;
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	public ClassGroup getClassGroup() {
 		return classGroup;

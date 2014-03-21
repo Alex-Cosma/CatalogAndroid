@@ -40,16 +40,14 @@ import com.catalog.model.LoginCredentials;
 import com.catalog.model.StudentMark;
 import com.catalog.model.TimetableDays;
 import com.catalog.model.views.AttendanceSingleVM;
-import com.catalog.model.views.AttendanceVM;
 import com.catalog.model.views.GradesAttendForSubjectVM;
 import com.catalog.model.views.MasterClassVM;
+import com.catalog.model.views.SemesterVM;
 import com.catalog.model.views.StudentMarkVM;
-import com.catalog.model.views.StudentMarksVM;
 import com.catalog.model.views.StudentsVM;
 import com.catalog.model.views.SubjectClassesVM;
 import com.catalog.model.views.SubjectTeacherForClassVM;
 import com.catalog.model.views.TeacherVM;
-import com.catalog.model.views.TeachersVM;
 import com.catalog.model.views.TimetableVM;
 import com.catalog.model.views.UserVM;
 
@@ -488,7 +486,7 @@ public class Api implements Api_I {
 	private void removeSem(GradesAttendForSubjectVM gradesAbsences) {
 		ArrayList<StudentMark> a = new ArrayList<StudentMark>();
 		ArrayList<Attendance> b = new ArrayList<Attendance>();
-		
+
 		for (GradesAttendForSubject gradesAttendForSubject : gradesAbsences
 				.getGradesAttendForSubjectList()) {
 			for (StudentMark sm : gradesAttendForSubject.getMarks()) {
@@ -500,15 +498,15 @@ public class Api implements Api_I {
 					b.add(sm);
 			}
 		}
-		
-		for(StudentMark s : a) {
+
+		for (StudentMark s : a) {
 			for (GradesAttendForSubject gradesAttendForSubject : gradesAbsences
 					.getGradesAttendForSubjectList()) {
 				gradesAttendForSubject.getMarks().remove(s);
 			}
 		}
-		
-		for(Attendance s : b) {
+
+		for (Attendance s : b) {
 			for (GradesAttendForSubject gradesAttendForSubject : gradesAbsences
 					.getGradesAttendForSubjectList()) {
 				gradesAttendForSubject.getAttendaces().remove(s);
@@ -543,6 +541,34 @@ public class Api implements Api_I {
 
 		getElapsedTime("getTeacherTimetable - ");
 		return timetable.getTimetableDaysList();
+	}
+
+	@Override
+	public SemesterVM getCurrentSemester() {
+		HttpEntity<?> requestEntity = getAuthHttpEntity();
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		String url = "http://" + IP + EXTENSION
+				+ "/teacher/getCurrentSemesterT.json";
+
+		// Add the Jackson message converter
+		restTemplate.getMessageConverters().add(
+				new MappingJacksonHttpMessageConverter());
+
+		ResponseEntity<SemesterVM> responseEntity;
+		SemesterVM semester = null;
+		try {
+			responseEntity = restTemplate.exchange(url, HttpMethod.GET,
+					requestEntity, SemesterVM.class);
+			semester = responseEntity.getBody();
+
+		} catch (Exception e) {
+			return null;
+		}
+
+		getElapsedTime("getSemester - ");
+		return semester;
 	}
 
 	private HttpEntity<?> getAuthHttpEntity() {

@@ -22,7 +22,7 @@
     <string name="error_title">Eroare</string>
     <string name="error_message">Eroare în timpul încărcării notiței</string>
     <string name="adauga_materie">Adaugă Materie</string>
-    <string name="materie">Materie:</string>
+    <string name="materie">Materie</string>
     <string name="clasa">Clasa:</string>
     <string name="ziua">Ziua:</string>
     <string name="de_la_ora">De la ora:</string>

@@ -43,6 +43,29 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tv_className"
                 android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/btnSemI"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/btnSemII"
+                android:background="@drawable/btn_blue"
+                android:text="Sem I"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" >
+            </Button>
+
+            <Button
+                android:id="@+id/btnSemII"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/btn_blue"
+                android:text="Sem II"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" >
+            </Button>
         </RelativeLayout>
 
         <LinearLayout

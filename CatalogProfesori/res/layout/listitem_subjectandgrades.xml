@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     android:background="@drawable/rounded_container_for_class"
-    android:minHeight="450dp"
+    android:minHeight="900dp"
     android:minWidth="250dp"
     android:orientation="vertical"
     android:padding="3dp"
@@ -21,7 +21,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Materie"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#0A0A0A"
             android:textStyle="italic" />
@@ -45,7 +44,7 @@
             android:weightSum="10" >
 
             <TextView
-                android:id="@+id/tv_marks"
+                android:id="@+id/tv_attendence"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -67,7 +66,7 @@
                 android:padding="1dp" >
 
                 <TextView
-                    android:id="@+id/tv_attendence"
+                    android:id="@+id/tv_marks"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge" />

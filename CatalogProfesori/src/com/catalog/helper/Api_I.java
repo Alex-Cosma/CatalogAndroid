@@ -19,17 +19,14 @@ import java.util.ArrayList;
 
 import com.catalog.model.Attendance;
 import com.catalog.model.GradesAttendForSubject;
-import com.catalog.model.Student;
 import com.catalog.model.StudentMark;
 import com.catalog.model.TimetableDays;
-import com.catalog.model.views.AttendanceVM;
 import com.catalog.model.views.MasterClassVM;
-import com.catalog.model.views.StudentMarksVM;
+import com.catalog.model.views.SemesterVM;
 import com.catalog.model.views.StudentsVM;
 import com.catalog.model.views.SubjectClassesVM;
 import com.catalog.model.views.SubjectTeacherForClassVM;
 import com.catalog.model.views.TeacherVM;
-import com.catalog.model.views.TeachersVM;
 
 public interface Api_I {
 
@@ -61,6 +58,8 @@ public interface Api_I {
 
 	public ArrayList<GradesAttendForSubject> getGradesAttendForSubjectList(
 			int studentId);
+
+	public SemesterVM getCurrentSemester();
 
 	void setStartTime();
 

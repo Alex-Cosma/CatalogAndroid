@@ -2,9 +2,8 @@ package com.catalog.model.views;
 
 import com.catalog.model.StudentMark;
 
-public class StudentMarkVM {
+public class StudentMarkVM extends GenericVM {
 	private StudentMark studentMark;
-	private String status;
 
 	public StudentMark getStudentMark() {
 		return studentMark;
@@ -14,11 +13,4 @@ public class StudentMarkVM {
 		this.studentMark = studentMark;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 }

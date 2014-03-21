@@ -4,9 +4,8 @@ import java.util.ArrayList;
 
 import com.catalog.model.GradesAttendForSubject;
 
-public class GradesAttendForSubjectVM {
+public class GradesAttendForSubjectVM extends GenericVM {
 
-	private String status;
 
 	private ArrayList<GradesAttendForSubject> gradesAttendForSubjectList;
 	
@@ -26,18 +25,4 @@ public class GradesAttendForSubjectVM {
 		this.gradesAttendForSubjectList = gradesAttendForSubjectList;
 	}
 
-	/**
-	 * @return the status
-	 */
-	public String getStatus() {
-		return status;
-	}
-
-	/**
-	 * @param status
-	 *            the status to set
-	 */
-	public void setStatus(String status) {
-		this.status = status;
-	}
 }

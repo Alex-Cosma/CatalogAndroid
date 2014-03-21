@@ -4,25 +4,9 @@ import java.util.ArrayList;
 
 import com.catalog.model.SubjectClasses;
 
-public class SubjectClassesVM {
+public class SubjectClassesVM extends GenericVM {
 
 	private ArrayList<SubjectClasses> subjectClassesList;
-	private String status;
-
-	/**
-	 * @return the status
-	 */
-	public String getStatus() {
-		return status;
-	}
-
-	/**
-	 * @param status
-	 *            the status to set
-	 */
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	/**
 	 * @return the subjectClassesList

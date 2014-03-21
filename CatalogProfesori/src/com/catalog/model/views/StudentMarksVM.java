@@ -4,20 +4,11 @@ import java.util.ArrayList;
 
 import com.catalog.model.StudentMark;
 
-public class StudentMarksVM {
-	private String status;
+public class StudentMarksVM extends GenericVM {
 
 	private double mean;
 
 	private ArrayList<StudentMark> studentMarkList;
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	public ArrayList<StudentMark> getStudentMarkList() {
 		return studentMarkList;

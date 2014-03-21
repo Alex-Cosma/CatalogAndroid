@@ -4,24 +4,8 @@ import java.util.ArrayList;
 
 import com.catalog.model.TimetableDays;
 
-public class TimetableVM {
-	private String status;
+public class TimetableVM extends GenericVM {
 	private ArrayList<TimetableDays> timetableDaysList;
-
-	/**
-	 * @return the status
-	 */
-	public String getStatus() {
-		return status;
-	}
-
-	/**
-	 * @param status
-	 *            the status to set
-	 */
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	/**
 	 * @return the timetableDaysList

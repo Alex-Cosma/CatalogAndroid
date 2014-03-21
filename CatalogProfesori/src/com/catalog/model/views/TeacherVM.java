@@ -5,18 +5,9 @@ import java.util.ArrayList;
 import com.catalog.model.ClassGroup;
 import com.catalog.model.Teacher;
 
-public class TeacherVM {
-	private String status;
+public class TeacherVM extends GenericVM {
 	private Teacher teacher;
 	private ArrayList<ClassGroup> classGroupList;
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	public Teacher getTeacher() {
 		return teacher;

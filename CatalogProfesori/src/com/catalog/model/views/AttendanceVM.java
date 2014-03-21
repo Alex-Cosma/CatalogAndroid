@@ -4,10 +4,8 @@ import java.util.ArrayList;
 
 import com.catalog.model.Attendance;
 
-public class AttendanceVM {
+public class AttendanceVM extends GenericVM {
 	private ArrayList<Attendance> attendanceList;
-
-	private String status;
 
 	public ArrayList<Attendance> getAttendanceList() {
 		return attendanceList;
@@ -17,11 +15,4 @@ public class AttendanceVM {
 		this.attendanceList = attendanceList;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 }
