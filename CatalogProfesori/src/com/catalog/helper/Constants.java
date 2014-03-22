@@ -59,8 +59,9 @@ public class Constants {
 	public static final String Method_AddMark = "AddMark";
 	public static final String Method_AddAbsence = "AddAbsence";
 	public static final String Method_GetGradesAndAbsencesForStudent = "GetGradesAndAbsencesForStudent";
-	public static final String Method_GetTeacherTimetable = "Method_GetTeacherTimetable";
-
+	public static final String Method_GetTeacherTimetable = "GetTeacherTimetable";
+	public static final String Method_GetMasterClass = "GetMasterClass";
+	public static final String Method_GetCurrentSmester = "GetCurrentSemest";
 	/**
 	 * Bundle constants
 	 */

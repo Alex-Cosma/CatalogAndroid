@@ -41,6 +41,7 @@ import com.catalog.game.GameMainActivity;
 import com.catalog.helper.AppPreferences;
 import com.catalog.helper.Constants;
 import com.catalog.model.ClassGroup;
+import com.catalog.model.Semester;
 import com.catalog.model.Teacher;
 import com.catalog.model.TimetableDays;
 import com.example.android.notepad.NotesList;
@@ -61,13 +62,13 @@ public class MenuActivity extends Activity implements OnTouchListener {
 	/*
 	 * Public members
 	 */
-	public ClassGroup masterClassGroup;
-	public Teacher teacher;
-	public ArrayList<TimetableDays> timetable;
 
 	/*
 	 * Private members
 	 */
+
+	private int NUMBER_OF_TASKS = 4;
+
 	private Button btnMyClass;
 	private Button btnTimeTable;
 	private Button btnMarks;
@@ -78,11 +79,15 @@ public class MenuActivity extends Activity implements OnTouchListener {
 	private Activity act;
 	private ProgressBar progressBar;
 	private Context ctx;
-	private int finishedTasksCounter;
 	private AsyncTaskFactory asyncTaskFactory;
 	private AsyncTask<Object, Void, Integer> getMasterClassTask;
 	private AsyncTask<Object, Void, Integer> getTeacherTask;
 	private AsyncTask<Object, Void, Integer> getTimetableTask;
+	private AsyncTask<Object, Void, Integer> getCurrentSemesterTask;
+	private ClassGroup masterClassGroup;
+	private Teacher teacher;
+	private ArrayList<TimetableDays> timetable;
+	private Semester currentSemester;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -96,12 +101,14 @@ public class MenuActivity extends Activity implements OnTouchListener {
 
 	private void initUI() {
 		ctx = getApplicationContext();
+		act = this;
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-		asyncTaskFactory = AsyncTaskFactory.getInstance(AppPreferences
-				.getInstance(this).isIpExternal());
+		initButtons();
+		initTasks();
+	}
 
-		act = this;
+	private void initButtons() {
 		btnMyClass = (Button) findViewById(R.id.btn_myClass);
 		btnTimeTable = (Button) findViewById(R.id.btn_timetable);
 		btnMarks = (Button) findViewById(R.id.btn_marks);
@@ -118,11 +125,16 @@ public class MenuActivity extends Activity implements OnTouchListener {
 
 		animScaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up);
 		animScaleDown = AnimationUtils.loadAnimation(this, R.anim.scale_down);
+	}
 
-		finishedTasksCounter = 3;
+	private void initTasks() {
+		asyncTaskFactory = AsyncTaskFactory.getInstance(AppPreferences
+				.getInstance(this).isIpExternal());
 
-		getMasterClassTask = asyncTaskFactory.getTask(this, CLASSNAME, "");
+		getMasterClassTask = asyncTaskFactory.getTask(this, CLASSNAME,
+				Constants.Method_GetMasterClass);
 		getMasterClassTask.execute(2);
+
 		getTeacherTask = asyncTaskFactory.getTask(this, CLASSNAME,
 				Constants.Method_GetTeacher);
 		getTeacherTask.execute();
@@ -130,38 +142,32 @@ public class MenuActivity extends Activity implements OnTouchListener {
 		getTimetableTask = asyncTaskFactory.getTask(this, CLASSNAME,
 				Constants.Method_GetTeacherTimetable);
 		getTimetableTask.execute();
+
+		getCurrentSemesterTask = asyncTaskFactory.getTask(this, CLASSNAME,
+				Constants.Method_GetCurrentSmester);
+		getCurrentSemesterTask.execute();
 	}
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			if (v == btnMyClass)
-				btnMyClass.startAnimation(animScaleDown);
-			else if (v == btnTimeTable)
-				btnTimeTable.startAnimation(animScaleDown);
-			else if (v == btnMarks)
-				btnMarks.startAnimation(animScaleDown);
-			else if (v == btnStats)
-				btnStats.startAnimation(animScaleDown);
-			else if (v == btnNotes)
-				btnNotes.startAnimation(animScaleDown);
-			else if (v == btnExtras)
-				btnExtras.startAnimation(animScaleDown);
+			v.startAnimation(animScaleDown);
 
 		} else if (event.getAction() == MotionEvent.ACTION_UP) {
 
 			if (v == btnMyClass) {
 				btnMyClass.startAnimation(animScaleUp);
 				btnMyClass.clearAnimation();
-				if (masterClassGroup.getId() > -1) {
-					if (teacher != null) {
+				if (getMasterClassGroup().getId() > -1) {
+					if (getTeacher() != null) {
 						Intent intent = new Intent(ctx,
 								DetailedClassActivity.class);
 						Bundle b = new Bundle();
 						b.putSerializable(Constants.Bundle_ClassGroup,
-								masterClassGroup);
-						b.putSerializable(Constants.Bundle_Teacher, teacher);
+								getMasterClassGroup());
+						b.putSerializable(Constants.Bundle_Teacher,
+								getTeacher());
 						intent.putExtras(b);
 						startActivity(intent);
 					} else {
@@ -176,12 +182,13 @@ public class MenuActivity extends Activity implements OnTouchListener {
 				btnTimeTable.startAnimation(animScaleUp);
 				btnTimeTable.clearAnimation();
 
-				if (timetable != null) {
+				if (getTimetable() != null) {
 					Intent intent = new Intent(ctx, TimetableActivity.class);
 
 					Bundle b = new Bundle();
-					b.putSerializable(Constants.Bundle_Timetable, timetable);
-					b.putSerializable(Constants.Bundle_Teacher, teacher);
+					b.putSerializable(Constants.Bundle_Timetable,
+							getTimetable());
+					b.putSerializable(Constants.Bundle_Teacher, getTeacher());
 					intent.putExtras(b);
 					startActivity(intent);
 				} else {
@@ -193,7 +200,7 @@ public class MenuActivity extends Activity implements OnTouchListener {
 				btnMarks.clearAnimation();
 				Intent intent = new Intent(ctx, AddGradesClassActivity.class);
 				Bundle b = new Bundle();
-				b.putSerializable(Constants.Bundle_Teacher, teacher);
+				b.putSerializable(Constants.Bundle_Teacher, getTeacher());
 				intent.putExtras(b);
 				startActivity(intent);
 			} else if (v == btnStats) {
@@ -232,8 +239,8 @@ public class MenuActivity extends Activity implements OnTouchListener {
 
 	public void hideLoading() {
 
-		finishedTasksCounter -= 1;
-		if (finishedTasksCounter == 0) {
+		NUMBER_OF_TASKS -= 1;
+		if (NUMBER_OF_TASKS == 0) {
 			progressBar.setVisibility(View.INVISIBLE);
 			btnExtras.setEnabled(true);
 			btnMarks.setEnabled(true);
@@ -287,5 +294,65 @@ public class MenuActivity extends Activity implements OnTouchListener {
 		}
 
 		return true;
+	}
+
+	/**
+	 * @return the currentSemester
+	 */
+	public Semester getCurrentSemester() {
+		return currentSemester;
+	}
+
+	/**
+	 * @param currentSemester
+	 *            the currentSemester to set
+	 */
+	public void setCurrentSemester(Semester currentSemester) {
+		this.currentSemester = currentSemester;
+	}
+
+	/**
+	 * @return the timetable
+	 */
+	public ArrayList<TimetableDays> getTimetable() {
+		return timetable;
+	}
+
+	/**
+	 * @param timetable
+	 *            the timetable to set
+	 */
+	public void setTimetable(ArrayList<TimetableDays> timetable) {
+		this.timetable = timetable;
+	}
+
+	/**
+	 * @return the teacher
+	 */
+	public Teacher getTeacher() {
+		return teacher;
+	}
+
+	/**
+	 * @param teacher
+	 *            the teacher to set
+	 */
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
+	}
+
+	/**
+	 * @return the masterClassGroup
+	 */
+	public ClassGroup getMasterClassGroup() {
+		return masterClassGroup;
+	}
+
+	/**
+	 * @param masterClassGroup
+	 *            the masterClassGroup to set
+	 */
+	public void setMasterClassGroup(ClassGroup masterClassGroup) {
+		this.masterClassGroup = masterClassGroup;
 	}
 }

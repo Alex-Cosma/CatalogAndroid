@@ -47,6 +47,7 @@ import com.catalog.model.SubjectClasses;
 import com.catalog.model.SubjectTeacherForClass;
 import com.catalog.model.TimetableDays;
 import com.catalog.model.views.MasterClassVM;
+import com.catalog.model.views.SemesterVM;
 import com.catalog.model.views.StudentsVM;
 import com.catalog.model.views.SubjectClassesVM;
 import com.catalog.model.views.SubjectTeacherForClassVM;
@@ -176,8 +177,12 @@ public class AsyncTaskFactory {
 
 			} else if (methodName.equals(Constants.Method_GetTeacherTimetable)) {
 				return new GetTeacherTimetableTask((MenuActivity) ctx);
-			} else
+			} else if (methodName.equals(Constants.Method_GetMasterClass))
 				return new GetMasterClassTask((MenuActivity) ctx);
+			else if (methodName.equals(Constants.Method_GetCurrentSmester)) {
+				return new GetCurrentSemesterTask((MenuActivity) ctx);
+			} else
+				return null;
 		}
 		/**
 		 * LoginActivity
@@ -521,7 +526,7 @@ public class AsyncTaskFactory {
 			MasterClassVM m = api.getMasterClass(id);
 
 			if (m != null)
-				activity.masterClassGroup = m.getClassGroup();
+				activity.setMasterClassGroup(m.getClassGroup());
 
 			return SUCCESS;
 		}
@@ -620,13 +625,14 @@ public class AsyncTaskFactory {
 	}
 
 	/**
-	 * Get (or not) the class for which a teacher is master.
+	 * Get (or not) the currently logged in teacher.
 	 * 
 	 * @author Alex
 	 */
 	private class GetTeacherTask extends AsyncTask<Object, Void, Integer> {
 
 		private WeakReference<MenuActivity> mActivityRef;
+		private TeacherVM teacher;
 
 		public GetTeacherTask(MenuActivity activity) {
 			mActivityRef = new WeakReference<MenuActivity>(activity);
@@ -655,11 +661,10 @@ public class AsyncTaskFactory {
 			if (activity == null)
 				return FAIL;
 
-			TeacherVM teacher = api.getTeacher();
+			this.teacher = api.getTeacher();
 
 			if (teacher != null)
 				if (teacher.getTeacher() != null) {
-					activity.teacher = teacher.getTeacher();
 					return SUCCESS;
 				} else
 					return FAIL;
@@ -674,7 +679,79 @@ public class AsyncTaskFactory {
 				return;
 			}
 			if (result == SUCCESS) {
+				activity.setTeacher(teacher.getTeacher());
+			} else {
+				// fail
+			}
+			// enable user input
+			activity.hideLoading();
 
+		}
+
+		@Override
+		protected void onCancelled() {
+			MenuActivity activity = mActivityRef.get();
+			if (activity == null) {
+				return;
+			}
+
+		}
+	}
+
+	/**
+	 * Get (or not) the currently logged in teacher.
+	 * 
+	 * @author Alex
+	 */
+	private class GetCurrentSemesterTask extends
+			AsyncTask<Object, Void, Integer> {
+
+		private WeakReference<MenuActivity> mActivityRef;
+		private SemesterVM currentSemester;
+
+		public GetCurrentSemesterTask(MenuActivity activity) {
+			mActivityRef = new WeakReference<MenuActivity>(activity);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			if (mActivityRef == null) {
+				return;
+			}
+
+			MenuActivity activity = mActivityRef.get();
+			if (activity == null) {
+				return;
+			}
+
+			// disable user input
+			activity.showLoading();
+		}
+
+		@Override
+		protected Integer doInBackground(Object... params) {
+
+			MenuActivity activity = mActivityRef.get();
+			if (activity == null)
+				return FAIL;
+
+			this.currentSemester = api.getCurrentSemester();
+
+			if (currentSemester != null)
+				return SUCCESS;
+			else
+				return SUCCESS;
+
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			MenuActivity activity = mActivityRef.get();
+			if (activity == null) {
+				return;
+			}
+			if (result == SUCCESS) {
+				// activity.setCurrentSemester(currentSemester.getSemester());
 			} else {
 				// fail
 			}
@@ -1224,7 +1301,7 @@ public class AsyncTaskFactory {
 
 			if (tt != null) {
 				if (activity instanceof MenuActivity)
-					((MenuActivity) activity).timetable = tt;
+					((MenuActivity) activity).setTimetable(tt);
 				else {
 					((TimetableActivity) activity).timetable = tt;
 					((TimetableActivity) activity).refreshLists();
