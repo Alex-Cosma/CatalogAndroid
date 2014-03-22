@@ -258,7 +258,7 @@ public class AsyncTaskFactory {
 				for (int i = 0; i < activity.students.size(); i++) {
 					// gradesContainer
 					// .addView(buildSubjectItem(m_students.get(i)));
-					
+
 					activity.m_adapter.add(activity.students.get(i));
 				}
 			}
@@ -557,7 +557,8 @@ public class AsyncTaskFactory {
 			AsyncTask<Object, Void, Integer> {
 
 		private WeakReference<DetailedClassActivity> mActivityRef;
-		private int pos;
+		private int studentIndexInList;
+		private ArrayList<GradesAttendForSubject> gradesAndAttendances;
 
 		public GetAllMarksAndAbsencesForSubjects(DetailedClassActivity activity) {
 			mActivityRef = new WeakReference<DetailedClassActivity>(activity);
@@ -581,27 +582,28 @@ public class AsyncTaskFactory {
 
 		@Override
 		protected Integer doInBackground(Object... params) {
+
 			int id = (Integer) params[0];
-			pos = (Integer) params[1];
-			DetailedClassActivity activity = mActivityRef.get();
+			studentIndexInList = (Integer) params[1];
 
 			ArrayList<GradesAttendForSubject> m = api
 					.getGradesAttendForSubjectList(id);
 
-			if (m != null)
-				activity.gradesAndAttendances = m;
-
-			return SUCCESS;
+			if (m != null) {
+				this.gradesAndAttendances = m;
+				return SUCCESS;
+			} else
+				return FAIL;
 		}
 
 		@Override
 		protected void onPostExecute(Integer result) {
 			DetailedClassActivity activity = mActivityRef.get();
-			if (activity == null) {
+			if (activity == null || result == FAIL) {
 				return;
 			}
 
-			activity.showStudents(pos, null);
+			activity.showStudents(studentIndexInList, gradesAndAttendances);
 			// enable user input
 			activity.hideLoading();
 

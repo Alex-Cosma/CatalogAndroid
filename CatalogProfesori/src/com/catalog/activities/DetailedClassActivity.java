@@ -57,13 +57,11 @@ public class DetailedClassActivity extends Activity {
 	 * Public members
 	 */
 	public ArrayList<Student> students;
-	public ArrayList<GradesAttendForSubject> gradesAndAttendances;
 
 	/*
 	 * Private members
 	 */
 	private TextView classTitle;
-	private int mIndex;
 	private ClassGroup classGroup;
 	private Teacher teacher;
 	private ProgressBar progressBar;
@@ -86,13 +84,13 @@ public class DetailedClassActivity extends Activity {
 		TextView semester = (TextView) headerView
 				.findViewById(R.id.tv_semester);
 
-//		if ((Calendar.getInstance().get(Calendar.MONTH) > 9 && Calendar
-//				.getInstance().get(Calendar.MONTH) < 12)
-//				|| (Calendar.getInstance().get(Calendar.MONTH) > 0 && Calendar
-//						.getInstance().get(Calendar.MONTH) < 2)) {
-//			semester.setText("Sem I");
-//		} else
-//			semester.setText("Sem II");	
+		// if ((Calendar.getInstance().get(Calendar.MONTH) > 9 && Calendar
+		// .getInstance().get(Calendar.MONTH) < 12)
+		// || (Calendar.getInstance().get(Calendar.MONTH) > 0 && Calendar
+		// .getInstance().get(Calendar.MONTH) < 2)) {
+		// semester.setText("Sem I");
+		// } else
+		// semester.setText("Sem II");
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
 		classTitle = (TextView) findViewById(R.id.tv_className);
 		asyncTaskFactory = AsyncTaskFactory.getInstance(AppPreferences
@@ -122,8 +120,8 @@ public class DetailedClassActivity extends Activity {
 				Constants.Method_GetGradesAndAbsencesForStudent);
 
 		getGradesAndAbsancesTask.execute(students.get(pos).getId(), pos);
-		// this will be called later
-		// showStudents(pos, subjects);
+		// this will be called later from the async thread
+		// showStudents(pos, gradesAndAttendances);
 	}
 
 	/**
@@ -131,21 +129,21 @@ public class DetailedClassActivity extends Activity {
 	 * displaying a fragment in-place in the current UI, or starting a whole new
 	 * activity in which it is displayed.
 	 */
-	public void showStudents(int index, ArrayList<Subject> subjects) {
+	public void showStudents(int studentIndex,
+			ArrayList<GradesAttendForSubject> gradesAndAttendances) {
 		if (students == null)
 			return;
 		if (isMultiPane()) {
 
 			// Check what fragment is shown, replace if needed.
 			// basically it's the frame layout
-			mIndex = index;
 
-			Student selectedStudent = students.get(mIndex);
+			Student selectedStudent = students.get(studentIndex);
 
 			// Make new fragment to show this selection.
 			DetailedClassStudentsDetailsFragment details = DetailedClassStudentsDetailsFragment
-					.newInstance(index, selectedStudent, classGroup, teacher,
-							gradesAndAttendances);
+					.newInstance(studentIndex, selectedStudent, classGroup,
+							teacher, gradesAndAttendances);
 
 			classTitle.setText("Clasa a" + classGroup.getYearOfStudy() + "-a "
 					+ classGroup.getName() + " - "
@@ -155,26 +153,12 @@ public class DetailedClassActivity extends Activity {
 			// Execute a transaction, replacing any existing
 			// fragment with this one inside the frame.
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
-			// See our res/animator directory for more animator
-			// choices
-			// ft.setCustomAnimations(R.animator.bounce_in_down,
-			// R.animator.slide_out_down);
 			ft.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
 			ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 			ft.replace(R.id.listview, details);
 			// ft.addToBackStack(TAG);
 			ft.commit();
 			getFragmentManager().executePendingTransactions();
-
-			// Otherwise we need to launch a new activity to display
-			// the dialog fragment with selected text.
-			/**
-			 * shouldn't get here, forcing landscape
-			 */
-			// Intent intent = new Intent();
-			// intent.setClass(this, DetailsActivity.class);
-			// intent.putExtra("index", index);
-			// startActivity(intent);
 		}
 	}
 

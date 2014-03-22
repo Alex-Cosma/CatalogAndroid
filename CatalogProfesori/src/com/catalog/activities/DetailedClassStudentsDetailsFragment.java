@@ -78,21 +78,22 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 	/*
 	 * Private members
 	 */
-	private int mIndex = 0;
+	private int selectedStudentIndex = 0;
 	private Student selectedStudent;
 	private ClassGroup selectedClassGroup;
 	private Teacher teacher;
 	private DetailedClassStudentsDetailsFragment currentFragment;
 
-	public static DetailedClassStudentsDetailsFragment newInstance(int index,
-			Student selectedStudent, ClassGroup classGroup, Teacher teacher,
+	public static DetailedClassStudentsDetailsFragment newInstance(
+			int selectedStudentIndex, Student selectedStudent,
+			ClassGroup classGroup, Teacher teacher,
 			ArrayList<GradesAttendForSubject> gradesAndAttendances) {
 
 		DetailedClassStudentsDetailsFragment df = new DetailedClassStudentsDetailsFragment();
 
 		// Supply index input as an argument.
 		Bundle args = new Bundle();
-		args.putInt("index", index);
+		args.putInt("index", selectedStudentIndex);
 		args.putSerializable(Constants.Student, selectedStudent);
 		args.putSerializable(Constants.ClassGroup, classGroup);
 		args.putSerializable(Constants.Teacher, teacher);
@@ -109,7 +110,7 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 		super.onCreate(myBundle);
 
 		currentFragment = this;
-		mIndex = getArguments().getInt("index", 0);
+		selectedStudentIndex = getArguments().getInt("index", 0);
 		selectedStudent = (Student) getArguments().getSerializable(
 				Constants.Student);
 		selectedClassGroup = (ClassGroup) getArguments().getSerializable(
@@ -138,7 +139,7 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 	}
 
 	public int getShownIndex() {
-		return mIndex;
+		return selectedStudentIndex;
 	}
 
 	@Override
@@ -160,7 +161,7 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 		m_adapter = new StudentAdapter(getActivity(),
 				R.layout.listitem_subjectandgrades, gradesAndAttendances);
 		listview.setAdapter(m_adapter);
-		
+
 		LayoutAnimationController controller = AnimationUtils
 				.loadLayoutAnimation(getActivity(),
 						R.anim.list_layout_controller);
@@ -180,7 +181,6 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
 
 				constructEditGradesDialog(position);
 
@@ -261,7 +261,7 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 						holder.marksText.setText(marksBuffer[position]);
 						holder.avarageText.setText(avarageBuffer[position]);
 						holder.finalMarkText.setText(finalMarkBuffer[position]);
-						 
+
 					} else {
 						holder.marksText.setText(marksBuffer[position]);
 						holder.avarageText.setText(avarageBuffer[position]);
@@ -276,7 +276,6 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 
 						holder.attendanceText
 								.setText(attendanceBuffer[position]);
-						 
 
 					} else {
 						holder.attendanceText
@@ -310,7 +309,7 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 			} else
 				attendanceBuffer[position] += "N/A\n";
 		}
-		//m_adapter.notifyDataSetChanged();
+		// m_adapter.notifyDataSetChanged();
 	}
 
 	public void reconstructGradesText(int position) {
@@ -354,7 +353,7 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 						.valueOf((avarage / (float) gradesAndAttendances
 								.get(position).getMarks().size()));
 		}
-	//	m_adapter.notifyDataSetChanged();
+		// m_adapter.notifyDataSetChanged();
 	}
 
 	private void constructAddGradeOrAbsenceDialog(int position) {
