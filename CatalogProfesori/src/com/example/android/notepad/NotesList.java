@@ -33,11 +33,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.SimpleCursorAdapter;
 
 import com.catalog.activities.R;
@@ -57,7 +59,8 @@ import com.catalog.helper.MergeAdapter;
 public class NotesList extends Activity {
 
 	//
-	GridView gridview;
+	private GridView gridview;
+	private LinearLayout llBackground;
 
 	// For logging and debugging
 	private static final String TAG = "NotesList";
@@ -110,6 +113,17 @@ public class NotesList extends Activity {
 		gridview = (GridView) findViewById(R.id.gv_notes);
 		gridview.setOnCreateContextMenuListener(this);
 		gridview.setOnItemClickListener(itemClickListener);
+
+		llBackground = (LinearLayout) findViewById(R.id.llBackground);
+
+		llBackground.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(Intent.ACTION_INSERT, getIntent()
+						.getData()));
+			}
+		});
 		LayoutAnimationController controller = AnimationUtils
 				.loadLayoutAnimation(getApplicationContext(),
 						R.anim.list_layout_controller);
@@ -370,41 +384,46 @@ public class NotesList extends Activity {
 			Log.e(TAG, "bad menuInfo", e);
 			return;
 		}
+		if (info.position != gridview.getAdapter().getCount() - 1) {
+			/*
+			 * Gets the data associated with the item at the selected position.
+			 * getItem() returns whatever the backing adapter of the ListView
+			 * has associated with the item. In NotesList, the adapter
+			 * associated all of the data for a note with its list item. As a
+			 * result, getItem() returns that data as a Cursor.
+			 */
+			Cursor cursor = (Cursor) gridview.getAdapter().getItem(
+					info.position);
 
-		/*
-		 * Gets the data associated with the item at the selected position.
-		 * getItem() returns whatever the backing adapter of the ListView has
-		 * associated with the item. In NotesList, the adapter associated all of
-		 * the data for a note with its list item. As a result, getItem()
-		 * returns that data as a Cursor.
-		 */
-		Cursor cursor = (Cursor) gridview.getAdapter().getItem(info.position);
+			// If the cursor is empty, then for some reason the adapter can't
+			// get
+			// the data from the
+			// provider, so returns null to the caller.
+			if (cursor == null) {
+				// For some reason the requested item isn't available, do
+				// nothing
+				return;
+			}
 
-		// If the cursor is empty, then for some reason the adapter can't get
-		// the data from the
-		// provider, so returns null to the caller.
-		if (cursor == null) {
-			// For some reason the requested item isn't available, do nothing
-			return;
+			// Inflate menu from XML resource
+			MenuInflater inflater = getMenuInflater();
+			inflater.inflate(R.menu.list_context_menu, menu);
+
+			// Sets the menu header to be the title of the selected note.
+			menu.setHeaderTitle(cursor.getString(COLUMN_INDEX_TITLE));
+
+			// Append to the
+			// menu items for any other activities that can do stuff with it
+			// as well. This does a query on the system for any activities that
+			// implement the ALTERNATIVE_ACTION for our data, adding a menu item
+			// for each one that is found.
+			Intent intent = new Intent(null, Uri.withAppendedPath(getIntent()
+					.getData(), Integer.toString((int) info.id)));
+			intent.addCategory(Intent.CATEGORY_ALTERNATIVE);
+			menu.addIntentOptions(Menu.CATEGORY_ALTERNATIVE, 0, 0,
+					new ComponentName(this, NotesList.class), null, intent, 0,
+					null);
 		}
-
-		// Inflate menu from XML resource
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.list_context_menu, menu);
-
-		// Sets the menu header to be the title of the selected note.
-		menu.setHeaderTitle(cursor.getString(COLUMN_INDEX_TITLE));
-
-		// Append to the
-		// menu items for any other activities that can do stuff with it
-		// as well. This does a query on the system for any activities that
-		// implement the ALTERNATIVE_ACTION for our data, adding a menu item
-		// for each one that is found.
-		Intent intent = new Intent(null, Uri.withAppendedPath(getIntent()
-				.getData(), Integer.toString((int) info.id)));
-		intent.addCategory(Intent.CATEGORY_ALTERNATIVE);
-		menu.addIntentOptions(Menu.CATEGORY_ALTERNATIVE, 0, 0,
-				new ComponentName(this, NotesList.class), null, intent, 0, null);
 	}
 
 	/**
