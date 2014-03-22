@@ -16,7 +16,6 @@
 package com.catalog.activities;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
@@ -34,7 +33,6 @@ import com.catalog.helper.Constants;
 import com.catalog.model.ClassGroup;
 import com.catalog.model.GradesAttendForSubject;
 import com.catalog.model.Student;
-import com.catalog.model.Subject;
 import com.catalog.model.Teacher;
 
 /**
@@ -50,8 +48,6 @@ public class DetailedClassActivity extends Activity {
 	 * Static members3
 	 */
 	private static final String CLASSNAME = Constants.DetailedClassActivity;
-	private static final int SUCCESS = Constants.SUCCESS;
-	private static final int FAIL = Constants.FAIL;
 
 	/*
 	 * Public members
@@ -99,8 +95,9 @@ public class DetailedClassActivity extends Activity {
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			classGroup = (ClassGroup) extras
-					.getSerializable(Constants.ClassGroup);
-			teacher = (Teacher) extras.getSerializable(Constants.Teacher);
+					.getSerializable(Constants.Bundle_ClassGroup);
+			teacher = (Teacher) extras
+					.getSerializable(Constants.Bundle_Teacher);
 		}
 		// if classGroup is null finish everything, no use going further
 		if (classGroup == null)

@@ -16,7 +16,6 @@
 package com.catalog.helper;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.text.Layout.Alignment;
 import android.text.StaticLayout;
 import android.text.TextPaint;

@@ -47,8 +47,6 @@ public class AddGradesClassActivity extends Activity {
 	 * Static members
 	 */
 	private static final String CLASSNAME = Constants.AddGradesClassActivity;
-	private static final int SUCCESS = Constants.SUCCESS;
-	private static final int FAIL = Constants.FAIL;
 
 	/*
 	 * Public members
@@ -89,20 +87,20 @@ public class AddGradesClassActivity extends Activity {
 
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
-			teacher = (Teacher) extras.getSerializable(Constants.Teacher);
+			teacher = (Teacher) extras
+					.getSerializable(Constants.Bundle_Teacher);
 		}
 
 		btnInfo.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				if (classGroup != null) {
 					Intent intent = new Intent(getApplicationContext(),
 							DetailedClassActivity.class);
 					Bundle b = new Bundle();
-					b.putSerializable(Constants.ClassGroup, classGroup);
-					b.putSerializable(Constants.Teacher, teacher);
+					b.putSerializable(Constants.Bundle_ClassGroup, classGroup);
+					b.putSerializable(Constants.Bundle_Teacher, teacher);
 					intent.putExtras(b);
 					startActivity(intent);
 				}

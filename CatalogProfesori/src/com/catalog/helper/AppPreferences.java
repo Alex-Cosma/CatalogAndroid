@@ -34,43 +34,43 @@ public class AppPreferences {
 	}
 
 	public LoginCredentials getLoginCredentials() {
-		String username = appSharedPrefs.getString(Constants.Username, "");
-		String password = appSharedPrefs.getString(Constants.Password, "");
+		String username = appSharedPrefs.getString(Constants.Pref_Username, "");
+		String password = appSharedPrefs.getString(Constants.Pref_Password, "");
 
 		return new LoginCredentials(username, password);
 
 	}
 
 	public void saveLoginCredentials(String username, String password) {
-		prefsEditor.putString(Constants.Username, username);
-		prefsEditor.putString(Constants.Password, password);
+		prefsEditor.putString(Constants.Pref_Username, username);
+		prefsEditor.putString(Constants.Pref_Password, password);
 		prefsEditor.commit();
 	}
 
 	public void resetLoginCredentials() {
-		prefsEditor.putString(Constants.Username, "");
-		prefsEditor.putString(Constants.Password, "");
+		prefsEditor.putString(Constants.Pref_Username, "");
+		prefsEditor.putString(Constants.Pref_Password, "");
 		prefsEditor.commit();
 
 	}
 
 	public void setFirstEntry(boolean firstEntry) {
-		prefsEditor.putBoolean(Constants.FirstEntry, firstEntry);
+		prefsEditor.putBoolean(Constants.Pref_FirstEntry, firstEntry);
 		prefsEditor.commit();
 
 	}
 
 	public boolean isFirstEntry() {
-		return appSharedPrefs.getBoolean(Constants.FirstEntry, true);
+		return appSharedPrefs.getBoolean(Constants.Pref_FirstEntry, true);
 	}
 
 	public void setIpExternal(boolean ipIsExternal) {
-		prefsEditor.putBoolean(Constants.IpExternal, ipIsExternal);
+		prefsEditor.putBoolean(Constants.Pref_IPExternal, ipIsExternal);
 		prefsEditor.commit();
 	}
 
 	public boolean isIpExternal() {
-		return appSharedPrefs.getBoolean(Constants.IpExternal, true);
+		return appSharedPrefs.getBoolean(Constants.Pref_IPExternal, true);
 	}
 
 }

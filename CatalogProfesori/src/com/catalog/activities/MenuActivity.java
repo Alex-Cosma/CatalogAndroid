@@ -17,8 +17,6 @@ package com.catalog.activities;
 
 import java.util.ArrayList;
 
-import org.achartengine.chartdemo.demo.ChartDemo;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -59,8 +57,6 @@ public class MenuActivity extends Activity implements OnTouchListener {
 	 * Static members
 	 */
 	private static final String CLASSNAME = Constants.MenuActivity;
-	private static final int SUCCESS = Constants.SUCCESS;
-	private static final int FAIL = Constants.FAIL;
 
 	/*
 	 * Public members
@@ -163,9 +159,9 @@ public class MenuActivity extends Activity implements OnTouchListener {
 						Intent intent = new Intent(ctx,
 								DetailedClassActivity.class);
 						Bundle b = new Bundle();
-						b.putSerializable(Constants.ClassGroup,
+						b.putSerializable(Constants.Bundle_ClassGroup,
 								masterClassGroup);
-						b.putSerializable(Constants.Teacher, teacher);
+						b.putSerializable(Constants.Bundle_Teacher, teacher);
 						intent.putExtras(b);
 						startActivity(intent);
 					} else {
@@ -184,8 +180,8 @@ public class MenuActivity extends Activity implements OnTouchListener {
 					Intent intent = new Intent(ctx, TimetableActivity.class);
 
 					Bundle b = new Bundle();
-					b.putSerializable(Constants.Timetable, timetable);
-					b.putSerializable(Constants.Teacher, teacher);
+					b.putSerializable(Constants.Bundle_Timetable, timetable);
+					b.putSerializable(Constants.Bundle_Teacher, teacher);
 					intent.putExtras(b);
 					startActivity(intent);
 				} else {
@@ -197,7 +193,7 @@ public class MenuActivity extends Activity implements OnTouchListener {
 				btnMarks.clearAnimation();
 				Intent intent = new Intent(ctx, AddGradesClassActivity.class);
 				Bundle b = new Bundle();
-				b.putSerializable(Constants.Teacher, teacher);
+				b.putSerializable(Constants.Bundle_Teacher, teacher);
 				intent.putExtras(b);
 				startActivity(intent);
 			} else if (v == btnStats) {

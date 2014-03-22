@@ -54,8 +54,6 @@ public class TimetableAddSubjectsActivity extends Activity {
 	 * Static member
 	 */
 	private static final String CLASSNAME = Constants.TimetableAddSubjectsActivity;
-	private static final int SUCCESS = Constants.SUCCESS;
-	private static final int FAIL = Constants.FAIL;
 
 	/*
 	 * Public members

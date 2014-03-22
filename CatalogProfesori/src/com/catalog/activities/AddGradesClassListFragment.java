@@ -46,8 +46,6 @@ public class AddGradesClassListFragment extends ListFragment {
 	 * Static members
 	 */
 	private static final String CLASSNAME = Constants.AddGradesClassListFragment;
-	private static final int SUCCESS = Constants.SUCCESS;
-	private static final int FAIL = Constants.FAIL;
 	/*
 	 * Public members
 	 */
@@ -109,7 +107,7 @@ public class AddGradesClassListFragment extends ListFragment {
 			int posInList = pos - 1;
 
 			for (int i = 0; i < numberOfSubjects; i++) {
-					
+
 				if (posInList <= classesAdapter[i].getCount()) {
 					myActivity
 							.showStudents(
@@ -119,7 +117,7 @@ public class AddGradesClassListFragment extends ListFragment {
 					mCurCheckPosition = posInList;
 					break;
 				} else {
-					posInList -= (classesAdapter[i].getCount()+1);
+					posInList -= (classesAdapter[i].getCount() + 1);
 
 				}
 

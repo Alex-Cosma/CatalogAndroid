@@ -64,19 +64,20 @@ public class Constants {
 	/**
 	 * Bundle constants
 	 */
-	public static final String MasterClass = "MasterClass";
-	public static final String Student = "Student";
-	public static final String Subjects = "Subjects";
-	public static final String ClassGroup = "ClassGroup";
-	public static final String Teacher = "Teacher";
-	public static final String MarksAndAbsances = "MarksAndAbsances";
-	public static final String Timetable = "Timetable";
+	public static final String Bundle_MasterClass = "MasterClass";
+	public static final String Bundle_Student = "Student";
+	public static final String Bundle_Students = "Subjects";
+	public static final String Bundle_ClassGroup = "ClassGroup";
+	public static final String Bundle_Teacher = "Teacher";
+	public static final String Bundle_GradesAndAbsences = "MarksAndAbsences";
+	public static final String Bundle_Timetable = "Timetable";
+	public static final String Bundle_SelectedStudentIndex = "selectedStudentIndex";
 
 	/**
 	 * Shared Prefs
 	 */
-	public static final String Username = "Username";
-	public static final String Password = "Password";
-	public static final String FirstEntry = "FirstEntry";
-	public static final String IpExternal = "IpExternal";
+	public static final String Pref_Username = "Username";
+	public static final String Pref_Password = "Password";
+	public static final String Pref_FirstEntry = "FirstEntry";
+	public static final String Pref_IPExternal = "IpExternal";
 }

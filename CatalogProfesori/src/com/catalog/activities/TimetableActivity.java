@@ -55,7 +55,6 @@ import android.widget.TabHost.TabContentFactory;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.catalog.activities.extras.AsyncTaskFactory;
 import com.catalog.helper.AppPreferences;
 import com.catalog.helper.Constants;
 import com.catalog.helper.MyDBManager;
@@ -76,7 +75,6 @@ public class TimetableActivity extends TabActivity implements
 	 * Static members
 	 */
 	private static final String CLASSNAME = Constants.TimetableActivity;
-	private static final int SUCCESS = Constants.SUCCESS;
 	private static final int FAIL = Constants.FAIL;
 	private static final String MONDAY_TAB_TAG = "Luni";
 	private static final String TUESDAY_TAB_TAG = "Marti";
@@ -151,8 +149,8 @@ public class TimetableActivity extends TabActivity implements
 		Bundle b = getIntent().getExtras();
 
 		timetable = (ArrayList<TimetableDays>) b
-				.getSerializable(Constants.Timetable);
-		teacher = (Teacher) b.getSerializable(Constants.Teacher);
+				.getSerializable(Constants.Bundle_Timetable);
+		teacher = (Teacher) b.getSerializable(Constants.Bundle_Teacher);
 
 		insertIntoDB();
 

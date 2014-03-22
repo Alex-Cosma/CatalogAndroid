@@ -19,7 +19,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Locale;
 
 import android.app.Fragment;
@@ -38,6 +37,7 @@ import android.widget.TextView;
 
 import com.catalog.activities.extras.AddGradesOrAbsenceDialog;
 import com.catalog.activities.extras.EditGradesOrAbsencesDialog;
+import com.catalog.helper.Comparators;
 import com.catalog.helper.Constants;
 import com.catalog.model.Attendance;
 import com.catalog.model.ClassGroup;
@@ -94,10 +94,11 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 		// Supply index input as an argument.
 		Bundle args = new Bundle();
 		args.putInt("index", selectedStudentIndex);
-		args.putSerializable(Constants.Student, selectedStudent);
-		args.putSerializable(Constants.ClassGroup, classGroup);
-		args.putSerializable(Constants.Teacher, teacher);
-		args.putSerializable(Constants.MarksAndAbsances, gradesAndAttendances);
+		args.putSerializable(Constants.Bundle_Student, selectedStudent);
+		args.putSerializable(Constants.Bundle_ClassGroup, classGroup);
+		args.putSerializable(Constants.Bundle_Teacher, teacher);
+		args.putSerializable(Constants.Bundle_GradesAndAbsences,
+				gradesAndAttendances);
 
 		df.setArguments(args);
 
@@ -112,19 +113,24 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 		currentFragment = this;
 		selectedStudentIndex = getArguments().getInt("index", 0);
 		selectedStudent = (Student) getArguments().getSerializable(
-				Constants.Student);
+				Constants.Bundle_Student);
 		selectedClassGroup = (ClassGroup) getArguments().getSerializable(
-				Constants.ClassGroup);
+				Constants.Bundle_ClassGroup);
 
-		teacher = (Teacher) getArguments().getSerializable(Constants.Teacher);
+		teacher = (Teacher) getArguments().getSerializable(
+				Constants.Bundle_Teacher);
 
 		gradesAndAttendances = (ArrayList<GradesAttendForSubject>) getArguments()
-				.getSerializable(Constants.MarksAndAbsances);
+				.getSerializable(Constants.Bundle_GradesAndAbsences);
 		if (selectedClassGroup == null || selectedStudent == null
 				|| teacher == null || gradesAndAttendances == null)
 			return;
 
 		int length = gradesAndAttendances.size();
+		initBuffers(length);
+	}
+
+	private void initBuffers(int length) {
 		marksBuffer = new String[length];
 		attendanceBuffer = new String[length];
 		avarageBuffer = new String[length];
@@ -294,7 +300,7 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 
 		attendanceBuffer[position] = "";
 		Collections.sort(gradesAndAttendances.get(position).getAttendaces(),
-				ComparatorByAbsanceDate);
+				Comparators.ComparatorByAbsanceDate);
 		for (Attendance element : gradesAndAttendances.get(position)
 				.getAttendaces()) {
 			// TODO: Temporary if...
@@ -319,7 +325,7 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 		avarageBuffer[position] = "";
 
 		Collections.sort(gradesAndAttendances.get(position).getMarks(),
-				ComparatorByMarkDate);
+				Comparators.ComparatorByMarkDate);
 
 		float avarage = 0;
 		float finalMark = 0;
@@ -380,30 +386,4 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 		}
 	}
 
-	private Comparator<StudentMark> ComparatorByMarkDate = new Comparator<StudentMark>() {
-
-		public int compare(StudentMark m1, StudentMark m2) {
-
-			return (((Long) m1.getDate().getTime()).compareTo((Long) m2
-					.getDate().getTime()));
-
-			// if ((m1.getDate().getTime() > m2.getDate().getTime()) == true) {
-			// return 1;
-			// } else
-			// return 0;
-		}
-	};
-
-	private Comparator<Attendance> ComparatorByAbsanceDate = new Comparator<Attendance>() {
-
-		public int compare(Attendance a1, Attendance a2) {
-			return (((Long) a1.getDate().getTime()).compareTo((Long) a2
-					.getDate().getTime()));
-
-			// if ((a1.getDate().getTime() > a2.getDate().getTime()) == true) {
-			// return 1;
-			// } else
-			// return 0;
-		}
-	};
 }

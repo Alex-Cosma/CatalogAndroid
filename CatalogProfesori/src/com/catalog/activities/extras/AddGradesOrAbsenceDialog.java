@@ -80,7 +80,7 @@ public class AddGradesOrAbsenceDialog extends Dialog {
 		grade.setFilters(new InputFilter[] { new InputFilterMinMax(1, 10),
 				new InputFilter.LengthFilter(2) });
 
-		Button btnAddGrade = (Button) findViewById(R.id.btn_addGrade);
+		final Button btnAddGrade = (Button) findViewById(R.id.btn_addGrade);
 		asyncTaskFactory = AsyncTaskFactory.getInstance(AppPreferences
 				.getInstance(context).isIpExternal());
 
@@ -94,11 +94,11 @@ public class AddGradesOrAbsenceDialog extends Dialog {
 				if (!grade.getText().toString().equals("")) {
 					gradeText = Integer.parseInt(grade.getText().toString());
 
-//					addMarkTask.execute(classGroup.getId(), subject.getId(),
-//							teacher.getId(), student, gradeText,
-//							finalGrade.isChecked(),
-//							getSelectedDate().getTime(),
-//							positionInSubjectsList, fragment);
+					addMarkTask.execute(classGroup.getId(), subject.getId(),
+							teacher.getId(), student, gradeText,
+							finalGrade.isChecked(),
+							getSelectedDate().getTime(),
+							positionInSubjectsList, fragment);
 					dismiss();
 				} else {
 					CustomToast toast = new CustomToast(context, context
@@ -111,7 +111,7 @@ public class AddGradesOrAbsenceDialog extends Dialog {
 			}
 		});
 
-		Button btnAbsent = (Button) findViewById(R.id.addAbsentButton);
+		final Button btnAbsent = (Button) findViewById(R.id.addAbsentButton);
 		btnAbsent.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -119,9 +119,13 @@ public class AddGradesOrAbsenceDialog extends Dialog {
 				addAbsenceTask = asyncTaskFactory.getTask(context, CLASSNAME,
 						Constants.Method_AddAbsence);
 
-//				addAbsenceTask.execute(classGroup.getId(), subject.getId(),
-//						teacher.getId(), student, getSelectedDate().getTime(),
-//						positionInSubjectsList, fragment);
+				int classGroupId = classGroup.getId();
+				int subjectId = subject.getId();
+				int teacherId = teacher.getId();
+
+				addAbsenceTask.execute(classGroupId, subjectId, teacherId,
+						student, getSelectedDate().getTime(),
+						positionInSubjectsList, fragment);
 
 				dismiss();
 			}
@@ -133,13 +137,11 @@ public class AddGradesOrAbsenceDialog extends Dialog {
 		mMonth = c.get(Calendar.MONTH);
 		mDay = c.get(Calendar.DAY_OF_MONTH);
 		btnDate.setText(new StringBuilder().append(mDay).append("/")
-		// Month is 0 based so add 1
 				.append(mMonth + 1).append("/").append(mYear).append(""));
 		btnDate.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				DatePickerDialog dpd = new DatePickerDialog(context,
 						mDateSetListener, mYear, mMonth, mDay);
 
@@ -159,7 +161,6 @@ public class AddGradesOrAbsenceDialog extends Dialog {
 
 			private void updateDisplay() {
 				btnDate.setText(new StringBuilder().append(mDay).append("/")
-						// Month is 0 based so add 1
 						.append(mMonth + 1).append("/").append(mYear)
 						.append(""));
 			}
@@ -169,9 +170,7 @@ public class AddGradesOrAbsenceDialog extends Dialog {
 	private Date getSelectedDate() {
 
 		Calendar c = Calendar.getInstance();
-
 		c.set(mYear, mMonth, mDay);
-
 		return new Date(c.getTime().getTime());
 	}
 }

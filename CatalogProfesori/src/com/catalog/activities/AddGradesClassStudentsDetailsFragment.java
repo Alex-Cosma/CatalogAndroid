@@ -66,8 +66,6 @@ public class AddGradesClassStudentsDetailsFragment extends Fragment {
 	 * Static members
 	 */
 	private static final String CLASSNAME = Constants.AddGradesClassStudentsDetailsFragment;
-	private static final int SUCCESS = Constants.SUCCESS;
-	private static final int FAIL = Constants.FAIL;
 	public static boolean viewingAsList;
 	private static ViewFlipper vf;
 
@@ -99,8 +97,8 @@ public class AddGradesClassStudentsDetailsFragment extends Fragment {
 		// Supply index input as an argument.
 		Bundle args = new Bundle();
 		args.putInt("index", index);
-		args.putSerializable(Constants.ClassGroup, classGroup);
-		args.putSerializable(Constants.Teacher, teacher);
+		args.putSerializable(Constants.Bundle_ClassGroup, classGroup);
+		args.putSerializable(Constants.Bundle_Teacher, teacher);
 		df.setArguments(args);
 		if (vf != null)
 			if (viewingAsList) {
@@ -117,8 +115,8 @@ public class AddGradesClassStudentsDetailsFragment extends Fragment {
 
 		mIndex = getArguments().getInt("index", 0);
 		selectedClassGroup = (ClassGroup) getArguments().getSerializable(
-				Constants.ClassGroup);
-		teacher = (Teacher) getArguments().getSerializable(Constants.Teacher);
+				Constants.Bundle_ClassGroup);
+		teacher = (Teacher) getArguments().getSerializable(Constants.Bundle_Teacher);
 
 		if ((selectedClassGroup == null) || (teacher == null)) {
 			return;

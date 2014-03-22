@@ -24,7 +24,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.AsyncTask;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -58,8 +57,6 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 	 * Static members
 	 */
 	private static final String CLASSNAME = Constants.EditGradesOrAbsencesDialog;
-	private static final int SUCCESS = Constants.SUCCESS;
-	private static final int FAIL = Constants.FAIL;
 	private static DateFormat dateFormat = new SimpleDateFormat("dd/MM",
 			Locale.UK);
 
@@ -73,13 +70,13 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 	 */
 	private AsyncTaskFactory asyncTaskFactory;
 	private boolean editedMarks[];
-	private boolean editedAbsances[];
+	private boolean editedAttendances[];
 
 	public EditGradesOrAbsencesDialog(final Context context,
 			final DetailedClassStudentsDetailsFragment fragment,
 			final int positionInSubjectsList, Student student, Subject subject,
 			final ArrayList<StudentMark> marks,
-			final ArrayList<Attendance> attendance) {
+			final ArrayList<Attendance> attendances) {
 		super(context);
 
 		CustomToast toast = new CustomToast(context,
@@ -107,27 +104,14 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 		TextView gradesDates[] = new TextView[numberOfGrades];
 
 		for (int i = 0; i < numberOfGrades; i++) {
+
+			StudentMark mark = marks.get(i);
 			gradesLayout[i] = new LinearLayout(context);
-			editableGrades[i] = new EditText(context);
 			gradesDates[i] = new TextView(context);
 
-			if (marks.get(i).isFinalExam())
-				editableGrades[i].setTextColor(Color.RED);
-			editableGrades[i].setText("" + marks.get(i).getMark());
-			editableGrades[i].setId(i);
-			editableGrades[i].setTextSize(18);
-			editableGrades[i].setMaxEms(3);
-			editableGrades[i].setMinEms(1);
-			editableGrades[i].setMaxLines(1);
-			editableGrades[i].addTextChangedListener(new TWatcher(
-					editableGrades[i]));
-			editableGrades[i]
-					.setOnFocusChangeListener(focusChangeListenerForEditTexts);
-			editableGrades[i].setFilters(new InputFilter[] {
-					new InputFilterMinMax(1, 10),
-					new InputFilter.LengthFilter(2) });
-			editableGrades[i].setInputType(InputType.TYPE_CLASS_NUMBER);
-			gradesDates[i].setText(dateFormat.format(marks.get(i).getDate()));
+			editableGrades[i] = createEditableGrade(context, i, mark);
+
+			gradesDates[i].setText(dateFormat.format(mark.getDate()));
 			gradesDates[i].setTextSize(18);
 			gradesLayout[i].setOrientation(LinearLayout.HORIZONTAL);
 			gradesLayout[i].setLayoutParams(new LayoutParams(
@@ -143,31 +127,13 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 		LinearLayout absencesContainerLayout = (LinearLayout) this
 				.findViewById(R.id.layout_absences);
 
-		int numberOfAbsances = attendance.size();
-		editedAbsances = new boolean[numberOfAbsances];
+		int numberOfAbsances = attendances.size();
+		editedAttendances = new boolean[numberOfAbsances];
 		TextView absencesTv[] = new TextView[numberOfAbsances];
 
 		for (int i = 0; i < numberOfAbsances; i++) {
-
-			absencesTv[i] = new TextView(context);
-			absencesTv[i].setTextSize(18);
-			absencesTv[i].setId(i);
-			absencesTv[i].setText(""
-					+ dateFormat.format(attendance.get(i).getDate()));
-			if (attendance.get(i).isMotivat()) {
-				absencesTv[i].setPaintFlags(absencesTv[i].getPaintFlags()
-						| Paint.STRIKE_THRU_TEXT_FLAG);
-			} else
-				absencesTv[i].setOnClickListener(new View.OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						((TextView) v).setPaintFlags(((TextView) v)
-								.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-						editedAbsances[v.getId()] = true;
-					}
-				});
-
+			Attendance attendence = attendances.get(i);
+			absencesTv[i] = createAttendenceText(context, i, attendence);
 			absencesContainerLayout.addView(absencesTv[i]);
 		}
 
@@ -178,23 +144,26 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 			@Override
 			public void onClick(View v) {
 
-				for (int i = 0; i < editedAbsances.length; i++) {
-					if (editedAbsances[i] == true) {
-//						asyncTaskFactory.getTask(context, CLASSNAME,
-//								Constants.Method_EditAbsance).execute(
-//								attendance.get(i).getId(),
-//								positionInSubjectsList, fragment);
+				for (int i = 0; i < editedAttendances.length; i++) {
+					if (editedAttendances[i] == true) {
+						int attendenceId = attendances.get(i).getId();
+
+						asyncTaskFactory.getTask(context, CLASSNAME,
+								Constants.Method_EditAbsance).execute(
+								attendenceId, positionInSubjectsList, fragment);
 					}
 				}
 				for (int i = 0; i < editedMarks.length; i++) {
 					if (editedMarks[i] == true) {
-//						asyncTaskFactory.getTask(context, CLASSNAME,
-//								Constants.Method_EditMark).execute(
-//								marks.get(i).getId(),
-//								Integer.valueOf(editableGrades[i].getText()
-//										.toString()),
-//								marks.get(i).getDate().getTime(),
-//								positionInSubjectsList, fragment);
+						int markId = marks.get(i).getId();
+						Integer mark = Integer.valueOf(editableGrades[i]
+								.getText().toString());
+						long markTimestamp = marks.get(i).getDate().getTime();
+
+						asyncTaskFactory.getTask(context, CLASSNAME,
+								Constants.Method_EditMark).execute(markId,
+								mark, markTimestamp, positionInSubjectsList,
+								fragment);
 					}
 				}
 
@@ -203,9 +172,55 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 		});
 	}
 
+	private EditText createEditableGrade(Context context, int i,
+			StudentMark mark) {
+		EditText et = new EditText(context);
+
+		if (mark.isFinalExam())
+			et.setTextColor(Color.RED);
+
+		et.setText("" + mark.getMark());
+		et.setId(i);
+		et.setTextSize(18);
+		et.setMaxEms(3);
+		et.setMinEms(1);
+		et.setMaxLines(1);
+		et.addTextChangedListener(new TWatcher(et));
+		et.setOnFocusChangeListener(focusChangeListenerForEditTexts);
+		et.setFilters(new InputFilter[] { new InputFilterMinMax(1, 10),
+				new InputFilter.LengthFilter(2) });
+		et.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+		return et;
+	}
+
+	private TextView createAttendenceText(Context context, int i,
+			Attendance attendance) {
+
+		TextView att = new TextView(context);
+
+		att.setTextSize(18);
+		att.setId(i);
+		att.setText("" + dateFormat.format(attendance.getDate()));
+		if (attendance.isMotivat()) {
+			att.setPaintFlags(att.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+		} else
+			att.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					((TextView) v).setPaintFlags(((TextView) v).getPaintFlags()
+							| Paint.STRIKE_THRU_TEXT_FLAG);
+					editedAttendances[v.getId()] = true;
+				}
+			});
+
+		return att;
+	}
+
 	private class TWatcher implements TextWatcher {
 
-		View v;
+		private final View v;
 
 		private TWatcher(View v) {
 			this.v = v;
@@ -213,14 +228,12 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 
 		@Override
 		public void afterTextChanged(Editable s) {
-			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public void beforeTextChanged(CharSequence s, int start, int count,
 				int after) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -235,7 +248,7 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 	OnFocusChangeListener focusChangeListenerForEditTexts = new OnFocusChangeListener() {
 
 		@Override
-		public void onFocusChange(View v, boolean hasFocus) {
+		public void onFocusChange(final View v, boolean hasFocus) {
 			if (hasFocus)
 				((EditText) v).setSelection(((EditText) v).getText().toString()
 						.length());

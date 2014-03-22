@@ -583,11 +583,11 @@ public class AsyncTaskFactory {
 		@Override
 		protected Integer doInBackground(Object... params) {
 
-			int id = (Integer) params[0];
+			int studentId = (Integer) params[0];
 			studentIndexInList = (Integer) params[1];
 
 			ArrayList<GradesAttendForSubject> m = api
-					.getGradesAttendForSubjectList(id);
+					.getGradesAttendForSubjectList(studentId);
 
 			if (m != null) {
 				this.gradesAndAttendances = m;

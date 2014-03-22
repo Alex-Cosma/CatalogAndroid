@@ -37,8 +37,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.catalog.activities.extras.AsyncTaskFactory;
-import com.catalog.activities.extras.ChangePasswordDialog;
-import com.catalog.helper.Api;
 import com.catalog.helper.AppPreferences;
 import com.catalog.helper.Constants;
 import com.catalog.model.LoginCredentials;
@@ -55,8 +53,6 @@ public class LoginActivity extends Activity {
 	 * Static members
 	 */
 	public static final String CLASSNAME = Constants.LoginActivity;
-	private static final int SUCCESS = Constants.SUCCESS;
-	private static final int FAIL = Constants.FAIL;
 
 	/*
 	 * Public members
