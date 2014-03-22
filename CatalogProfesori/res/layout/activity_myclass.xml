@@ -51,9 +51,9 @@
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@+id/btnSemII"
                 android:background="@drawable/btn_blue"
-                android:text="Sem I"
+                android:text="@string/sem_i"
                 android:textColor="#FFFFFF"
-                android:textSize="15sp" >
+                android:textSize="12sp" >
             </Button>
 
             <Button
@@ -62,22 +62,24 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/btn_blue"
-                android:text="Sem II"
+                android:text="@string/sem_ii"
                 android:textColor="#FFFFFF"
-                android:textSize="15sp" >
+                android:textSize="12sp" >
             </Button>
         </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/layout_myClassSubjectsGrades"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:layout_below="@id/titleContainer"
             android:orientation="horizontal"
             android:padding="2dp" >
 
             <include
                 android:id="@+id/listitem_grades_head"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
                 layout="@layout/listitem_grades_header" />
 
             <com.devsmart.android.ui.HorizontalListView

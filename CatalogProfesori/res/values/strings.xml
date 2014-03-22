@@ -99,5 +99,7 @@
     <string name="started_by">Proiectul a fost \nconceput de: </string>
     <string name="app_title">Catalog Online</string>
     <string name="bad_connection">Eroare de conexiune! Vă rugăm verificați că sunteți conectați la internet.</string>
+    <string name="sem_i">Sem. I</string>
+    <string name="sem_ii">Sem. II</string>
 
 </resources>
