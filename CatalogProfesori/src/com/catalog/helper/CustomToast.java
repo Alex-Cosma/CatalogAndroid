@@ -15,10 +15,6 @@
  */
 package com.catalog.helper;
 
- 
-
-import com.catalog.activities.R;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -26,11 +22,20 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.catalog.activities.R;
+
+/**
+ * Custom Toast view which loads an XML layout and returns a toast according to
+ * that layout.
+ * 
+ * @author Alex
+ * 
+ */
 @SuppressLint("ViewConstructor")
 public class CustomToast extends Toast {
 
-	Context c;
-	CharSequence s;
+	private Context c;
+	private CharSequence s;
 
 	public CustomToast(Context c, CharSequence s) {
 		super(c);

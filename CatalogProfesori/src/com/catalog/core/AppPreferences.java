@@ -1,5 +1,6 @@
-package com.catalog.helper;
+package com.catalog.core;
 
+import com.catalog.helper.Constants;
 import com.catalog.model.LoginCredentials;
 
 import android.app.Activity;

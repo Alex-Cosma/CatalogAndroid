@@ -55,7 +55,7 @@ import android.widget.TabHost.TabContentFactory;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.catalog.helper.AppPreferences;
+import com.catalog.core.AppPreferences;
 import com.catalog.helper.Constants;
 import com.catalog.helper.MyDBManager;
 import com.catalog.model.Teacher;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.catalog.activities.extras;
+package com.catalog.core;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -33,9 +33,8 @@ import com.catalog.activities.fragments.AllClassesListFragment;
 import com.catalog.activities.fragments.AllClassesStudentsDetailsFragment;
 import com.catalog.activities.fragments.DetailedClassListFragment;
 import com.catalog.activities.fragments.DetailedClassStudentsDetailsFragment;
-import com.catalog.helper.Api;
-import com.catalog.helper.AppPreferences;
 import com.catalog.helper.Constants;
+import com.catalog.helper.CustomToast;
 import com.catalog.model.Attendance;
 import com.catalog.model.ClassGroup;
 import com.catalog.model.GradesAttendForSubject;

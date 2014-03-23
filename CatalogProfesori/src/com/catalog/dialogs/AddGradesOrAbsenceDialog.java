@@ -30,11 +30,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.catalog.activities.R;
-import com.catalog.activities.extras.AsyncTaskFactory;
-import com.catalog.activities.extras.CustomToast;
 import com.catalog.activities.fragments.DetailedClassStudentsDetailsFragment;
-import com.catalog.helper.AppPreferences;
+import com.catalog.core.AppPreferences;
+import com.catalog.core.AsyncTaskFactory;
 import com.catalog.helper.Constants;
+import com.catalog.helper.CustomToast;
 import com.catalog.helper.InputFilterMinMax;
 import com.catalog.model.ClassGroup;
 import com.catalog.model.Student;

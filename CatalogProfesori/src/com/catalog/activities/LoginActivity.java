@@ -36,8 +36,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.catalog.activities.extras.AsyncTaskFactory;
-import com.catalog.helper.AppPreferences;
+import com.catalog.core.AppPreferences;
+import com.catalog.core.AsyncTaskFactory;
 import com.catalog.helper.Constants;
 import com.catalog.model.LoginCredentials;
 import com.google.analytics.tracking.android.EasyTracker;

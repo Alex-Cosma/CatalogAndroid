@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.catalog.activities.R;
-import com.catalog.activities.extras.AsyncTaskFactory;
-import com.catalog.helper.AppPreferences;
+import com.catalog.core.AppPreferences;
+import com.catalog.core.AsyncTaskFactory;
 import com.catalog.helper.Constants;
 
 public class ChangePasswordDialog extends Dialog {

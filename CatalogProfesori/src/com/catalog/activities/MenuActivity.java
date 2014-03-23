@@ -34,12 +34,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import com.catalog.activities.extras.AsyncTaskFactory;
-import com.catalog.activities.extras.CustomToast;
+import com.catalog.core.AppPreferences;
+import com.catalog.core.AsyncTaskFactory;
 import com.catalog.dialogs.ChangePasswordDialog;
 import com.catalog.game.GameMainActivity;
-import com.catalog.helper.AppPreferences;
 import com.catalog.helper.Constants;
+import com.catalog.helper.CustomToast;
 import com.catalog.model.ClassGroup;
 import com.catalog.model.Semester;
 import com.catalog.model.Teacher;
