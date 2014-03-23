@@ -57,7 +57,7 @@ public class TimetableAddSubjectsActivity extends Activity {
 	/*
 	 * Static member
 	 */
-	private static final String CLASSNAME = Constants.TimetableAddSubjectsActivity;
+	private static final String CLASS_NAME = Constants.TimetableAddSubjectsActivity;
 
 	/*
 	 * Public members
@@ -87,8 +87,7 @@ public class TimetableAddSubjectsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(R.anim.scale_up, R.anim.fadeout);
 		setContentView(R.layout.activity_addsubjects);
-		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
-				Constants.TimetableAddSubjectsActivity);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, CLASS_NAME);
 
 		lv = (ListView) findViewById(R.id.Slist);
 		dm = new MyDBManager(this);

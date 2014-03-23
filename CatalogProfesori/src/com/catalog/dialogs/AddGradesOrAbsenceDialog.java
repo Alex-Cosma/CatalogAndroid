@@ -53,7 +53,7 @@ public class AddGradesOrAbsenceDialog extends Dialog {
 	/*
 	 * Static members
 	 */
-	private static final String CLASSNAME = Constants.AddGradesOrAbsenceDialog;
+	private static final String CLASS_NAME = Constants.AddGradesOrAbsenceDialog;
 
 	/*
 	 * Public members
@@ -92,7 +92,7 @@ public class AddGradesOrAbsenceDialog extends Dialog {
 
 			@Override
 			public void onClick(View v) {
-				addMarkTask = asyncTaskFactory.getTask(context, CLASSNAME,
+				addMarkTask = asyncTaskFactory.getTask(context, CLASS_NAME,
 						Constants.Method_AddMark);
 				int gradeText;
 				if (!grade.getText().toString().equals("")) {
@@ -126,7 +126,7 @@ public class AddGradesOrAbsenceDialog extends Dialog {
 			@Override
 			public void onClick(View v) {
 
-				addAbsenceTask = asyncTaskFactory.getTask(context, CLASSNAME,
+				addAbsenceTask = asyncTaskFactory.getTask(context, CLASS_NAME,
 						Constants.Method_AddAbsence);
 
 				int classGroupId = classGroup.getId();

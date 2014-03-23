@@ -62,6 +62,8 @@ import com.google.analytics.tracking.android.MapBuilder;
  */
 public class NotesList extends Activity {
 
+	private static final String CLASS_NAME = Constants.NotesListActivity;
+
 	//
 	private GridView gridview;
 	private LinearLayout llBackground;
@@ -93,8 +95,7 @@ public class NotesList extends Activity {
 		// The user does not need to hold down the key to use menu shortcuts.
 		setDefaultKeyMode(DEFAULT_KEYS_SHORTCUT);
 
-		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
-				Constants.NotesListActivity);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, CLASS_NAME);
 		/*
 		 * If no data is given in the Intent that started this Activity, then
 		 * this Activity was started when the intent filter matched a MAIN

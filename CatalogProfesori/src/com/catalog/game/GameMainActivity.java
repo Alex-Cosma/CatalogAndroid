@@ -31,7 +31,8 @@ import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 
 public class GameMainActivity extends Activity {
-	/** Called when the activity is first created. */
+	private static final String CLASS_NAME = Constants.GameMainActivity;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,8 +52,7 @@ public class GameMainActivity extends Activity {
 			}
 		});
 
-		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
-				Constants.GameMainActivity);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, CLASS_NAME);
 	}
 
 	private void startGame(boolean startWithHuman) {

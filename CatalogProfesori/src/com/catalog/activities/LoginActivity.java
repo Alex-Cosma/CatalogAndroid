@@ -58,7 +58,7 @@ public class LoginActivity extends Activity {
 	/*
 	 * Static members
 	 */
-	public static final String CLASSNAME = Constants.LoginActivity;
+	public static final String CLASS_NAME = Constants.LoginActivity;
 
 	/*
 	 * Public members
@@ -86,8 +86,7 @@ public class LoginActivity extends Activity {
 		overridePendingTransition(android.R.anim.slide_in_left,
 				android.R.anim.slide_out_right);
 		setContentView(R.layout.activity_login);
-		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
-				Constants.LoginActivity);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, CLASS_NAME);
 
 		/**
 		 * Important: this enables app preferences.
@@ -283,7 +282,7 @@ public class LoginActivity extends Activity {
 			// perform the user login attempt.
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
-			loginTask = asyncTaskFactory.getTask(this, CLASSNAME, "");
+			loginTask = asyncTaskFactory.getTask(this, CLASS_NAME, "");
 			loginTask.execute(mEmail, mPassword);
 		}
 	}

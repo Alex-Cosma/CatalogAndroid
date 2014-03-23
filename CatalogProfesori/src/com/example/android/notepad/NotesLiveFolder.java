@@ -41,6 +41,8 @@ import com.google.analytics.tracking.android.MapBuilder;
  */
 public class NotesLiveFolder extends Activity {
 
+	private static final String CLASS_NAME = Constants.NotesLiveFolderActivity;
+
 	/**
 	 * All of the work is done in onCreate(). The Activity doesn't actually
 	 * display a UI. Instead, it sets up an Intent and returns it to its caller
@@ -49,8 +51,7 @@ public class NotesLiveFolder extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
-				Constants.NotesLiveFolderActivity);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, CLASS_NAME);
 		/*
 		 * Gets the incoming Intent and its action. If the incoming Intent was
 		 * ACTION_CREATE_LIVE_FOLDER, then create an outgoing Intent with the

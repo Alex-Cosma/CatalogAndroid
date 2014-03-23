@@ -24,8 +24,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -38,7 +38,6 @@ import com.catalog.model.ClassGroup;
 import com.catalog.model.Subject;
 import com.catalog.model.SubjectClasses;
 import com.catalog.model.Teacher;
-import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 
@@ -51,7 +50,7 @@ public class AllClassesActivity extends Activity {
 	/*
 	 * Static members
 	 */
-	private static final String CLASSNAME = Constants.AllClassesActivity;
+	private static final String CLASS_NAME = Constants.AllClassesActivity;
 
 	/*
 	 * Public members
@@ -78,8 +77,7 @@ public class AllClassesActivity extends Activity {
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 		getActionBar().hide();
 		setContentView(R.layout.activity_class);
-		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
-				Constants.AllClassesActivity);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, CLASS_NAME);
 		initUI();
 	}
 

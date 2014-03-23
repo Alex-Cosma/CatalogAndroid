@@ -61,7 +61,7 @@ public class MenuActivity extends Activity implements OnTouchListener {
 	/*
 	 * Static members
 	 */
-	private static final String CLASSNAME = Constants.MenuActivity;
+	private static final String CLASS_NAME = Constants.MenuActivity;
 
 	/*
 	 * Public members
@@ -99,8 +99,7 @@ public class MenuActivity extends Activity implements OnTouchListener {
 		overridePendingTransition(android.R.anim.slide_in_left,
 				android.R.anim.slide_out_right);
 		setContentView(R.layout.activity_menu);
-		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
-				Constants.MenuActivity);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, CLASS_NAME);
 
 		initUI();
 	}
@@ -137,19 +136,19 @@ public class MenuActivity extends Activity implements OnTouchListener {
 		asyncTaskFactory = AsyncTaskFactory.getInstance(AppPreferences
 				.getInstance(this).isIpExternal());
 
-		getMasterClassTask = asyncTaskFactory.getTask(this, CLASSNAME,
+		getMasterClassTask = asyncTaskFactory.getTask(this, CLASS_NAME,
 				Constants.Method_GetMasterClass);
 		getMasterClassTask.execute(2);
 
-		getTeacherTask = asyncTaskFactory.getTask(this, CLASSNAME,
+		getTeacherTask = asyncTaskFactory.getTask(this, CLASS_NAME,
 				Constants.Method_GetTeacher);
 		getTeacherTask.execute();
 
-		getTimetableTask = asyncTaskFactory.getTask(this, CLASSNAME,
+		getTimetableTask = asyncTaskFactory.getTask(this, CLASS_NAME,
 				Constants.Method_GetTeacherTimetable);
 		getTimetableTask.execute();
 
-		getCurrentSemesterTask = asyncTaskFactory.getTask(this, CLASSNAME,
+		getCurrentSemesterTask = asyncTaskFactory.getTask(this, CLASS_NAME,
 				Constants.Method_GetCurrentSmester);
 		getCurrentSemesterTask.execute();
 	}

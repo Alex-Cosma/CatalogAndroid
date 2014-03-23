@@ -73,7 +73,7 @@ public class AllClassesStudentsDetailsFragment extends Fragment {
 	/*
 	 * Static members
 	 */
-	private static final String CLASSNAME = Constants.AllClassesStudentsDetailsFragment;
+	private static final String CLASS_NAME = Constants.AllClassesStudentsDetailsFragment;
 	public static boolean viewingAsList;
 	private static ViewFlipper vf;
 
@@ -131,8 +131,7 @@ public class AllClassesStudentsDetailsFragment extends Fragment {
 			return;
 		}
 
-		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
-				Constants.AllClassesStudentsDetailsFragment);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, CLASS_NAME);
 	}
 
 	public int getShownIndex() {
@@ -160,7 +159,7 @@ public class AllClassesStudentsDetailsFragment extends Fragment {
 		asyncTaskFactory = AsyncTaskFactory.getInstance(AppPreferences
 				.getInstance(getActivity()).isIpExternal());
 
-		getStudentsTask = asyncTaskFactory.getTask(this, CLASSNAME, "");
+		getStudentsTask = asyncTaskFactory.getTask(this, CLASS_NAME, "");
 		getStudentsTask.execute(selectedClassGroup.getId());
 
 		students = new ArrayList<Student>();

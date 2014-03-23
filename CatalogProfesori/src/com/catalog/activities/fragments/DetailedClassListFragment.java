@@ -48,7 +48,7 @@ public class DetailedClassListFragment extends ListFragment {
 	/*
 	 * Static members
 	 */
-	private static final String CLASSNAME = Constants.DetailedClassListFragment;
+	private static final String CLASS_NAME = Constants.DetailedClassListFragment;
 	private static final String GETSTUDENTS = Constants.Method_GetStudents;
 
 	/*
@@ -75,8 +75,7 @@ public class DetailedClassListFragment extends ListFragment {
 			mCurCheckPosition = icicle.getInt("curChoice", 0);
 		}
 
-		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
-				Constants.DetailedClassListFragment);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, CLASS_NAME);
 	}
 
 	@Override
@@ -102,7 +101,7 @@ public class DetailedClassListFragment extends ListFragment {
 				+ classGroup.getYearOfStudy() + "-a " + classGroup.getName()));
 
 		getStudentsTask = asyncTaskFactory
-				.getTask(this, CLASSNAME, GETSTUDENTS);
+				.getTask(this, CLASS_NAME, GETSTUDENTS);
 		getStudentsTask.execute(classGroup.getId());
 
 	}

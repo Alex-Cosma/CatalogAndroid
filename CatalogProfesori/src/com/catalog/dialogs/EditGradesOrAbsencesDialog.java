@@ -60,7 +60,7 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 	/*
 	 * Static members
 	 */
-	private static final String CLASSNAME = Constants.EditGradesOrAbsencesDialog;
+	private static final String CLASS_NAME = Constants.EditGradesOrAbsencesDialog;
 	private static DateFormat dateFormat = new SimpleDateFormat("dd/MM",
 			Locale.UK);
 
@@ -152,7 +152,7 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 					if (editedAttendances[i] == true) {
 						int attendenceId = attendances.get(i).getId();
 
-						asyncTaskFactory.getTask(context, CLASSNAME,
+						asyncTaskFactory.getTask(context, CLASS_NAME,
 								Constants.Method_EditAbsance).execute(
 								attendenceId, positionInSubjectsList, fragment);
 						
@@ -169,7 +169,7 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 								.getText().toString());
 						long markTimestamp = marks.get(i).getDate().getTime();
 
-						asyncTaskFactory.getTask(context, CLASSNAME,
+						asyncTaskFactory.getTask(context, CLASS_NAME,
 								Constants.Method_EditMark).execute(markId,
 								mark, markTimestamp, positionInSubjectsList,
 								fragment);

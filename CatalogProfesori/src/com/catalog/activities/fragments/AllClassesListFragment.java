@@ -52,7 +52,7 @@ public class AllClassesListFragment extends ListFragment {
 	/*
 	 * Static members
 	 */
-	private static final String CLASSNAME = Constants.AllClassesListFragment;
+	private static final String CLASS_NAME = Constants.AllClassesListFragment;
 	/*
 	 * Public members
 	 */
@@ -76,8 +76,7 @@ public class AllClassesListFragment extends ListFragment {
 			mCurCheckPosition = icicle.getInt("curChoice", 0);
 		}
 
-		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
-				Constants.AllClassesListFragment);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, CLASS_NAME);
 
 	}
 
@@ -100,7 +99,7 @@ public class AllClassesListFragment extends ListFragment {
 		ListView lv = getListView();
 		lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-		getSubjectsClassesTask = asyncFactory.getTask(this, CLASSNAME, "");
+		getSubjectsClassesTask = asyncFactory.getTask(this, CLASS_NAME, "");
 		getSubjectsClassesTask.execute();
 
 	}

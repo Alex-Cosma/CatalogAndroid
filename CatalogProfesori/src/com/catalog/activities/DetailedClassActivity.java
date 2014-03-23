@@ -36,7 +36,6 @@ import com.catalog.model.ClassGroup;
 import com.catalog.model.GradesAttendForSubject;
 import com.catalog.model.Student;
 import com.catalog.model.Teacher;
-import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 
@@ -52,7 +51,7 @@ public class DetailedClassActivity extends Activity {
 	/*
 	 * Static members3
 	 */
-	private static final String CLASSNAME = Constants.DetailedClassActivity;
+	private static final String CLASS_NAME = Constants.DetailedClassActivity;
 
 	/*
 	 * Public members
@@ -76,8 +75,7 @@ public class DetailedClassActivity extends Activity {
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 		getActionBar().hide();
 		setContentView(R.layout.activity_myclass);
-		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
-				Constants.DetailedClassActivity);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, CLASS_NAME);
 		initUI();
 	}
 
@@ -119,7 +117,7 @@ public class DetailedClassActivity extends Activity {
 	}
 
 	public void showStudents(int pos) {
-		getGradesAndAbsancesTask = asyncTaskFactory.getTask(this, CLASSNAME,
+		getGradesAndAbsancesTask = asyncTaskFactory.getTask(this, CLASS_NAME,
 				Constants.Method_GetGradesAndAbsencesForStudent);
 
 		getGradesAndAbsancesTask.execute(students.get(pos).getId(), pos);

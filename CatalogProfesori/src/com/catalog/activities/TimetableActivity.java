@@ -78,7 +78,7 @@ public class TimetableActivity extends TabActivity implements
 	/*
 	 * Static members
 	 */
-	private static final String CLASSNAME = Constants.TimetableActivity;
+	private static final String CLASS_NAME = Constants.TimetableActivity;
 	private static final int FAIL = Constants.FAIL;
 	private static final String MONDAY_TAB_TAG = "Luni";
 	private static final String TUESDAY_TAB_TAG = "Marti";
@@ -146,8 +146,7 @@ public class TimetableActivity extends TabActivity implements
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 		setContentView(R.layout.activity_timetable);
-		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
-				Constants.TimetableActivity);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, CLASS_NAME);
 
 		dm = new MyDBManager(this); // Create DB
 		act = this;

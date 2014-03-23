@@ -67,7 +67,7 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 	/*
 	 * Static members
 	 */
-	private static final String CLASSNAME = Constants.DetailedClassStudentsDetailsFragment;
+	private static final String CLASS_NAME = Constants.DetailedClassStudentsDetailsFragment;
 
 	private static DateFormat dateFormat = new SimpleDateFormat("dd/MM",
 			Locale.UK);
@@ -137,8 +137,7 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 		int length = gradesAndAttendances.size();
 		initBuffers(length);
 
-		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
-				Constants.DetailedClassStudentsDetailsFragment);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, CLASS_NAME);
 	}
 
 	private void initBuffers(int length) {

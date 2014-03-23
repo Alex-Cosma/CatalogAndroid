@@ -18,7 +18,7 @@ import com.google.analytics.tracking.android.MapBuilder;
 
 public class ChangePasswordDialog extends Dialog {
 
-	private static final String CLASSNAME = Constants.ChangePasswordDialog;
+	private static final String CLASS_NAME = Constants.ChangePasswordDialog;
 	private EditText newPass1;
 	private EditText newPass2;
 	private Button btnSave;
@@ -42,7 +42,7 @@ public class ChangePasswordDialog extends Dialog {
 
 			@Override
 			public void onClick(View v) {
-				asyncTaskFactory.getTask(context, CLASSNAME, "").execute(
+				asyncTaskFactory.getTask(context, CLASS_NAME, "").execute(
 						newPass1.getText().toString());
 
 				CatalogApplication.getGaTracker().send(

@@ -61,6 +61,7 @@ import com.google.analytics.tracking.android.MapBuilder;
 public class NoteEditor extends Activity {
 	// For logging and debugging purposes
 	private static final String TAG = "NoteEditor";
+	private static final String CLASS_NAME = Constants.GameMainActivity;
 
 	/*
 	 * Creates a projection that returns the note ID and the note contents.
@@ -153,8 +154,7 @@ public class NoteEditor extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
-				Constants.NoteEditorActivity);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, CLASS_NAME);
 
 		/*
 		 * Creates an Intent to use when the Activity object's result is sent

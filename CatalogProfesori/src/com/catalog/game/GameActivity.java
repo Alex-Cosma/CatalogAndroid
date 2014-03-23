@@ -39,7 +39,8 @@ import com.google.analytics.tracking.android.MapBuilder;
 
 public class GameActivity extends Activity {
 
-	/** Start player. Must be 1 or 2. Default is 1. */
+	private static final String CLASS_NAME = Constants.GameActivity;
+
 	public static final String EXTRA_START_PLAYER = "com.example.android.tictactoe.library.GameActivity.EXTRA_START_PLAYER";
 
 	private static final int MSG_COMPUTER_TURN = 1;
@@ -83,9 +84,8 @@ public class GameActivity extends Activity {
 		mGameView.setCellListener(new MyCellListener());
 
 		mButtonNext.setOnClickListener(new MyButtonListener());
-		
-		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
-				Constants.GameActivity);
+
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, CLASS_NAME);
 	}
 
 	@Override

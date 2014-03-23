@@ -44,6 +44,7 @@ import com.google.analytics.tracking.android.MapBuilder;
  * object to perform operations asynchronously on a separate thread.
  */
 public class TitleEditor extends Activity {
+	private static final String CLASS_NAME = Constants.TitleEditorActivity;
 
 	/**
 	 * This is a special intent action that means "edit the title of a note".
@@ -82,8 +83,7 @@ public class TitleEditor extends Activity {
 		super.onCreate(savedInstanceState);
 		// Set the View for this Activity object's UI.
 		setContentView(R.layout.activity_title_editor);
-		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
-				Constants.TitleEditorActivity);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, CLASS_NAME);
 
 		// Get the Intent that activated this Activity, and from it get the URI
 		// of the note whose
