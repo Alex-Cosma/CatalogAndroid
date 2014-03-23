@@ -35,8 +35,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.catalog.activities.extras.AsyncTaskFactory;
-import com.catalog.activities.extras.ChangePasswordDialog;
 import com.catalog.activities.extras.CustomToast;
+import com.catalog.dialogs.ChangePasswordDialog;
 import com.catalog.game.GameMainActivity;
 import com.catalog.helper.AppPreferences;
 import com.catalog.helper.Constants;
@@ -45,6 +45,7 @@ import com.catalog.model.Semester;
 import com.catalog.model.Teacher;
 import com.catalog.model.TimetableDays;
 import com.example.android.notepad.NotesList;
+import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * Activity which displays the main menu of the application.
@@ -95,7 +96,8 @@ public class MenuActivity extends Activity implements OnTouchListener {
 		overridePendingTransition(android.R.anim.slide_in_left,
 				android.R.anim.slide_out_right);
 		setContentView(R.layout.activity_menu);
-
+		EasyTracker.getInstance(this).activityStart(this);
+		
 		initUI();
 	}
 
@@ -198,7 +200,7 @@ public class MenuActivity extends Activity implements OnTouchListener {
 			} else if (v == btnMarks) {
 				btnMarks.startAnimation(animScaleUp);
 				btnMarks.clearAnimation();
-				Intent intent = new Intent(ctx, AddGradesClassActivity.class);
+				Intent intent = new Intent(ctx, AllClassesActivity.class);
 				Bundle b = new Bundle();
 				b.putSerializable(Constants.Bundle_Teacher, getTeacher());
 				intent.putExtras(b);
@@ -354,5 +356,11 @@ public class MenuActivity extends Activity implements OnTouchListener {
 	 */
 	public void setMasterClassGroup(ClassGroup masterClassGroup) {
 		this.masterClassGroup = masterClassGroup;
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance(this).activityStop(this);
 	}
 }

@@ -39,6 +39,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.catalog.activities.R;
+import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * This Activity handles "editing" a note, where editing is responding to
@@ -148,6 +149,8 @@ public class NoteEditor extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+		EasyTracker.getInstance(this).activityStart(this);
+
 		/*
 		 * Creates an Intent to use when the Activity object's result is sent
 		 * back to the caller.
@@ -670,5 +673,11 @@ public class NoteEditor extends Activity {
 			getContentResolver().delete(mUri, null, null);
 			mText.setText("");
 		}
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance(this).activityStop(this);
 	}
 }

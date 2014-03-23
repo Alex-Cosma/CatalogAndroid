@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.catalog.activities.R;
+import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * This Activity allows the user to edit a note's title. It displays a floating
@@ -75,7 +76,7 @@ public class TitleEditor extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		EasyTracker.getInstance(this).activityStart(this);
 		// Set the View for this Activity object's UI.
 		setContentView(R.layout.activity_title_editor);
 
@@ -198,4 +199,9 @@ public class TitleEditor extends Activity {
 		}
 	}
 
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance(this).activityStop(this);
+	}
 }

@@ -24,6 +24,7 @@ import android.view.View.OnClickListener;
 
 import com.catalog.activities.R;
 import com.catalog.game.GameView.State;
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class GameMainActivity extends Activity {
 	/** Called when the activity is first created. */
@@ -31,6 +32,7 @@ public class GameMainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
+		EasyTracker.getInstance(this).activityStart(this);
 
 		findViewById(R.id.start_player).setOnClickListener(
 				new OnClickListener() {
@@ -53,5 +55,11 @@ public class GameMainActivity extends Activity {
 				startWithHuman ? State.PLAYER1.getValue() : State.PLAYER2
 						.getValue());
 		startActivity(i);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance(this).activityStop(this);
 	}
 }

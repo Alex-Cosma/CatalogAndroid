@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.catalog.activities;
+package com.catalog.activities.fragments;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -35,8 +35,13 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.catalog.activities.extras.AddGradesOrAbsenceDialog;
-import com.catalog.activities.extras.EditGradesOrAbsencesDialog;
+import com.catalog.activities.DetailedClassActivity;
+import com.catalog.activities.R;
+import com.catalog.activities.R.anim;
+import com.catalog.activities.R.id;
+import com.catalog.activities.R.layout;
+import com.catalog.dialogs.AddGradesOrAbsenceDialog;
+import com.catalog.dialogs.EditGradesOrAbsencesDialog;
 import com.catalog.helper.Comparators;
 import com.catalog.helper.Constants;
 import com.catalog.model.Attendance;

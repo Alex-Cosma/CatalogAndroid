@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.catalog.activities;
+package com.catalog.activities.fragments;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,9 +43,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.catalog.activities.extras.AddGradesOrAbsenceDialog;
+import com.catalog.activities.R;
+import com.catalog.activities.R.anim;
+import com.catalog.activities.R.id;
+import com.catalog.activities.R.layout;
+import com.catalog.activities.R.string;
 import com.catalog.activities.extras.AsyncTaskFactory;
-import com.catalog.activities.extras.EditGradesOrAbsencesDialog;
+import com.catalog.dialogs.AddGradesOrAbsenceDialog;
+import com.catalog.dialogs.EditGradesOrAbsencesDialog;
 import com.catalog.helper.AppPreferences;
 import com.catalog.helper.Constants;
 import com.catalog.model.ClassGroup;
@@ -60,7 +65,7 @@ import com.catalog.model.Teacher;
  * @author Alex
  * 
  */
-public class AddGradesClassStudentsDetailsFragment extends Fragment {
+public class AllClassesStudentsDetailsFragment extends Fragment {
 
 	/*
 	 * Static members
@@ -88,12 +93,12 @@ public class AddGradesClassStudentsDetailsFragment extends Fragment {
 	private AsyncTask<Object, Void, Integer> getStudentsTask;
 	private ProgressBar progressBar;
 
-	public static AddGradesClassStudentsDetailsFragment newInstance(int index,
+	public static AllClassesStudentsDetailsFragment newInstance(int index,
 			Subject subject, ClassGroup classGroup, Teacher teacher,
 			boolean viewingAsList) {
 
-		AddGradesClassStudentsDetailsFragment df = new AddGradesClassStudentsDetailsFragment();
-		AddGradesClassStudentsDetailsFragment.viewingAsList = viewingAsList;
+		AllClassesStudentsDetailsFragment df = new AllClassesStudentsDetailsFragment();
+		AllClassesStudentsDetailsFragment.viewingAsList = viewingAsList;
 		// Supply index input as an argument.
 		Bundle args = new Bundle();
 		args.putInt("index", index);

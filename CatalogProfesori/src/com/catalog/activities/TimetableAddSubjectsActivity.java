@@ -41,6 +41,7 @@ import android.widget.TextView;
 
 import com.catalog.helper.Constants;
 import com.catalog.helper.MyDBManager;
+import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * Activity in which a user can add a timetable item.
@@ -83,6 +84,7 @@ public class TimetableAddSubjectsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(R.anim.scale_up, R.anim.fadeout);
 		setContentView(R.layout.activity_addsubjects);
+		EasyTracker.getInstance(this).activityStart(this);
 
 		lv = (ListView) findViewById(R.id.Slist);
 		dm = new MyDBManager(this);
@@ -211,4 +213,9 @@ public class TimetableAddSubjectsActivity extends Activity {
 		finish();
 	}
 
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance(this).activityStop(this);
+	}
 }

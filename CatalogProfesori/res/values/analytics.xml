@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="https://schemas.android.com/tools" tools:ignore="TypographyDashes">
+
+    <!-- Replace placeholder ID with your tracking ID -->
+    <string name="ga_trackingId">UA-49280710-1</string>
+
+    <!-- Enable automatic activity tracking -->
+    <bool name="ga_autoActivityTracking">true</bool>
+
+    <string name="com.catalog.activities.LoginActivity">Login</string>
+    <string name="com.catalog.activities.MenuActivity">MainMenu</string>
+    <string name="com.catalog.activities.AboutAppActivity">AboutApp</string>
+    <string name="com.catalog.activities.TimetableActivity">Timetble</string>
+    <string name="com.catalog.activities.TimetableAddSubjectsActivity">TimetableAddSubjects</string>
+    <string name="com.catalog.activities.AddGradesClassActivity">AddGradesClass</string>
+    <string name="com.catalog.activities.DetailedClassActivity">DetailedClass</string>
+    <string name="com.example.android.notepad.NotesList">NotesList</string>
+    <string name="com.example.android.notepad.TitleEditor">TitleEditor</string>
+    <string name="com.example.android.notepad.NoteEditor">NoteEditor</string>
+    <string name="com.example.android.notepad.NotesLiveFolder">NotesLiveFolder</string>
+    <string name="com.catalog.game.GameActivity">Game</string>
+    <string name="com.catalog.game.GameMainActivity">GameMain</string>
+
+    <!-- Enable automatic exception tracking -->
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+
+</resources>

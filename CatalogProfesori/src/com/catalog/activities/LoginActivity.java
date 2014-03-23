@@ -40,6 +40,11 @@ import com.catalog.activities.extras.AsyncTaskFactory;
 import com.catalog.helper.AppPreferences;
 import com.catalog.helper.Constants;
 import com.catalog.model.LoginCredentials;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.GoogleAnalytics;
+import com.google.analytics.tracking.android.MapBuilder;
+import com.google.analytics.tracking.android.Tracker;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
@@ -80,7 +85,11 @@ public class LoginActivity extends Activity {
 		overridePendingTransition(android.R.anim.slide_in_left,
 				android.R.anim.slide_out_right);
 		setContentView(R.layout.activity_login);
-
+//		Tracker tracker = GoogleAnalytics.getInstance(this).getTracker("UA-49280710-1");
+//		tracker.set(Fields.APP_NAME, "Catalog CNER");
+//		tracker.set(Fields.APP_VERSION, "1.0");
+//		tracker.send(MapBuilder.createEvent("UX", "App Launch", null, null).build());
+		
 		/**
 		 * Important: this enables app preferences.
 		 */
@@ -143,6 +152,7 @@ public class LoginActivity extends Activity {
 		prefs.setIpExternal(false);
 		showIpDialog();
 
+		EasyTracker.getInstance(this).activityStart(this);
 	}
 
 	private void showIpDialog() {
@@ -301,6 +311,12 @@ public class LoginActivity extends Activity {
 			mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
 			mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 		}
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance(this).activityStop(this);
 	}
 
 }

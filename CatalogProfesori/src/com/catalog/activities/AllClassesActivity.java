@@ -31,18 +31,20 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.catalog.activities.fragments.AllClassesStudentsDetailsFragment;
 import com.catalog.helper.Constants;
 import com.catalog.model.ClassGroup;
 import com.catalog.model.Subject;
 import com.catalog.model.SubjectClasses;
 import com.catalog.model.Teacher;
+import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * Activity which covers the teachers (not head of class) views.
  * 
  * @author Alex
  */
-public class AddGradesClassActivity extends Activity {
+public class AllClassesActivity extends Activity {
 	/*
 	 * Static members
 	 */
@@ -73,7 +75,7 @@ public class AddGradesClassActivity extends Activity {
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 		getActionBar().hide();
 		setContentView(R.layout.activity_class);
-
+		EasyTracker.getInstance(this).activityStart(this);
 		initUI();
 	}
 
@@ -148,7 +150,7 @@ public class AddGradesClassActivity extends Activity {
 					classTitle.setText("Clasa a" + classGroup.getYearOfStudy()
 							+ "-a " + classGroup.getName());
 
-					AddGradesClassStudentsDetailsFragment details = AddGradesClassStudentsDetailsFragment
+					AllClassesStudentsDetailsFragment details = AllClassesStudentsDetailsFragment
 							.newInstance(subjectNumber, subject, classGroup,
 									teacher, viewingAsList);
 
@@ -215,5 +217,11 @@ public class AddGradesClassActivity extends Activity {
 
 	public boolean isLoading() {
 		return (progressBar.getVisibility() == View.VISIBLE) ? true : false;
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance(this).activityStop(this);
 	}
 }

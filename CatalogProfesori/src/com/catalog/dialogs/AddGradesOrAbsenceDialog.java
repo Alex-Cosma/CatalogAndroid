@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.catalog.activities.extras;
+package com.catalog.dialogs;
 
 import java.sql.Date;
 import java.util.Calendar;
@@ -29,8 +29,10 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
-import com.catalog.activities.DetailedClassStudentsDetailsFragment;
 import com.catalog.activities.R;
+import com.catalog.activities.extras.AsyncTaskFactory;
+import com.catalog.activities.extras.CustomToast;
+import com.catalog.activities.fragments.DetailedClassStudentsDetailsFragment;
 import com.catalog.helper.AppPreferences;
 import com.catalog.helper.Constants;
 import com.catalog.helper.InputFilterMinMax;

@@ -1,4 +1,4 @@
-package com.catalog.activities.extras;
+package com.catalog.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.catalog.activities.R;
+import com.catalog.activities.extras.AsyncTaskFactory;
 import com.catalog.helper.AppPreferences;
 import com.catalog.helper.Constants;
 

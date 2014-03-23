@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.catalog.activities;
+package com.catalog.activities.fragments;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -27,39 +27,45 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.catalog.activities.DetailedClassActivity;
+import com.catalog.activities.R;
+import com.catalog.activities.R.id;
+import com.catalog.activities.R.layout;
 import com.catalog.activities.extras.AsyncTaskFactory;
 import com.catalog.helper.AppPreferences;
 import com.catalog.helper.Constants;
 import com.catalog.helper.MergeAdapter;
 import com.catalog.model.ClassGroup;
 import com.catalog.model.Student;
-import com.catalog.model.SubjectClasses;
 
-/*
- * The leftmost List Fragment of the AddGradesClassActivity.
+/**
+ * The leftmost List Fragment of the DetailedClassActivity.
  * 
  * @author Alex
  * 
  */
-public class AddGradesClassListFragment extends ListFragment {
+public class DetailedClassListFragment extends ListFragment {
 	/*
 	 * Static members
 	 */
-	private static final String CLASSNAME = Constants.AddGradesClassListFragment;
+	private static final String CLASSNAME = Constants.DetailedClassListFragment;
+	private static final String GETSTUDENTS = Constants.Method_GetStudents;
+
 	/*
 	 * Public members
 	 */
-	public ArrayList<SubjectClasses> subjectClassesList;
-	public ArrayAdapter<String>[] classesAdapter;
+	public ArrayAdapter<String> adapter;
+	public ArrayList<Student> students;
 	public MergeAdapter mergeAdapter;
-	public AddGradesClassActivity myActivity;
+	public DetailedClassActivity myActivity;
+
 	/*
 	 * Private members
 	 */
 	private int mCurCheckPosition = 0;
-
-	private AsyncTaskFactory asyncFactory;
-	private AsyncTask<Object, Void, Integer> getSubjectsClassesTask;
+	private ClassGroup classGroup;
+	private AsyncTaskFactory asyncTaskFactory;
+	private AsyncTask<Object, Void, Integer> getStudentsTask;
 
 	@Override
 	public void onCreate(Bundle icicle) {
@@ -74,23 +80,27 @@ public class AddGradesClassListFragment extends ListFragment {
 	public void onAttach(Activity myActivity) {
 
 		super.onAttach(myActivity);
-		this.myActivity = (AddGradesClassActivity) myActivity;
+		this.myActivity = (DetailedClassActivity) myActivity;
+
 	}
 
 	@Override
 	public void onActivityCreated(Bundle icicle) {
 
 		super.onActivityCreated(icicle);
-		asyncFactory = AsyncTaskFactory.getInstance(AppPreferences.getInstance(
-				getActivity()).isIpExternal());
-		// // Populate list with our static array of titles.
+		adapter = new ArrayAdapter<String>(getActivity(),
+				R.layout.listitem_class_and_student, R.id.tv_class_or_student);
 		mergeAdapter = new MergeAdapter();
+		classGroup = this.myActivity.getClassGroup();
+		asyncTaskFactory = AsyncTaskFactory.getInstance(AppPreferences
+				.getInstance(getActivity()).isIpExternal());
 
-		ListView lv = getListView();
-		lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		mergeAdapter.addView(buildSubjectListItem("Clasa a"
+				+ classGroup.getYearOfStudy() + "-a " + classGroup.getName()));
 
-		getSubjectsClassesTask = asyncFactory.getTask(this, CLASSNAME, "");
-		getSubjectsClassesTask.execute();
+		getStudentsTask = asyncTaskFactory
+				.getTask(this, CLASSNAME, GETSTUDENTS);
+		getStudentsTask.execute(classGroup.getId());
 
 	}
 
@@ -102,31 +112,14 @@ public class AddGradesClassListFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		if (v.getId() != R.id.layout_subject) {
-			int numberOfSubjects = subjectClassesList.size();
 
-			int posInList = pos - 1;
-
-			for (int i = 0; i < numberOfSubjects; i++) {
-
-				if (posInList <= classesAdapter[i].getCount()) {
-					myActivity
-							.showStudents(
-									i,
-									posInList,
-									AddGradesClassStudentsDetailsFragment.viewingAsList);
-					mCurCheckPosition = posInList;
-					break;
-				} else {
-					posInList -= (classesAdapter[i].getCount() + 1);
-
-				}
-
-			}
+			myActivity.showStudents(pos - 1);
+			mCurCheckPosition = pos;
 
 		}
 	}
 
-	public View buildSubjectListItem(String subject) {
+	private View buildSubjectListItem(String subject) {
 		View v = getActivity().getLayoutInflater().inflate(
 				R.layout.listitem_class_teached_subject, null);
 
@@ -136,13 +129,13 @@ public class AddGradesClassListFragment extends ListFragment {
 		return (v);
 	}
 
-	public Comparator<ClassGroup> ComparatorByYearOfStudy = new Comparator<ClassGroup>() {
+	public Comparator<Student> ComparatorByName = new Comparator<Student>() {
 
-		public int compare(ClassGroup c1, ClassGroup c2) {
-			if (c1.getYearOfStudy() == c2.getYearOfStudy()) {
-				return c1.getName().compareTo(c2.getName());
+		public int compare(Student s1, Student s2) {
+			if (s1.getLastName().compareTo(s2.getLastName()) == 0) {
+				return s1.getFirstName().compareTo(s2.getFirstName());
 			} else
-				return (c1.getYearOfStudy() < c2.getYearOfStudy() ? -1 : 1);
+				return s1.getLastName().compareTo(s2.getLastName());
 		}
 	};
 }

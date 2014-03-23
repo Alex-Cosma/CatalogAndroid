@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.provider.LiveFolders;
 
 import com.catalog.activities.R;
+import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * This Activity creates a live folder Intent and sends it back to HOME. From
@@ -44,7 +45,7 @@ public class NotesLiveFolder extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		EasyTracker.getInstance(this).activityStart(this);
 		/*
 		 * Gets the incoming Intent and its action. If the incoming Intent was
 		 * ACTION_CREATE_LIVE_FOLDER, then create an outgoing Intent with the
@@ -122,5 +123,11 @@ public class NotesLiveFolder extends Activity {
 		// Closes the Activity. The ActivityObject is propagated back to the
 		// caller.
 		finish();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance(this).activityStop(this);
 	}
 }

@@ -24,15 +24,15 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 
-import com.catalog.activities.AddGradesClassListFragment;
-import com.catalog.activities.AddGradesClassStudentsDetailsFragment;
 import com.catalog.activities.DetailedClassActivity;
-import com.catalog.activities.DetailedClassListFragment;
-import com.catalog.activities.DetailedClassStudentsDetailsFragment;
 import com.catalog.activities.LoginActivity;
 import com.catalog.activities.MenuActivity;
 import com.catalog.activities.R;
 import com.catalog.activities.TimetableActivity;
+import com.catalog.activities.fragments.AllClassesListFragment;
+import com.catalog.activities.fragments.AllClassesStudentsDetailsFragment;
+import com.catalog.activities.fragments.DetailedClassListFragment;
+import com.catalog.activities.fragments.DetailedClassStudentsDetailsFragment;
 import com.catalog.helper.Api;
 import com.catalog.helper.AppPreferences;
 import com.catalog.helper.Constants;
@@ -107,7 +107,7 @@ public class AsyncTaskFactory {
 		 */
 		if (className.equals(Constants.AddGradesClassStudentsDetailsFragment)) {
 			return new GetStudentsTaskAddGrades(
-					(AddGradesClassStudentsDetailsFragment) ctx);
+					(AllClassesStudentsDetailsFragment) ctx);
 		}
 
 		else if (className.equals(Constants.TimetableActivity)) {
@@ -148,7 +148,7 @@ public class AsyncTaskFactory {
 		 */
 		else if (className.equals(Constants.AddGradesClassListFragment)) {
 			return new GetSubjectsAndClassesTask(
-					(AddGradesClassListFragment) ctx);
+					(AllClassesListFragment) ctx);
 		}
 
 		/**
@@ -201,11 +201,11 @@ public class AsyncTaskFactory {
 	 */
 	private class GetStudentsTaskAddGrades extends
 			AsyncTask<Object, Void, Integer> {
-		private WeakReference<AddGradesClassStudentsDetailsFragment> mActivityRef;
+		private WeakReference<AllClassesStudentsDetailsFragment> mActivityRef;
 
 		public GetStudentsTaskAddGrades(
-				AddGradesClassStudentsDetailsFragment activity) {
-			mActivityRef = new WeakReference<AddGradesClassStudentsDetailsFragment>(
+				AllClassesStudentsDetailsFragment activity) {
+			mActivityRef = new WeakReference<AllClassesStudentsDetailsFragment>(
 					activity);
 		}
 
@@ -215,7 +215,7 @@ public class AsyncTaskFactory {
 				return;
 			}
 
-			AddGradesClassStudentsDetailsFragment activity = mActivityRef.get();
+			AllClassesStudentsDetailsFragment activity = mActivityRef.get();
 
 			if (activity == null) {
 				return;
@@ -229,7 +229,7 @@ public class AsyncTaskFactory {
 		protected Integer doInBackground(Object... params) {
 			int id = (Integer) params[0];
 
-			AddGradesClassStudentsDetailsFragment activity = mActivityRef.get();
+			AllClassesStudentsDetailsFragment activity = mActivityRef.get();
 
 			if (activity == null) {
 				return FAIL;
@@ -252,7 +252,7 @@ public class AsyncTaskFactory {
 				return;
 			}
 
-			AddGradesClassStudentsDetailsFragment activity = mActivityRef.get();
+			AllClassesStudentsDetailsFragment activity = mActivityRef.get();
 			if (activity == null) {
 				return;
 			}
@@ -1156,10 +1156,10 @@ public class AsyncTaskFactory {
 			AsyncTask<Object, Void, Integer> {
 
 		private SubjectClassesVM cfast;
-		private WeakReference<AddGradesClassListFragment> mActivityRef;
+		private WeakReference<AllClassesListFragment> mActivityRef;
 
-		public GetSubjectsAndClassesTask(AddGradesClassListFragment ctx) {
-			mActivityRef = new WeakReference<AddGradesClassListFragment>(ctx);
+		public GetSubjectsAndClassesTask(AllClassesListFragment ctx) {
+			mActivityRef = new WeakReference<AllClassesListFragment>(ctx);
 		}
 
 		@Override
@@ -1168,7 +1168,7 @@ public class AsyncTaskFactory {
 				return;
 			}
 
-			AddGradesClassListFragment activity = mActivityRef.get();
+			AllClassesListFragment activity = mActivityRef.get();
 
 			if (activity == null) {
 				return;
@@ -1180,7 +1180,7 @@ public class AsyncTaskFactory {
 		@Override
 		protected Integer doInBackground(Object... params) {
 
-			AddGradesClassListFragment activity = mActivityRef.get();
+			AllClassesListFragment activity = mActivityRef.get();
 			if (activity == null)
 				return FAIL;
 
@@ -1194,7 +1194,7 @@ public class AsyncTaskFactory {
 
 		@Override
 		protected void onPostExecute(Integer result) {
-			AddGradesClassListFragment activity = mActivityRef.get();
+			AllClassesListFragment activity = mActivityRef.get();
 			if (activity == null) {
 				return;
 			}
@@ -1254,7 +1254,7 @@ public class AsyncTaskFactory {
 
 		@Override
 		protected void onCancelled() {
-			AddGradesClassListFragment activity = mActivityRef.get();
+			AllClassesListFragment activity = mActivityRef.get();
 			if (activity == null) {
 				return;
 			}

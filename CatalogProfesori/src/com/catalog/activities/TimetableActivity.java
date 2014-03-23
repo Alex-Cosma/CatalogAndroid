@@ -61,6 +61,7 @@ import com.catalog.helper.MyDBManager;
 import com.catalog.model.Teacher;
 import com.catalog.model.Timetable;
 import com.catalog.model.TimetableDays;
+import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * Activity which shows the main Timetable for each teacher.
@@ -142,6 +143,7 @@ public class TimetableActivity extends TabActivity implements
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 		setContentView(R.layout.activity_timetable);
+		EasyTracker.getInstance(this).activityStart(this);
 
 		dm = new MyDBManager(this); // Create DB
 		act = this;
@@ -932,4 +934,9 @@ public class TimetableActivity extends TabActivity implements
 		}
 	}
 
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance(this).activityStop(this);
+	}
 }

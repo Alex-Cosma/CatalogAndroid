@@ -44,6 +44,7 @@ import android.widget.SimpleCursorAdapter;
 
 import com.catalog.activities.R;
 import com.catalog.helper.MergeAdapter;
+import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * Displays a list of notes. Will display notes from the {@link Uri} provided in
@@ -578,5 +579,11 @@ public class NotesList extends Activity {
 		View v = getLayoutInflater().inflate(R.layout.griditem_add_note, null);
 
 		return (v);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance(this).activityStop(this);
 	}
 }

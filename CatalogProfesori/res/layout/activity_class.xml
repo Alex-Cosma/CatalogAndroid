@@ -12,7 +12,7 @@
         android:layout_width="0px"
         android:layout_height="match_parent"
         android:layout_weight="0.5"
-        class="com.catalog.activities.AddGradesClassListFragment"
+        class="com.catalog.activities.fragments.AllClassesListFragment"
         android:background="#00550033" />
 
     <RelativeLayout

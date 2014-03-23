@@ -28,12 +28,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.catalog.activities.extras.AsyncTaskFactory;
+import com.catalog.activities.fragments.DetailedClassStudentsDetailsFragment;
 import com.catalog.helper.AppPreferences;
 import com.catalog.helper.Constants;
 import com.catalog.model.ClassGroup;
 import com.catalog.model.GradesAttendForSubject;
 import com.catalog.model.Student;
 import com.catalog.model.Teacher;
+import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * Activity which covers the head of class (not teacher) views. <br>
@@ -71,7 +73,7 @@ public class DetailedClassActivity extends Activity {
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 		getActionBar().hide();
 		setContentView(R.layout.activity_myclass);
-
+		EasyTracker.getInstance(this).activityStart(this);
 		initUI();
 	}
 
@@ -176,4 +178,9 @@ public class DetailedClassActivity extends Activity {
 		return (progressBar.getVisibility() == View.VISIBLE) ? true : false;
 	}
 
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance(this).activityStop(this);
+	}
 }

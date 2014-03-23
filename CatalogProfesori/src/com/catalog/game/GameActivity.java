@@ -31,6 +31,7 @@ import android.widget.TextView;
 import com.catalog.activities.R;
 import com.catalog.game.GameView.ICellListener;
 import com.catalog.game.GameView.State;
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class GameActivity extends Activity {
 
@@ -50,7 +51,7 @@ public class GameActivity extends Activity {
 	@Override
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
-
+		EasyTracker.getInstance(this).activityStart(this);
 		/*
 		 * IMPORTANT: all resource IDs from this library will eventually be
 		 * merged with the resources from the main project that will use the
@@ -261,5 +262,11 @@ public class GameActivity extends Activity {
 			text = getString(R.string.player2_win);
 		}
 		mInfoView.setText(text);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance(this).activityStop(this);
 	}
 }

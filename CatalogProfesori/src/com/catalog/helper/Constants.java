@@ -16,7 +16,7 @@
 package com.catalog.helper;
 
 public class Constants {
-	/**
+	/*
 	 * Requests constants
 	 */
 	public static final int SUCCESS = 1;
@@ -24,10 +24,9 @@ public class Constants {
 	public static final int UNAUTHORIZED = 9;
 	public static final int BAD_CONNECTION = 8;
 
-	/**
+	/*
 	 * Class names constants (for AsyncTask Factory)
 	 */
-	// Classes
 	public static final String AddGradesClassActivity = "AddGradesClassActivity";
 	public static final String AddGradesClassListFragment = "AddGradesClassListFragment";
 	public static final String AddGradesClassStudentsDetailsFragment = "AddGradesClassStudentsDetailsFragment";
@@ -42,11 +41,14 @@ public class Constants {
 	public static final String TimetableActivity = "TimetableActivity";
 	public static final String TimetableAddSubjectsActivity = "TimetableAddSubjectsActivity";
 
-	// Dialogs
+	/*
+	 * Dialogs
+	 */
 	public static final String AddGradesOrAbsenceDialog = "AddGradesOrAbsenceDialog";
 	public static final String EditGradesOrAbsencesDialog = "EditGradesOrAbsencesDialog";
 	public static final String ChangePasswordDialog = "ChangePasswordDialog";
-	/**
+
+	/*
 	 * Method names constants (for AsyncTask Factory)
 	 */
 	public static final String Method_GetStudents = "GetStudents";
@@ -62,7 +64,8 @@ public class Constants {
 	public static final String Method_GetTeacherTimetable = "GetTeacherTimetable";
 	public static final String Method_GetMasterClass = "GetMasterClass";
 	public static final String Method_GetCurrentSmester = "GetCurrentSemest";
-	/**
+
+	/*
 	 * Bundle constants
 	 */
 	public static final String Bundle_MasterClass = "MasterClass";
@@ -74,11 +77,16 @@ public class Constants {
 	public static final String Bundle_Timetable = "Timetable";
 	public static final String Bundle_SelectedStudentIndex = "selectedStudentIndex";
 
-	/**
+	/*
 	 * Shared Prefs
 	 */
 	public static final String Pref_Username = "Username";
 	public static final String Pref_Password = "Password";
 	public static final String Pref_FirstEntry = "FirstEntry";
 	public static final String Pref_IPExternal = "IpExternal";
+
+	/*
+	 * Analytics
+	 */
+	public static final String ANALYTICS_TRACKER_ID = "UA-49280710-1";
 }
