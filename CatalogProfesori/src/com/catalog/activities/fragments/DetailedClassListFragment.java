@@ -16,7 +16,6 @@
 package com.catalog.activities.fragments;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
 import android.app.Activity;
 import android.app.ListFragment;
@@ -29,14 +28,15 @@ import android.widget.TextView;
 
 import com.catalog.activities.DetailedClassActivity;
 import com.catalog.activities.R;
-import com.catalog.activities.R.id;
-import com.catalog.activities.R.layout;
 import com.catalog.core.AppPreferences;
 import com.catalog.core.AsyncTaskFactory;
+import com.catalog.core.CatalogApplication;
 import com.catalog.helper.Constants;
 import com.catalog.helper.MergeAdapter;
 import com.catalog.model.ClassGroup;
 import com.catalog.model.Student;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 /**
  * The leftmost List Fragment of the DetailedClassActivity.
@@ -74,6 +74,9 @@ public class DetailedClassListFragment extends ListFragment {
 			// Restore last state for checked position.
 			mCurCheckPosition = icicle.getInt("curChoice", 0);
 		}
+
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
+				Constants.DetailedClassListFragment);
 	}
 
 	@Override
@@ -129,13 +132,16 @@ public class DetailedClassListFragment extends ListFragment {
 		return (v);
 	}
 
-	public Comparator<Student> ComparatorByName = new Comparator<Student>() {
+	@Override
+	public void onStart() {
+		super.onStart();
+		CatalogApplication.getGaTracker().send(
+				MapBuilder.createAppView().build());
+	}
 
-		public int compare(Student s1, Student s2) {
-			if (s1.getLastName().compareTo(s2.getLastName()) == 0) {
-				return s1.getFirstName().compareTo(s2.getFirstName());
-			} else
-				return s1.getLastName().compareTo(s2.getLastName());
-		}
-	};
+	@Override
+	public void onStop() {
+		super.onStop();
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
+	}
 }

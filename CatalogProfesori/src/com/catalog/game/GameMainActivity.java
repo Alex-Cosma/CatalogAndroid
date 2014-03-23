@@ -23,8 +23,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.catalog.activities.R;
+import com.catalog.core.CatalogApplication;
 import com.catalog.game.GameView.State;
+import com.catalog.helper.Constants;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 public class GameMainActivity extends Activity {
 	/** Called when the activity is first created. */
@@ -46,6 +50,9 @@ public class GameMainActivity extends Activity {
 				startGame(false);
 			}
 		});
+
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
+				Constants.GameMainActivity);
 	}
 
 	private void startGame(boolean startWithHuman) {
@@ -58,8 +65,15 @@ public class GameMainActivity extends Activity {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		CatalogApplication.getGaTracker().send(
+				MapBuilder.createAppView().build());
+	}
+
+	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance(this).activityStop(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
 	}
 }

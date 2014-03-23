@@ -33,11 +33,14 @@ import com.catalog.activities.R.id;
 import com.catalog.activities.R.layout;
 import com.catalog.core.AppPreferences;
 import com.catalog.core.AsyncTaskFactory;
+import com.catalog.core.CatalogApplication;
 import com.catalog.helper.Constants;
 import com.catalog.helper.MergeAdapter;
 import com.catalog.model.ClassGroup;
 import com.catalog.model.Student;
 import com.catalog.model.SubjectClasses;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 /*
  * The leftmost List Fragment of the AddGradesClassActivity.
@@ -49,7 +52,7 @@ public class AllClassesListFragment extends ListFragment {
 	/*
 	 * Static members
 	 */
-	private static final String CLASSNAME = Constants.AddGradesClassListFragment;
+	private static final String CLASSNAME = Constants.AllClassesListFragment;
 	/*
 	 * Public members
 	 */
@@ -72,6 +75,10 @@ public class AllClassesListFragment extends ListFragment {
 			// Restore last state for checked position.
 			mCurCheckPosition = icicle.getInt("curChoice", 0);
 		}
+
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
+				Constants.AllClassesListFragment);
+
 	}
 
 	@Override
@@ -113,11 +120,8 @@ public class AllClassesListFragment extends ListFragment {
 			for (int i = 0; i < numberOfSubjects; i++) {
 
 				if (posInList <= classesAdapter[i].getCount()) {
-					myActivity
-							.showStudents(
-									i,
-									posInList,
-									AllClassesStudentsDetailsFragment.viewingAsList);
+					myActivity.showStudents(i, posInList,
+							AllClassesStudentsDetailsFragment.viewingAsList);
 					mCurCheckPosition = posInList;
 					break;
 				} else {
@@ -149,4 +153,17 @@ public class AllClassesListFragment extends ListFragment {
 				return (c1.getYearOfStudy() < c2.getYearOfStudy() ? -1 : 1);
 		}
 	};
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		CatalogApplication.getGaTracker().send(
+				MapBuilder.createAppView().build());
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
+	}
 }

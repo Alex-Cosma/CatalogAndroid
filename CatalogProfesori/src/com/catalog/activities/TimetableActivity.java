@@ -56,12 +56,15 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.catalog.core.AppPreferences;
+import com.catalog.core.CatalogApplication;
 import com.catalog.helper.Constants;
 import com.catalog.helper.MyDBManager;
 import com.catalog.model.Teacher;
 import com.catalog.model.Timetable;
 import com.catalog.model.TimetableDays;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 /**
  * Activity which shows the main Timetable for each teacher.
@@ -143,7 +146,8 @@ public class TimetableActivity extends TabActivity implements
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 		setContentView(R.layout.activity_timetable);
-		EasyTracker.getInstance(this).activityStart(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
+				Constants.TimetableActivity);
 
 		dm = new MyDBManager(this); // Create DB
 		act = this;
@@ -935,8 +939,15 @@ public class TimetableActivity extends TabActivity implements
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		CatalogApplication.getGaTracker().send(
+				MapBuilder.createAppView().build());
+	}
+
+	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance(this).activityStop(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
 	}
 }

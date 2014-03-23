@@ -43,8 +43,11 @@ import android.widget.LinearLayout;
 import android.widget.SimpleCursorAdapter;
 
 import com.catalog.activities.R;
+import com.catalog.core.CatalogApplication;
+import com.catalog.helper.Constants;
 import com.catalog.helper.MergeAdapter;
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 /**
  * Displays a list of notes. Will display notes from the {@link Uri} provided in
@@ -90,6 +93,8 @@ public class NotesList extends Activity {
 		// The user does not need to hold down the key to use menu shortcuts.
 		setDefaultKeyMode(DEFAULT_KEYS_SHORTCUT);
 
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
+				Constants.NotesListActivity);
 		/*
 		 * If no data is given in the Intent that started this Activity, then
 		 * this Activity was started when the intent filter matched a MAIN
@@ -123,6 +128,10 @@ public class NotesList extends Activity {
 			public void onClick(View v) {
 				startActivity(new Intent(Intent.ACTION_INSERT, getIntent()
 						.getData()));
+				CatalogApplication.getGaTracker().send(
+						MapBuilder.createEvent(Constants.UI_ACTION,
+								Constants.UI_ACTION_ADD_NOTE, null, null)
+								.build());
 			}
 		});
 		LayoutAnimationController controller = AnimationUtils
@@ -515,6 +524,10 @@ public class NotesList extends Activity {
 							// needed.
 					);
 
+			CatalogApplication.getGaTracker().send(
+					MapBuilder.createEvent(Constants.UI_ACTION,
+							Constants.UI_ACTION_DELETE_NOTE, null, null)
+							.build());
 			// Returns to the caller and skips further processing.
 			return true;
 		default:
@@ -567,10 +580,18 @@ public class NotesList extends Activity {
 					// Intent's data is the note ID URI. The effect is to call
 					// NoteEdit.
 					startActivity(new Intent(Intent.ACTION_EDIT, uri));
+					CatalogApplication.getGaTracker().send(
+							MapBuilder.createEvent(Constants.UI_ACTION,
+									Constants.UI_ACTION_VIEW_EDIT_NOTE, null,
+									null).build());
 				}
 			} else {
 				startActivity(new Intent(Intent.ACTION_INSERT, getIntent()
 						.getData()));
+				CatalogApplication.getGaTracker().send(
+						MapBuilder.createEvent(Constants.UI_ACTION,
+								Constants.UI_ACTION_ADD_NOTE, null, null)
+								.build());
 			}
 		}
 	};
@@ -582,8 +603,15 @@ public class NotesList extends Activity {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		CatalogApplication.getGaTracker().send(
+				MapBuilder.createAppView().build());
+	}
+
+	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance(this).activityStop(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
 	}
 }

@@ -12,7 +12,9 @@ import android.widget.EditText;
 import com.catalog.activities.R;
 import com.catalog.core.AppPreferences;
 import com.catalog.core.AsyncTaskFactory;
+import com.catalog.core.CatalogApplication;
 import com.catalog.helper.Constants;
+import com.google.analytics.tracking.android.MapBuilder;
 
 public class ChangePasswordDialog extends Dialog {
 
@@ -42,6 +44,13 @@ public class ChangePasswordDialog extends Dialog {
 			public void onClick(View v) {
 				asyncTaskFactory.getTask(context, CLASSNAME, "").execute(
 						newPass1.getText().toString());
+
+				CatalogApplication.getGaTracker().send(
+						MapBuilder
+								.createEvent(Constants.UI_ACTION,
+										Constants.UI_ACTION_CHANGE_PASSWORD,
+										null, null).build());
+
 				dismiss();
 			}
 		});

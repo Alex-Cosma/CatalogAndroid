@@ -36,6 +36,7 @@ import android.widget.ProgressBar;
 
 import com.catalog.core.AppPreferences;
 import com.catalog.core.AsyncTaskFactory;
+import com.catalog.core.CatalogApplication;
 import com.catalog.dialogs.ChangePasswordDialog;
 import com.catalog.game.GameMainActivity;
 import com.catalog.helper.Constants;
@@ -46,6 +47,8 @@ import com.catalog.model.Teacher;
 import com.catalog.model.TimetableDays;
 import com.example.android.notepad.NotesList;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 /**
  * Activity which displays the main menu of the application.
@@ -96,8 +99,9 @@ public class MenuActivity extends Activity implements OnTouchListener {
 		overridePendingTransition(android.R.anim.slide_in_left,
 				android.R.anim.slide_out_right);
 		setContentView(R.layout.activity_menu);
-		EasyTracker.getInstance(this).activityStart(this);
-		
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
+				Constants.MenuActivity);
+
 		initUI();
 	}
 
@@ -359,8 +363,15 @@ public class MenuActivity extends Activity implements OnTouchListener {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		CatalogApplication.getGaTracker().send(
+				MapBuilder.createAppView().build());
+	}
+
+	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance(this).activityStop(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
 	}
 }

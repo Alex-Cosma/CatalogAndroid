@@ -38,6 +38,7 @@ import android.widget.TextView;
 
 import com.catalog.core.AppPreferences;
 import com.catalog.core.AsyncTaskFactory;
+import com.catalog.core.CatalogApplication;
 import com.catalog.helper.Constants;
 import com.catalog.model.LoginCredentials;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -85,11 +86,9 @@ public class LoginActivity extends Activity {
 		overridePendingTransition(android.R.anim.slide_in_left,
 				android.R.anim.slide_out_right);
 		setContentView(R.layout.activity_login);
-//		Tracker tracker = GoogleAnalytics.getInstance(this).getTracker("UA-49280710-1");
-//		tracker.set(Fields.APP_NAME, "Catalog CNER");
-//		tracker.set(Fields.APP_VERSION, "1.0");
-//		tracker.send(MapBuilder.createEvent("UX", "App Launch", null, null).build());
-		
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
+				Constants.LoginActivity);
+
 		/**
 		 * Important: this enables app preferences.
 		 */
@@ -170,6 +169,14 @@ public class LoginActivity extends Activity {
 								prefs.setIpExternal(true);
 								if (!cred.getPassword().equals("")
 										&& !cred.getUsername().equals("")) {
+									CatalogApplication
+											.getGaTracker()
+											.send(MapBuilder
+													.createEvent(
+															Constants.UI_ACTION,
+															Constants.UI_ACTION_WORK_FROM_HOME,
+															null, null).build());
+
 									attemptLogin();
 								}
 							}
@@ -184,6 +191,15 @@ public class LoginActivity extends Activity {
 
 								if (!cred.getPassword().equals("")
 										&& !cred.getUsername().equals("")) {
+
+									CatalogApplication
+											.getGaTracker()
+											.send(MapBuilder
+													.createEvent(
+															Constants.UI_ACTION,
+															Constants.UI_ACTION_WORK_FROM_SCHOOL,
+															null, null).build());
+
 									attemptLogin();
 								}
 							}
@@ -314,9 +330,16 @@ public class LoginActivity extends Activity {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		CatalogApplication.getGaTracker().send(
+				MapBuilder.createAppView().build());
+	}
+
+	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance(this).activityStop(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
 	}
 
 }

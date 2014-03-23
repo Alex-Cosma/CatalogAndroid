@@ -1,6 +1,10 @@
 package com.catalog.activities;
 
+import com.catalog.core.CatalogApplication;
+import com.catalog.helper.Constants;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -12,7 +16,8 @@ public class AboutAppActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about_app);
-		EasyTracker.getInstance(this).activityStart(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
+				Constants.AboutAppActivity);
 	}
 
 	@Override
@@ -23,9 +28,16 @@ public class AboutAppActivity extends Activity {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		CatalogApplication.getGaTracker().send(
+				MapBuilder.createAppView().build());
+	}
+
+	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance(this).activityStop(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
 	}
 
 }

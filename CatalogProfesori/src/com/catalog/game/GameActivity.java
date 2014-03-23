@@ -29,9 +29,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.catalog.activities.R;
+import com.catalog.core.CatalogApplication;
 import com.catalog.game.GameView.ICellListener;
 import com.catalog.game.GameView.State;
+import com.catalog.helper.Constants;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 public class GameActivity extends Activity {
 
@@ -79,6 +83,9 @@ public class GameActivity extends Activity {
 		mGameView.setCellListener(new MyCellListener());
 
 		mButtonNext.setOnClickListener(new MyButtonListener());
+		
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
+				Constants.GameActivity);
 	}
 
 	@Override
@@ -265,8 +272,15 @@ public class GameActivity extends Activity {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		CatalogApplication.getGaTracker().send(
+				MapBuilder.createAppView().build());
+	}
+
+	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance(this).activityStop(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
 	}
 }

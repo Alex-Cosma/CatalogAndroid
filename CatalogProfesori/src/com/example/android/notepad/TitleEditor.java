@@ -27,7 +27,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.catalog.activities.R;
+import com.catalog.core.CatalogApplication;
+import com.catalog.helper.Constants;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 /**
  * This Activity allows the user to edit a note's title. It displays a floating
@@ -76,9 +80,10 @@ public class TitleEditor extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		EasyTracker.getInstance(this).activityStart(this);
 		// Set the View for this Activity object's UI.
 		setContentView(R.layout.activity_title_editor);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
+				Constants.TitleEditorActivity);
 
 		// Get the Intent that activated this Activity, and from it get the URI
 		// of the note whose
@@ -200,8 +205,15 @@ public class TitleEditor extends Activity {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		CatalogApplication.getGaTracker().send(
+				MapBuilder.createAppView().build());
+	}
+
+	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance(this).activityStop(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
 	}
 }

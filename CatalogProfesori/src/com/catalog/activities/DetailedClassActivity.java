@@ -30,12 +30,15 @@ import android.widget.TextView;
 import com.catalog.activities.fragments.DetailedClassStudentsDetailsFragment;
 import com.catalog.core.AppPreferences;
 import com.catalog.core.AsyncTaskFactory;
+import com.catalog.core.CatalogApplication;
 import com.catalog.helper.Constants;
 import com.catalog.model.ClassGroup;
 import com.catalog.model.GradesAttendForSubject;
 import com.catalog.model.Student;
 import com.catalog.model.Teacher;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 /**
  * Activity which covers the head of class (not teacher) views. <br>
@@ -73,7 +76,8 @@ public class DetailedClassActivity extends Activity {
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 		getActionBar().hide();
 		setContentView(R.layout.activity_myclass);
-		EasyTracker.getInstance(this).activityStart(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
+				Constants.DetailedClassActivity);
 		initUI();
 	}
 
@@ -179,8 +183,15 @@ public class DetailedClassActivity extends Activity {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		CatalogApplication.getGaTracker().send(
+				MapBuilder.createAppView().build());
+	}
+
+	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance(this).activityStop(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
 	}
 }

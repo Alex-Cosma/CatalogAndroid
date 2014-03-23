@@ -33,6 +33,7 @@ import com.catalog.activities.R;
 import com.catalog.activities.fragments.DetailedClassStudentsDetailsFragment;
 import com.catalog.core.AppPreferences;
 import com.catalog.core.AsyncTaskFactory;
+import com.catalog.core.CatalogApplication;
 import com.catalog.helper.Constants;
 import com.catalog.helper.CustomToast;
 import com.catalog.helper.InputFilterMinMax;
@@ -40,6 +41,7 @@ import com.catalog.model.ClassGroup;
 import com.catalog.model.Student;
 import com.catalog.model.Subject;
 import com.catalog.model.Teacher;
+import com.google.analytics.tracking.android.MapBuilder;
 
 /**
  * Dialog which covers the adding of a grade or absence to a specific student.
@@ -101,6 +103,12 @@ public class AddGradesOrAbsenceDialog extends Dialog {
 							finalGrade.isChecked(),
 							getSelectedDate().getTime(),
 							positionInSubjectsList, fragment);
+
+					CatalogApplication.getGaTracker().send(
+							MapBuilder.createEvent(Constants.UI_ACTION,
+									Constants.UI_ACTION_ADD_GRADE, null, null)
+									.build());
+
 					dismiss();
 				} else {
 					CustomToast toast = new CustomToast(context, context
@@ -129,6 +137,10 @@ public class AddGradesOrAbsenceDialog extends Dialog {
 						student, getSelectedDate().getTime(),
 						positionInSubjectsList, fragment);
 
+				CatalogApplication.getGaTracker().send(
+						MapBuilder.createEvent(Constants.UI_ACTION,
+								Constants.UI_ACTION_ADD_ABSANCE, null, null)
+								.build());
 				dismiss();
 			}
 		});

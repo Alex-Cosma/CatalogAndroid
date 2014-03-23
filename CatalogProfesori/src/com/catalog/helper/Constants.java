@@ -27,9 +27,9 @@ public class Constants {
 	/*
 	 * Class names constants (for AsyncTask Factory)
 	 */
-	public static final String AddGradesClassActivity = "AddGradesClassActivity";
-	public static final String AddGradesClassListFragment = "AddGradesClassListFragment";
-	public static final String AddGradesClassStudentsDetailsFragment = "AddGradesClassStudentsDetailsFragment";
+	public static final String AllClassesActivity = "AllClassesActivity";
+	public static final String AllClassesListFragment = "AllClassesListFragment";
+	public static final String AllClassesStudentsDetailsFragment = "AllClassesStudentsDetailsFragment";
 
 	public static final String DetailedClassActivity = "DetailedClassActivity";
 	public static final String DetailedClassListFragment = "DetailedClassListFragment";
@@ -40,6 +40,16 @@ public class Constants {
 
 	public static final String TimetableActivity = "TimetableActivity";
 	public static final String TimetableAddSubjectsActivity = "TimetableAddSubjectsActivity";
+
+	public static final String NoteEditorActivity = "NoteEditorActivity";
+	public static final String NotesListActivity = "NotesListActivity";
+	public static final String NotesLiveFolderActivity = "NotesLiveFolderActivity";
+	public static final String TitleEditorActivity = "TitleEditorActivity";
+
+	public static final String GameActivity = "GameActivity";
+	public static final String GameMainActivity = "GameMainActivity";
+
+	public static final String AboutAppActivity = "AboutAppActivity";
 
 	/*
 	 * Dialogs
@@ -89,4 +99,16 @@ public class Constants {
 	 * Analytics
 	 */
 	public static final String ANALYTICS_TRACKER_ID = "UA-49280710-1";
+	public static final String UI_ACTION = "UX";
+	public static final String UI_ACTION_ADD_GRADE = "UX_ADD_GRADE";
+	public static final String UI_ACTION_ADD_ABSANCE = "UX_ADD_ABSANCE";
+	public static final String UI_ACTION_CHANGE_PASSWORD = "UX_CHANGE_PASSWORD";
+	public static final String UI_ACTION_MOTIVATE_GRADE = "UX_MOTIVATE_ABSANCE";
+	public static final String UI_ACTION_EDIT_GRADE = "UX_EDIT_GRADE";
+	public static final String UI_ACTION_ADD_NOTE = "UX_ADD_NOTE";
+	public static final String UI_ACTION_VIEW_EDIT_NOTE = "UX_VIEW_NOTE";
+	public static final String UI_ACTION_DELETE_NOTE = "UX_DELETE_NOTE";
+	public static final String UI_ACTION_WORK_FROM_SCHOOL = "UX_WORK_FROM_SCHOOL";
+	public static final String UI_ACTION_WORK_FROM_HOME = "UX_WORK_FROM_HOME";
+
 }

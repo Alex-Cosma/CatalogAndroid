@@ -33,6 +33,7 @@ import com.catalog.activities.fragments.AllClassesListFragment;
 import com.catalog.activities.fragments.AllClassesStudentsDetailsFragment;
 import com.catalog.activities.fragments.DetailedClassListFragment;
 import com.catalog.activities.fragments.DetailedClassStudentsDetailsFragment;
+import com.catalog.helper.Comparators;
 import com.catalog.helper.Constants;
 import com.catalog.helper.CustomToast;
 import com.catalog.model.Attendance;
@@ -104,7 +105,7 @@ public class AsyncTaskFactory {
 		/**
 		 * AddGradesClassStudentsDetailsFragment
 		 */
-		if (className.equals(Constants.AddGradesClassStudentsDetailsFragment)) {
+		if (className.equals(Constants.AllClassesStudentsDetailsFragment)) {
 			return new GetStudentsTaskAddGrades(
 					(AllClassesStudentsDetailsFragment) ctx);
 		}
@@ -145,9 +146,8 @@ public class AsyncTaskFactory {
 		/**
 		 * AddGradesClassListFragment
 		 */
-		else if (className.equals(Constants.AddGradesClassListFragment)) {
-			return new GetSubjectsAndClassesTask(
-					(AllClassesListFragment) ctx);
+		else if (className.equals(Constants.AllClassesListFragment)) {
+			return new GetSubjectsAndClassesTask((AllClassesListFragment) ctx);
 		}
 
 		/**
@@ -320,7 +320,7 @@ public class AsyncTaskFactory {
 			// put them in both places
 			activity.myActivity.students = studentsVM.getStudentList();
 			activity.students = studentsVM.getStudentList();
-			Collections.sort(activity.students, activity.ComparatorByName);
+			Collections.sort(activity.students, Comparators.ComparatorByName);
 			return SUCCESS;
 		}
 

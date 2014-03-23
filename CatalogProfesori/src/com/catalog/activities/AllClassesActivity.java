@@ -32,12 +32,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.catalog.activities.fragments.AllClassesStudentsDetailsFragment;
+import com.catalog.core.CatalogApplication;
 import com.catalog.helper.Constants;
 import com.catalog.model.ClassGroup;
 import com.catalog.model.Subject;
 import com.catalog.model.SubjectClasses;
 import com.catalog.model.Teacher;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 /**
  * Activity which covers the teachers (not head of class) views.
@@ -48,7 +51,7 @@ public class AllClassesActivity extends Activity {
 	/*
 	 * Static members
 	 */
-	private static final String CLASSNAME = Constants.AddGradesClassActivity;
+	private static final String CLASSNAME = Constants.AllClassesActivity;
 
 	/*
 	 * Public members
@@ -75,7 +78,8 @@ public class AllClassesActivity extends Activity {
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 		getActionBar().hide();
 		setContentView(R.layout.activity_class);
-		EasyTracker.getInstance(this).activityStart(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
+				Constants.AllClassesActivity);
 		initUI();
 	}
 
@@ -220,8 +224,15 @@ public class AllClassesActivity extends Activity {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		CatalogApplication.getGaTracker().send(
+				MapBuilder.createAppView().build());
+	}
+
+	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance(this).activityStop(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
 	}
 }

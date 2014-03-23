@@ -39,9 +39,12 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.catalog.core.CatalogApplication;
 import com.catalog.helper.Constants;
 import com.catalog.helper.MyDBManager;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 /**
  * Activity in which a user can add a timetable item.
@@ -84,7 +87,8 @@ public class TimetableAddSubjectsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(R.anim.scale_up, R.anim.fadeout);
 		setContentView(R.layout.activity_addsubjects);
-		EasyTracker.getInstance(this).activityStart(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
+				Constants.TimetableAddSubjectsActivity);
 
 		lv = (ListView) findViewById(R.id.Slist);
 		dm = new MyDBManager(this);
@@ -214,8 +218,15 @@ public class TimetableAddSubjectsActivity extends Activity {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		CatalogApplication.getGaTracker().send(
+				MapBuilder.createAppView().build());
+	}
+
+	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance(this).activityStop(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
 	}
 }

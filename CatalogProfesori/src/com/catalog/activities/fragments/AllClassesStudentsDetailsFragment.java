@@ -50,6 +50,7 @@ import com.catalog.activities.R.layout;
 import com.catalog.activities.R.string;
 import com.catalog.core.AppPreferences;
 import com.catalog.core.AsyncTaskFactory;
+import com.catalog.core.CatalogApplication;
 import com.catalog.dialogs.AddGradesOrAbsenceDialog;
 import com.catalog.dialogs.EditGradesOrAbsencesDialog;
 import com.catalog.helper.Constants;
@@ -57,6 +58,8 @@ import com.catalog.model.ClassGroup;
 import com.catalog.model.Student;
 import com.catalog.model.Subject;
 import com.catalog.model.Teacher;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 /**
  * The main view / fragment of the AddGradesClassActivity situated at the right
@@ -70,7 +73,7 @@ public class AllClassesStudentsDetailsFragment extends Fragment {
 	/*
 	 * Static members
 	 */
-	private static final String CLASSNAME = Constants.AddGradesClassStudentsDetailsFragment;
+	private static final String CLASSNAME = Constants.AllClassesStudentsDetailsFragment;
 	public static boolean viewingAsList;
 	private static ViewFlipper vf;
 
@@ -121,11 +124,15 @@ public class AllClassesStudentsDetailsFragment extends Fragment {
 		mIndex = getArguments().getInt("index", 0);
 		selectedClassGroup = (ClassGroup) getArguments().getSerializable(
 				Constants.Bundle_ClassGroup);
-		teacher = (Teacher) getArguments().getSerializable(Constants.Bundle_Teacher);
+		teacher = (Teacher) getArguments().getSerializable(
+				Constants.Bundle_Teacher);
 
 		if ((selectedClassGroup == null) || (teacher == null)) {
 			return;
 		}
+
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
+				Constants.AllClassesStudentsDetailsFragment);
 	}
 
 	public int getShownIndex() {
@@ -314,5 +321,18 @@ public class AllClassesStudentsDetailsFragment extends Fragment {
 
 	public void hideLoading() {
 		progressBar.setVisibility(View.INVISIBLE);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		CatalogApplication.getGaTracker().send(
+				MapBuilder.createAppView().build());
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
 	}
 }

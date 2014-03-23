@@ -39,7 +39,11 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.catalog.activities.R;
+import com.catalog.core.CatalogApplication;
+import com.catalog.helper.Constants;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 /**
  * This Activity handles "editing" a note, where editing is responding to
@@ -149,7 +153,8 @@ public class NoteEditor extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-		EasyTracker.getInstance(this).activityStart(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
+				Constants.NoteEditorActivity);
 
 		/*
 		 * Creates an Intent to use when the Activity object's result is sent
@@ -676,8 +681,15 @@ public class NoteEditor extends Activity {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		CatalogApplication.getGaTracker().send(
+				MapBuilder.createAppView().build());
+	}
+
+	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance(this).activityStop(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
 	}
 }

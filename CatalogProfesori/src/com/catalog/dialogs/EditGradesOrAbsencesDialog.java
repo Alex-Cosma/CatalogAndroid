@@ -40,6 +40,7 @@ import com.catalog.activities.R;
 import com.catalog.activities.fragments.DetailedClassStudentsDetailsFragment;
 import com.catalog.core.AppPreferences;
 import com.catalog.core.AsyncTaskFactory;
+import com.catalog.core.CatalogApplication;
 import com.catalog.helper.Constants;
 import com.catalog.helper.CustomToast;
 import com.catalog.helper.InputFilterMinMax;
@@ -47,6 +48,7 @@ import com.catalog.model.Attendance;
 import com.catalog.model.Student;
 import com.catalog.model.StudentMark;
 import com.catalog.model.Subject;
+import com.google.analytics.tracking.android.MapBuilder;
 
 /**
  * Dialog which covers the editing of a grade or absence of a specific student.
@@ -153,6 +155,11 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 						asyncTaskFactory.getTask(context, CLASSNAME,
 								Constants.Method_EditAbsance).execute(
 								attendenceId, positionInSubjectsList, fragment);
+						
+						CatalogApplication.getGaTracker().send(
+								MapBuilder.createEvent(Constants.UI_ACTION,
+										Constants.UI_ACTION_MOTIVATE_GRADE, null, null)
+										.build());
 					}
 				}
 				for (int i = 0; i < editedMarks.length; i++) {
@@ -166,6 +173,11 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 								Constants.Method_EditMark).execute(markId,
 								mark, markTimestamp, positionInSubjectsList,
 								fragment);
+						
+						CatalogApplication.getGaTracker().send(
+								MapBuilder.createEvent(Constants.UI_ACTION,
+										Constants.UI_ACTION_EDIT_GRADE, null, null)
+										.build());
 					}
 				}
 

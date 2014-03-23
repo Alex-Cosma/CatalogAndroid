@@ -40,6 +40,7 @@ import com.catalog.activities.R;
 import com.catalog.activities.R.anim;
 import com.catalog.activities.R.id;
 import com.catalog.activities.R.layout;
+import com.catalog.core.CatalogApplication;
 import com.catalog.dialogs.AddGradesOrAbsenceDialog;
 import com.catalog.dialogs.EditGradesOrAbsencesDialog;
 import com.catalog.helper.Comparators;
@@ -52,6 +53,8 @@ import com.catalog.model.StudentMark;
 import com.catalog.model.Subject;
 import com.catalog.model.Teacher;
 import com.devsmart.android.ui.HorizontalListView;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 /**
  * The main view / fragment of the DetailedClassActivity situated at the right
@@ -133,6 +136,9 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 
 		int length = gradesAndAttendances.size();
 		initBuffers(length);
+
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
+				Constants.DetailedClassStudentsDetailsFragment);
 	}
 
 	private void initBuffers(int length) {
@@ -391,4 +397,16 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 		}
 	}
 
+	@Override
+	public void onStart() {
+		super.onStart();
+		CatalogApplication.getGaTracker().send(
+				MapBuilder.createAppView().build());
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
+	}
 }

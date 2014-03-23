@@ -23,7 +23,11 @@ import android.os.Bundle;
 import android.provider.LiveFolders;
 
 import com.catalog.activities.R;
+import com.catalog.core.CatalogApplication;
+import com.catalog.helper.Constants;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 /**
  * This Activity creates a live folder Intent and sends it back to HOME. From
@@ -45,7 +49,8 @@ public class NotesLiveFolder extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		EasyTracker.getInstance(this).activityStart(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME,
+				Constants.NotesLiveFolderActivity);
 		/*
 		 * Gets the incoming Intent and its action. If the incoming Intent was
 		 * ACTION_CREATE_LIVE_FOLDER, then create an outgoing Intent with the
@@ -126,8 +131,15 @@ public class NotesLiveFolder extends Activity {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		CatalogApplication.getGaTracker().send(
+				MapBuilder.createAppView().build());
+	}
+
+	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance(this).activityStop(this);
+		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
 	}
 }
