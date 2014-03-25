@@ -38,6 +38,7 @@ import com.catalog.helper.Constants;
 import com.catalog.model.Attendance;
 import com.catalog.model.GradesAttendForSubject;
 import com.catalog.model.LoginCredentials;
+import com.catalog.model.Semester;
 import com.catalog.model.StudentMark;
 import com.catalog.model.TimetableDays;
 import com.catalog.model.views.AttendanceSingleVM;
@@ -61,7 +62,10 @@ public class Api implements Api_I {
 	private static final int FAIL = Constants.FAIL;
 	private static final int BAD_CONNECTION = Constants.BAD_CONNECTION;
 	private static final int UNAUTHORIZED = Constants.UNAUTHORIZED;
-	private static String IP_EXTERNAL = "www.e-racovita.ro:8033/";
+	// private static String IP_EXTERNAL = "www.e-racovita.ro:8033/";
+
+	private static String IP_EXTERNAL = "10.0.3.2:8080/";
+
 	private static String IP_INTERNAL = "192.168.31.6:8080/";
 	private static String EXTENSION_EXTERNAL = "catalog-online";
 	private static String EXTENSION_INTERNAL = "catalog-online";
@@ -456,7 +460,7 @@ public class Api implements Api_I {
 
 	@Override
 	public ArrayList<GradesAttendForSubject> getGradesAttendForSubjectList(
-			int studentId) {
+			int studentId, Semester semester) {
 		HttpEntity<?> requestEntity = getAuthHttpEntity();
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -469,51 +473,52 @@ public class Api implements Api_I {
 				new MappingJacksonHttpMessageConverter());
 
 		ResponseEntity<GradesAttendForSubjectVM> responseEntity = null;
-		GradesAttendForSubjectVM gradesAbsences = null;
+		GradesAttendForSubjectVM allGradesAndAbsences = null;
 		try {
 			responseEntity = restTemplate.exchange(url, HttpMethod.GET,
 					requestEntity, GradesAttendForSubjectVM.class);
-			gradesAbsences = responseEntity.getBody();
+			allGradesAndAbsences = responseEntity.getBody();
 			// TODO: fix
-			removeSem(gradesAbsences);
+			trimForSemester(allGradesAndAbsences, semester);
 		} catch (RestClientException e) {
 			return null;
 		}
 
 		getElapsedTime("getGradesAttendForSubjectList - ");
-		return gradesAbsences.getGradesAttendForSubjectList();
+		return allGradesAndAbsences.getGradesAttendForSubjectList();
 	}
 
-	private void removeSem(GradesAttendForSubjectVM gradesAbsences) {
-		ArrayList<StudentMark> a = new ArrayList<StudentMark>();
-		ArrayList<Attendance> b = new ArrayList<Attendance>();
+	private void trimForSemester(GradesAttendForSubjectVM gradesAbsences,
+			Semester semester) {
+
+		ArrayList<StudentMark> marks = new ArrayList<StudentMark>();
+		ArrayList<Attendance> attendances = new ArrayList<Attendance>();
 
 		for (GradesAttendForSubject gradesAttendForSubject : gradesAbsences
 				.getGradesAttendForSubjectList()) {
 			for (StudentMark sm : gradesAttendForSubject.getMarks()) {
-				if (sm.getSemester().getName().equals("Semestrul I"))
-					a.add(sm);
+				if (!sm.getSemester().getName().equals(semester.getName()))
+					marks.add(sm);
 			}
 			for (Attendance sm : gradesAttendForSubject.getAttendaces()) {
-				if (sm.getSemester().getName().equals("Semestrul I"))
-					b.add(sm);
+				if (!sm.getSemester().getName().equals(semester.getName()))
+					attendances.add(sm);
 			}
 		}
 
-		for (StudentMark s : a) {
+		for (StudentMark s : marks) {
 			for (GradesAttendForSubject gradesAttendForSubject : gradesAbsences
 					.getGradesAttendForSubjectList()) {
 				gradesAttendForSubject.getMarks().remove(s);
 			}
 		}
 
-		for (Attendance s : b) {
+		for (Attendance s : attendances) {
 			for (GradesAttendForSubject gradesAttendForSubject : gradesAbsences
 					.getGradesAttendForSubjectList()) {
 				gradesAttendForSubject.getAttendaces().remove(s);
 			}
 		}
-
 	}
 
 	@Override
@@ -545,7 +550,7 @@ public class Api implements Api_I {
 	}
 
 	@Override
-	public SemesterVM getCurrentSemester() {
+	public SemesterVM getSemestersInfo() {
 		HttpEntity<?> requestEntity = getAuthHttpEntity();
 
 		RestTemplate restTemplate = new RestTemplate();

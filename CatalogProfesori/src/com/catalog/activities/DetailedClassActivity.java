@@ -23,19 +23,25 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.catalog.activities.fragments.DetailedClassStudentsDetailsFragment;
 import com.catalog.core.AppPreferences;
 import com.catalog.core.AsyncTaskFactory;
 import com.catalog.core.CatalogApplication;
 import com.catalog.helper.Constants;
+import com.catalog.helper.Helpers;
 import com.catalog.model.ClassGroup;
 import com.catalog.model.GradesAttendForSubject;
+import com.catalog.model.Semester;
 import com.catalog.model.Student;
 import com.catalog.model.Teacher;
+import com.catalog.model.views.SemesterVM;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 
@@ -61,12 +67,20 @@ public class DetailedClassActivity extends Activity {
 	/*
 	 * Private members
 	 */
-	private TextView classTitle;
 	private ClassGroup classGroup;
 	private Teacher teacher;
+	private SemesterVM semestersInfo;
+	private Semester currentSemester;
+	private int currentSemesterIndex;
+
+	private TextView classTitle;
 	private ProgressBar progressBar;
 	private AsyncTaskFactory asyncTaskFactory;
 	private AsyncTask<Object, Void, Integer> getGradesAndAbsancesTask;
+	private int currentSelectedStudentIndex;
+
+	private Button btnToggleSemester;
+	private TextView tvSemester;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,17 +94,13 @@ public class DetailedClassActivity extends Activity {
 	}
 
 	private void initUI() {
-		View headerView = findViewById(R.id.listitem_grades_head);
-		TextView semester = (TextView) headerView
-				.findViewById(R.id.tv_semester);
+		currentSelectedStudentIndex = -1;
 
-		// if ((Calendar.getInstance().get(Calendar.MONTH) > 9 && Calendar
-		// .getInstance().get(Calendar.MONTH) < 12)
-		// || (Calendar.getInstance().get(Calendar.MONTH) > 0 && Calendar
-		// .getInstance().get(Calendar.MONTH) < 2)) {
-		// semester.setText("Sem I");
-		// } else
-		// semester.setText("Sem II");
+		btnToggleSemester = (Button) findViewById(R.id.btnToggleSemester);
+
+		View headerView = findViewById(R.id.listitem_grades_head);
+		tvSemester = (TextView) headerView.findViewById(R.id.tv_semester);
+
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
 		classTitle = (TextView) findViewById(R.id.tv_className);
 		asyncTaskFactory = AsyncTaskFactory.getInstance(AppPreferences
@@ -102,13 +112,43 @@ public class DetailedClassActivity extends Activity {
 					.getSerializable(Constants.Bundle_ClassGroup);
 			teacher = (Teacher) extras
 					.getSerializable(Constants.Bundle_Teacher);
+			semestersInfo = (SemesterVM) extras
+					.getSerializable(Constants.Bundle_Semester);
 		}
 		// if classGroup is null finish everything, no use going further
 		if (classGroup == null)
 			finish();
 
+		if (semestersInfo != null) {
+			currentSemester = semestersInfo.getCurrentSemester();
+			currentSemesterIndex = semestersInfo.getSemesterList().indexOf(
+					currentSemester);
+
+			updateViewsForSemesterChange();
+
+		}
+
 		classTitle.setText("Clasa a" + classGroup.getYearOfStudy() + "-a "
 				+ classGroup.getName());
+
+		btnToggleSemester.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (currentSelectedStudentIndex > -1) {
+					
+					currentSemesterIndex = (currentSemesterIndex + 1) % 2;
+					currentSemester = semestersInfo.getSemesterList().get(
+							currentSemesterIndex);
+
+					updateViewsForSemesterChange();
+					
+					showStudents(currentSelectedStudentIndex);
+				
+					btnToggleSemester.setVisibility(View.INVISIBLE);
+				}
+			}
+		});
 
 	}
 
@@ -117,10 +157,12 @@ public class DetailedClassActivity extends Activity {
 	}
 
 	public void showStudents(int pos) {
+		currentSelectedStudentIndex = pos;
+		
 		getGradesAndAbsancesTask = asyncTaskFactory.getTask(this, CLASS_NAME,
 				Constants.Method_GetGradesAndAbsencesForStudent);
 
-		getGradesAndAbsancesTask.execute(students.get(pos).getId(), pos);
+		getGradesAndAbsancesTask.execute(students.get(pos).getId(), pos, currentSemester);
 		// this will be called later from the async thread
 		// showStudents(pos, gradesAndAttendances);
 	}
@@ -160,7 +202,17 @@ public class DetailedClassActivity extends Activity {
 			// ft.addToBackStack(TAG);
 			ft.commit();
 			getFragmentManager().executePendingTransactions();
+			btnToggleSemester.setVisibility(View.VISIBLE);
 		}
+	}
+
+	private void updateViewsForSemesterChange() {
+		tvSemester.setText(Helpers.getFormattedSemesterName(currentSemester
+				.getName()));
+		Semester otherSemester = semestersInfo.getSemesterList().get(
+				(currentSemesterIndex + 1) % 2);
+		btnToggleSemester.setText(Helpers
+				.getFormattedSemesterName(otherSemester.getName()));
 	}
 
 	public ClassGroup getClassGroup() {
@@ -192,4 +244,5 @@ public class DetailedClassActivity extends Activity {
 		super.onStop();
 		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
 	}
+
 }

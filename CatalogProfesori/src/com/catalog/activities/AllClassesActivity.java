@@ -35,9 +35,11 @@ import com.catalog.activities.fragments.AllClassesStudentsDetailsFragment;
 import com.catalog.core.CatalogApplication;
 import com.catalog.helper.Constants;
 import com.catalog.model.ClassGroup;
+import com.catalog.model.Semester;
 import com.catalog.model.Subject;
 import com.catalog.model.SubjectClasses;
 import com.catalog.model.Teacher;
+import com.catalog.model.views.SemesterVM;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 
@@ -64,11 +66,13 @@ public class AllClassesActivity extends Activity {
 	private ProgressBar progressBar;
 	private ClassGroup classGroup;
 	private ImageButton ibGrid, ibList;
-	private Button btnInfo;
+	private Button btnClassDetails;
 	private boolean viewingAsList;
-	private Teacher teacher;
 	private int mIndex;
 	private int mPosition;
+
+	private Teacher teacher;
+	private SemesterVM semestersInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,15 +91,17 @@ public class AllClassesActivity extends Activity {
 	private void initUI() {
 		classTitle = (TextView) findViewById(R.id.tv_className);
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
-		btnInfo = (Button) findViewById(R.id.ib_info);
+		btnClassDetails = (Button) findViewById(R.id.btnClassDetails);
 
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			teacher = (Teacher) extras
 					.getSerializable(Constants.Bundle_Teacher);
+			semestersInfo = (SemesterVM) extras
+					.getSerializable(Constants.Bundle_Semester);
 		}
 
-		btnInfo.setOnClickListener(new OnClickListener() {
+		btnClassDetails.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -105,6 +111,7 @@ public class AllClassesActivity extends Activity {
 					Bundle b = new Bundle();
 					b.putSerializable(Constants.Bundle_ClassGroup, classGroup);
 					b.putSerializable(Constants.Bundle_Teacher, teacher);
+					b.putSerializable(Constants.Bundle_Semester, semestersInfo);
 					intent.putExtras(b);
 					startActivity(intent);
 				}

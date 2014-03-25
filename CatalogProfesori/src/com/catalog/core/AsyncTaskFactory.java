@@ -40,6 +40,7 @@ import com.catalog.model.Attendance;
 import com.catalog.model.ClassGroup;
 import com.catalog.model.GradesAttendForSubject;
 import com.catalog.model.LoginCredentials;
+import com.catalog.model.Semester;
 import com.catalog.model.Student;
 import com.catalog.model.StudentMark;
 import com.catalog.model.Subject;
@@ -67,7 +68,7 @@ public class AsyncTaskFactory {
 	private static final int SUCCESS = Constants.SUCCESS;
 	private static final int FAIL = Constants.FAIL;
 	private static AsyncTaskFactory f;
-	private static Api api;
+	private static Api_I api;
 
 	/*
 	 * Disabling instantiation
@@ -263,7 +264,12 @@ public class AsyncTaskFactory {
 					// gradesContainer
 					// .addView(buildSubjectItem(m_students.get(i)));
 
+					// TDO: si aici schimba inapoi
+					// activity.students.get(i).setFirstName(i + " ");
+					// activity.students.get(i).setLastName("Student ");
+
 					activity.m_adapter.add(activity.students.get(i));
+
 				}
 			}
 
@@ -339,9 +345,12 @@ public class AsyncTaskFactory {
 			if (activity.students != null && activity.students.size() > 0) {
 
 				for (int i = 0; i < activity.students.size(); i++) {
+					// TDO: aici schimba inapoi
 					activity.adapter.add(i + 1 + ". "
 							+ activity.students.get(i).getLastName() + " "
 							+ activity.students.get(i).getFirstName());
+
+					// activity.adapter.add(i + 1 + ". " + "Student " + i);
 				}
 			}
 
@@ -372,8 +381,6 @@ public class AsyncTaskFactory {
 		protected Integer doInBackground(Object... params) {
 			String username = (String) params[0];
 			String password = (String) params[1];
-
-			// TODO: attempt authentication against a network service.
 
 			int login = api.login(username, password);
 
@@ -440,8 +447,6 @@ public class AsyncTaskFactory {
 		@Override
 		protected Integer doInBackground(Object... params) {
 			password = (String) params[0];
-
-			// TODO: attempt authentication against a network service.
 
 			boolean success = api.changePassword(password);
 
@@ -563,6 +568,7 @@ public class AsyncTaskFactory {
 		private WeakReference<DetailedClassActivity> mActivityRef;
 		private int studentIndexInList;
 		private ArrayList<GradesAttendForSubject> gradesAndAttendances;
+		private Semester semester;
 
 		public GetAllMarksAndAbsencesForSubjects(DetailedClassActivity activity) {
 			mActivityRef = new WeakReference<DetailedClassActivity>(activity);
@@ -589,9 +595,10 @@ public class AsyncTaskFactory {
 
 			int studentId = (Integer) params[0];
 			studentIndexInList = (Integer) params[1];
-
+			semester = (Semester) params[2];
+			
 			ArrayList<GradesAttendForSubject> m = api
-					.getGradesAttendForSubjectList(studentId);
+					.getGradesAttendForSubjectList(studentId, semester);
 
 			if (m != null) {
 				this.gradesAndAttendances = m;
@@ -706,7 +713,7 @@ public class AsyncTaskFactory {
 			AsyncTask<Object, Void, Integer> {
 
 		private WeakReference<MenuActivity> mActivityRef;
-		private SemesterVM currentSemester;
+		private SemesterVM semesters;
 
 		public GetCurrentSemesterTask(MenuActivity activity) {
 			mActivityRef = new WeakReference<MenuActivity>(activity);
@@ -734,12 +741,12 @@ public class AsyncTaskFactory {
 			if (activity == null)
 				return FAIL;
 
-			this.currentSemester = api.getCurrentSemester();
+			this.semesters = api.getSemestersInfo();
 
-			if (currentSemester != null)
+			if (semesters != null)
 				return SUCCESS;
 			else
-				return SUCCESS;
+				return FAIL;
 
 		}
 
@@ -750,7 +757,7 @@ public class AsyncTaskFactory {
 				return;
 			}
 			if (result == SUCCESS) {
-				// activity.setCurrentSemester(currentSemester.getSemester());
+				activity.setCurrentSemester(semesters);
 			} else {
 				// fail
 			}

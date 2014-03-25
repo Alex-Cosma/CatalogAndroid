@@ -45,6 +45,7 @@ import com.catalog.model.ClassGroup;
 import com.catalog.model.Semester;
 import com.catalog.model.Teacher;
 import com.catalog.model.TimetableDays;
+import com.catalog.model.views.SemesterVM;
 import com.example.android.notepad.NotesList;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
@@ -75,7 +76,7 @@ public class MenuActivity extends Activity implements OnTouchListener {
 
 	private Button btnMyClass;
 	private Button btnTimeTable;
-	private Button btnMarks;
+	private Button btnAllClasses;
 	private Button btnStats;
 	private Button btnNotes;
 	private Button btnExtras;
@@ -91,7 +92,7 @@ public class MenuActivity extends Activity implements OnTouchListener {
 	private ClassGroup masterClassGroup;
 	private Teacher teacher;
 	private ArrayList<TimetableDays> timetable;
-	private Semester currentSemester;
+	private SemesterVM semestersInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -116,13 +117,13 @@ public class MenuActivity extends Activity implements OnTouchListener {
 	private void initButtons() {
 		btnMyClass = (Button) findViewById(R.id.btn_myClass);
 		btnTimeTable = (Button) findViewById(R.id.btn_timetable);
-		btnMarks = (Button) findViewById(R.id.btn_marks);
+		btnAllClasses = (Button) findViewById(R.id.btn_marks);
 		btnStats = (Button) findViewById(R.id.btn_stats);
 		btnNotes = (Button) findViewById(R.id.btn_notes);
 		btnExtras = (Button) findViewById(R.id.btn_extra);
 
 		btnMyClass.setOnTouchListener(this);
-		btnMarks.setOnTouchListener(this);
+		btnAllClasses.setOnTouchListener(this);
 		btnStats.setOnTouchListener(this);
 		btnNotes.setOnTouchListener(this);
 		btnExtras.setOnTouchListener(this);
@@ -173,6 +174,8 @@ public class MenuActivity extends Activity implements OnTouchListener {
 								getMasterClassGroup());
 						b.putSerializable(Constants.Bundle_Teacher,
 								getTeacher());
+						b.putSerializable(Constants.Bundle_Semester,
+								getSemestersInfo());
 						intent.putExtras(b);
 						startActivity(intent);
 					} else {
@@ -200,12 +203,13 @@ public class MenuActivity extends Activity implements OnTouchListener {
 
 				}
 
-			} else if (v == btnMarks) {
-				btnMarks.startAnimation(animScaleUp);
-				btnMarks.clearAnimation();
+			} else if (v == btnAllClasses) {
+				btnAllClasses.startAnimation(animScaleUp);
+				btnAllClasses.clearAnimation();
 				Intent intent = new Intent(ctx, AllClassesActivity.class);
 				Bundle b = new Bundle();
 				b.putSerializable(Constants.Bundle_Teacher, getTeacher());
+				b.putSerializable(Constants.Bundle_Semester, getSemestersInfo());
 				intent.putExtras(b);
 				startActivity(intent);
 			} else if (v == btnStats) {
@@ -235,7 +239,7 @@ public class MenuActivity extends Activity implements OnTouchListener {
 	public void showLoading() {
 		progressBar.setVisibility(View.VISIBLE);
 		btnExtras.setEnabled(false);
-		btnMarks.setEnabled(false);
+		btnAllClasses.setEnabled(false);
 		btnMyClass.setEnabled(false);
 		btnNotes.setEnabled(false);
 		btnStats.setEnabled(false);
@@ -248,7 +252,7 @@ public class MenuActivity extends Activity implements OnTouchListener {
 		if (NUMBER_OF_TASKS == 0) {
 			progressBar.setVisibility(View.INVISIBLE);
 			btnExtras.setEnabled(true);
-			btnMarks.setEnabled(true);
+			btnAllClasses.setEnabled(true);
 			btnMyClass.setEnabled(true);
 			btnNotes.setEnabled(true);
 			btnStats.setEnabled(true);
@@ -304,16 +308,16 @@ public class MenuActivity extends Activity implements OnTouchListener {
 	/**
 	 * @return the currentSemester
 	 */
-	public Semester getCurrentSemester() {
-		return currentSemester;
+	public SemesterVM getSemestersInfo() {
+		return semestersInfo;
 	}
 
 	/**
 	 * @param currentSemester
 	 *            the currentSemester to set
 	 */
-	public void setCurrentSemester(Semester currentSemester) {
-		this.currentSemester = currentSemester;
+	public void setCurrentSemester(SemesterVM semestersInfo) {
+		this.semestersInfo = semestersInfo;
 	}
 
 	/**

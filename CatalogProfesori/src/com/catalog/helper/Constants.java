@@ -86,6 +86,7 @@ public class Constants {
 	public static final String Bundle_GradesAndAbsences = "MarksAndAbsences";
 	public static final String Bundle_Timetable = "Timetable";
 	public static final String Bundle_SelectedStudentIndex = "selectedStudentIndex";
+	public static final String Bundle_Semester = "Semester";
 
 	/*
 	 * Shared Prefs

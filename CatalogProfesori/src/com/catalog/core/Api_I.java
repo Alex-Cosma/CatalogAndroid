@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import com.catalog.model.Attendance;
 import com.catalog.model.GradesAttendForSubject;
+import com.catalog.model.Semester;
 import com.catalog.model.StudentMark;
 import com.catalog.model.TimetableDays;
 import com.catalog.model.views.MasterClassVM;
@@ -57,9 +58,9 @@ public interface Api_I {
 	public SubjectClassesVM getSubjectsForTeacherSubjects();
 
 	public ArrayList<GradesAttendForSubject> getGradesAttendForSubjectList(
-			int studentId);
+			int studentId, Semester semester);
 
-	public SemesterVM getCurrentSemester();
+	public SemesterVM getSemestersInfo();
 
 	void setStartTime();
 

@@ -187,10 +187,10 @@ public class LoginActivity extends Activity {
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
-
+								prefs.setIpExternal(false);
 								if (!cred.getPassword().equals("")
 										&& !cred.getUsername().equals("")) {
-
+										
 									CatalogApplication
 											.getGaTracker()
 											.send(MapBuilder

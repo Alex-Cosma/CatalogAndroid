@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 public class GradesAttendForSubject implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<StudentMark> marks;
 	private List<Attendance> attendaces;
 	private Subject subject;

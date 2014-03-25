@@ -1,24 +1,47 @@
 package com.catalog.model.views;
 
+import java.io.Serializable;
+import java.util.List;
+
 import com.catalog.model.Semester;
 
-public class SemesterVM extends GenericVM {
-
-	private Semester semester;
+public class SemesterVM extends GenericVM implements Serializable {
 
 	/**
-	 * @return the semester
+	 * 
 	 */
-	public Semester getSemester() {
-		return semester;
+	private static final long serialVersionUID = 1L;
+	private Semester currentSemester;
+	private List<Semester> semesterList;
+
+	/**
+	 * @return the currentSemester
+	 */
+	public Semester getCurrentSemester() {
+		return currentSemester;
 	}
 
 	/**
-	 * @param semester
-	 *            the semester to set
+	 * @param currentSemester
+	 *            the currentSemester to set
 	 */
-	public void setSemester(Semester semester) {
-		this.semester = semester;
+	public void setCurrentSemester(Semester currentSemester) {
+		this.currentSemester = currentSemester;
+	}
+
+	/**
+	 * @return the semesterList
+	 */
+	public List<Semester> getSemesterList() {
+		return semesterList;
+	}
+
+	/**
+	 * @param semesterList
+	 *            the semesterList to set
+	 */
+	public void setSemesterList(List<Semester> semesterList) {
+		this.semesterList = semesterList;
 	}
 
 }

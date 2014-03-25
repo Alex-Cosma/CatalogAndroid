@@ -71,7 +71,7 @@ public class AppPreferences {
 	}
 
 	public boolean isIpExternal() {
-		return appSharedPrefs.getBoolean(Constants.Pref_IPExternal, true);
+		return appSharedPrefs.getBoolean(Constants.Pref_IPExternal, false);
 	}
 
 }

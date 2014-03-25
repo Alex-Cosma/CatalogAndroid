@@ -45,26 +45,14 @@
                 android:visibility="invisible" />
 
             <Button
-                android:id="@+id/btnSemI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/btnSemII"
-                android:background="@drawable/btn_blue"
-                android:text="@string/sem_i"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp" >
-            </Button>
-
-            <Button
-                android:id="@+id/btnSemII"
+                android:id="@+id/btnToggleSemester"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/btn_blue"
-                android:text="@string/sem_ii"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp" >
+                android:textSize="12sp"
+                android:visibility="invisible" >
             </Button>
         </RelativeLayout>
 
