@@ -303,16 +303,6 @@ public class AllClassesStudentsDetailsFragment extends Fragment {
 
 	}
 
-	public Comparator<Student> ComparatorByName = new Comparator<Student>() {
-
-		public int compare(Student s1, Student s2) {
-			if (s1.getLastName().compareTo(s2.getLastName()) == 0) {
-				return s1.getFirstName().compareTo(s2.getFirstName());
-			} else
-				return s1.getLastName().compareTo(s2.getLastName());
-		}
-	};
-
 	public void showLoading() {
 		progressBar.setVisibility(View.VISIBLE);
 

@@ -48,6 +48,7 @@ import com.catalog.model.SubjectClasses;
 import com.catalog.model.SubjectTeacherForClass;
 import com.catalog.model.TimetableDays;
 import com.catalog.model.views.MasterClassVM;
+import com.catalog.model.views.MotivateIntervalVM;
 import com.catalog.model.views.SemesterVM;
 import com.catalog.model.views.StudentsVM;
 import com.catalog.model.views.SubjectClassesVM;
@@ -144,6 +145,10 @@ public class AsyncTaskFactory {
 			else
 				return null;
 		}
+		if (className.equals(Constants.MotivateIntervalDialog)) {
+			return new MotivateIntervalTask((DetailedClassActivity) ctx);
+		}
+
 		/**
 		 * AddGradesClassListFragment
 		 */
@@ -242,7 +247,7 @@ public class AsyncTaskFactory {
 
 			// put them in both places
 			activity.students = studentsVM.getStudentList();
-			Collections.sort(activity.students, activity.ComparatorByName);
+			Collections.sort(activity.students, Comparators.ComparatorByName);
 			return SUCCESS;
 		}
 
@@ -596,7 +601,7 @@ public class AsyncTaskFactory {
 			int studentId = (Integer) params[0];
 			studentIndexInList = (Integer) params[1];
 			semester = (Semester) params[2];
-			
+
 			ArrayList<GradesAttendForSubject> m = api
 					.getGradesAttendForSubjectList(studentId, semester);
 
@@ -869,6 +874,87 @@ public class AsyncTaskFactory {
 			// enable user input
 			activity.hideLoading();
 
+		}
+
+		@Override
+		protected void onCancelled() {
+			DetailedClassActivity activity = mActivityRef.get();
+			if (activity == null) {
+				return;
+			}
+
+		}
+	}
+
+	private class MotivateIntervalTask extends AsyncTask<Object, Void, Integer> {
+
+		private WeakReference<DetailedClassActivity> mActivityRef;
+		private int studentIndex;
+
+		public MotivateIntervalTask(DetailedClassActivity activity) {
+			mActivityRef = new WeakReference<DetailedClassActivity>(activity);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			if (mActivityRef == null) {
+				return;
+			}
+
+			DetailedClassActivity activity = mActivityRef.get();
+
+			if (activity == null) {
+				return;
+			}
+
+			// disable user input
+			activity.showLoading();
+		}
+
+		@Override
+		protected Integer doInBackground(Object... params) {
+			int classGroupId = (Integer) params[0];
+			int teacherId = (Integer) params[1];
+			int studentId = (Integer) params[2];
+			long date1 = (Long) params[3];
+			long date2 = (Long) params[4];
+			studentIndex = (Integer) params[5];
+
+			DetailedClassActivity activity = mActivityRef.get();
+			if (activity == null)
+				return FAIL;
+
+			MotivateIntervalVM motivateIntervalVM = api.motivateInterval(
+					studentId, teacherId, classGroupId, date1, date2);
+
+			if (motivateIntervalVM != null) {
+				if (motivateIntervalVM.getStatus().equals("OK")) {
+					return SUCCESS;
+				}
+			}
+			return FAIL;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			DetailedClassActivity activity = mActivityRef.get();
+			if (activity == null) {
+				return;
+			}
+
+			if (result == SUCCESS) {
+				CustomToast toast = new CustomToast(activity, activity
+						.getResources().getString(R.string.interval_motivated));
+				toast.show();
+
+			} else {
+				CustomToast toast = new CustomToast(activity, activity
+						.getResources().getString(
+								R.string.interval_not_motivated));
+				toast.show();
+			}
+			activity.hideLoading();
+			activity.showStudents(studentIndex);
 		}
 
 		@Override

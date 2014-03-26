@@ -27,7 +27,7 @@
     <string name="ziua">Ziua:</string>
     <string name="de_la_ora">De la ora:</string>
     <string name="delimiter">--:--</string>
-    <string name="pana_la">Până la:</string>
+    <string name="pana_la">"Până la: "</string>
     <string name="nota">Nota:</string>
     <string name="nota_et">-</string>
     <string name="note">Note:</string>
@@ -71,10 +71,13 @@
     <string name="not_classMaster">Nu sunteți diriginte!</string>
     <string name="details_class">Detalii Clasă</string>
     <string name="note_added">Nota a fost adăugată!</string>
+    <string name="interval_motivated">Absențele au fost motivate!</string>
+    <string name="interval_not_motivated">Eroare! Absențele NU au fost motivate!</string>
     <string name="note_not_added">Eroare! Nota nu a fost adăugată!</string>
     <string name="absance_added">Absența a fost adăugată!</string>
     <string name="absance_not_added">Eroare! Absența nu a fost adăugată!</string>
     <string name="insert_valid_grade">Vă rugăm să inserați o notă validă!</string>
+    <string name="invalid_date_interval">Intervalul nu este unul valid!</string>
     <string name="final_mark">Teza</string>
     <string name="changes_made">Schimbările au fost făcute!</string>
     <string name="changes_not_made">Eroare! Schimbările nu au fost făcute.</string>
@@ -101,5 +104,9 @@
     <string name="bad_connection">Eroare de conexiune! Vă rugăm verificați că sunteți conectați la internet.</string>
     <string name="sem_i">Sem. I</string>
     <string name="sem_ii">Sem. II</string>
+    <string name="motivare_interval">Motivare Interval</string>
+    <string name="motiveaza">Motivează</string>
+    <string name="de_la_data_">De la data:</string>
+    <string name="de_la_data">De la data:</string>
 
 </resources>

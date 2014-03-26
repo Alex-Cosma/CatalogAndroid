@@ -54,6 +54,19 @@
                 android:textSize="12sp"
                 android:visibility="invisible" >
             </Button>
+
+            <Button
+                android:id="@+id/btnMotivateInterval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/btnToggleSemester"
+                android:background="@drawable/btn_blue"
+                android:text="@string/motivare_interval"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:visibility="invisible" >
+            </Button>
         </RelativeLayout>
 
         <LinearLayout

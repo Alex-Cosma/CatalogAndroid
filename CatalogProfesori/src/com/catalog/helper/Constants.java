@@ -57,6 +57,7 @@ public class Constants {
 	public static final String AddGradesOrAbsenceDialog = "AddGradesOrAbsenceDialog";
 	public static final String EditGradesOrAbsencesDialog = "EditGradesOrAbsencesDialog";
 	public static final String ChangePasswordDialog = "ChangePasswordDialog";
+	public static final String MotivateIntervalDialog = "MotivateIntervalDialog";
 
 	/*
 	 * Method names constants (for AsyncTask Factory)
@@ -111,5 +112,6 @@ public class Constants {
 	public static final String UI_ACTION_DELETE_NOTE = "UX_DELETE_NOTE";
 	public static final String UI_ACTION_WORK_FROM_SCHOOL = "UX_WORK_FROM_SCHOOL";
 	public static final String UI_ACTION_WORK_FROM_HOME = "UX_WORK_FROM_HOME";
+	public static final String UI_ACTION_MOTIVATE_INTERVAL = "UX_MOTIVATE_INTERVAL";
 
 }

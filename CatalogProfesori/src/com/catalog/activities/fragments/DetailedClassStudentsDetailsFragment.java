@@ -90,7 +90,6 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 	private Student selectedStudent;
 	private ClassGroup selectedClassGroup;
 	private Teacher teacher;
-	private DetailedClassStudentsDetailsFragment currentFragment;
 
 	public static DetailedClassStudentsDetailsFragment newInstance(
 			int selectedStudentIndex, Student selectedStudent,
@@ -118,7 +117,6 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 	public void onCreate(Bundle myBundle) {
 		super.onCreate(myBundle);
 
-		currentFragment = this;
 		selectedStudentIndex = getArguments().getInt("index", 0);
 		selectedStudent = (Student) getArguments().getSerializable(
 				Constants.Bundle_Student);

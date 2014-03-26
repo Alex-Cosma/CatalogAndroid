@@ -44,6 +44,7 @@ import com.catalog.model.TimetableDays;
 import com.catalog.model.views.AttendanceSingleVM;
 import com.catalog.model.views.GradesAttendForSubjectVM;
 import com.catalog.model.views.MasterClassVM;
+import com.catalog.model.views.MotivateIntervalVM;
 import com.catalog.model.views.SemesterVM;
 import com.catalog.model.views.StudentMarkVM;
 import com.catalog.model.views.StudentsVM;
@@ -461,6 +462,7 @@ public class Api implements Api_I {
 	@Override
 	public ArrayList<GradesAttendForSubject> getGradesAttendForSubjectList(
 			int studentId, Semester semester) {
+		setStartTime();
 		HttpEntity<?> requestEntity = getAuthHttpEntity();
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -490,7 +492,6 @@ public class Api implements Api_I {
 
 	private void trimForSemester(GradesAttendForSubjectVM gradesAbsences,
 			Semester semester) {
-
 		ArrayList<StudentMark> marks = new ArrayList<StudentMark>();
 		ArrayList<Attendance> attendances = new ArrayList<Attendance>();
 
@@ -523,6 +524,7 @@ public class Api implements Api_I {
 
 	@Override
 	public ArrayList<TimetableDays> getTeacherTimetable() {
+		setStartTime();
 		HttpEntity<?> requestEntity = getAuthHttpEntity();
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -551,6 +553,7 @@ public class Api implements Api_I {
 
 	@Override
 	public SemesterVM getSemestersInfo() {
+		setStartTime();
 		HttpEntity<?> requestEntity = getAuthHttpEntity();
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -575,6 +578,37 @@ public class Api implements Api_I {
 
 		getElapsedTime("getSemester - ");
 		return semester;
+	}
+
+	@Override
+	public MotivateIntervalVM motivateInterval(int studentId, int teacherId,
+			int classGroupId, long date1, long date2) {
+		setStartTime();
+		HttpEntity<?> requestEntity = getAuthHttpEntity();
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		String url = "http://" + IP + EXTENSION + "/teacher/motivateIntervalT/"
+				+ studentId + "," + date1 + "," + date2 + ".json";
+
+		// Add the Jackson message converter
+		restTemplate.getMessageConverters().add(
+				new MappingJacksonHttpMessageConverter());
+
+		ResponseEntity<MotivateIntervalVM> responseEntity;
+		MotivateIntervalVM motivateIntervalVM = null;
+		try {
+			responseEntity = restTemplate.exchange(url, HttpMethod.GET,
+					requestEntity, MotivateIntervalVM.class);
+			motivateIntervalVM = responseEntity.getBody();
+
+		} catch (Exception e) {
+			return null;
+		}
+
+		getElapsedTime("motivateInterval - ");
+		return motivateIntervalVM;
+
 	}
 
 	private HttpEntity<?> getAuthHttpEntity() {

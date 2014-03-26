@@ -34,6 +34,7 @@ import com.catalog.activities.fragments.DetailedClassStudentsDetailsFragment;
 import com.catalog.core.AppPreferences;
 import com.catalog.core.AsyncTaskFactory;
 import com.catalog.core.CatalogApplication;
+import com.catalog.dialogs.MotivateIntervalDialog;
 import com.catalog.helper.Constants;
 import com.catalog.helper.Helpers;
 import com.catalog.model.ClassGroup;
@@ -80,6 +81,7 @@ public class DetailedClassActivity extends Activity {
 	private int currentSelectedStudentIndex;
 
 	private Button btnToggleSemester;
+	private Button btnMotivateInterval;
 	private TextView tvSemester;
 
 	@Override
@@ -97,6 +99,7 @@ public class DetailedClassActivity extends Activity {
 		currentSelectedStudentIndex = -1;
 
 		btnToggleSemester = (Button) findViewById(R.id.btnToggleSemester);
+		btnMotivateInterval = (Button) findViewById(R.id.btnMotivateInterval);
 
 		View headerView = findViewById(R.id.listitem_grades_head);
 		tvSemester = (TextView) headerView.findViewById(R.id.tv_semester);
@@ -131,24 +134,49 @@ public class DetailedClassActivity extends Activity {
 		classTitle.setText("Clasa a" + classGroup.getYearOfStudy() + "-a "
 				+ classGroup.getName());
 
+		setupListeners();
+
+	}
+
+	private void setupListeners() {
 		btnToggleSemester.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				if (currentSelectedStudentIndex > -1) {
-					
+
 					currentSemesterIndex = (currentSemesterIndex + 1) % 2;
 					currentSemester = semestersInfo.getSemesterList().get(
 							currentSemesterIndex);
 
 					updateViewsForSemesterChange();
-					
+
 					showStudents(currentSelectedStudentIndex);
-				
+
 					btnToggleSemester.setVisibility(View.INVISIBLE);
 				}
 			}
 		});
+
+		btnMotivateInterval.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				if (currentSelectedStudentIndex > -1)
+					constructMotivateIntervalDialog();
+			}
+		});
+	}
+
+	protected void constructMotivateIntervalDialog() {
+		if (!isLoading()) {
+			MotivateIntervalDialog d = new MotivateIntervalDialog(this,
+					classGroup, students.get(currentSelectedStudentIndex),
+					teacher, currentSelectedStudentIndex);
+
+			d.show();
+		}
 
 	}
 
@@ -158,11 +186,12 @@ public class DetailedClassActivity extends Activity {
 
 	public void showStudents(int pos) {
 		currentSelectedStudentIndex = pos;
-		
+
 		getGradesAndAbsancesTask = asyncTaskFactory.getTask(this, CLASS_NAME,
 				Constants.Method_GetGradesAndAbsencesForStudent);
 
-		getGradesAndAbsancesTask.execute(students.get(pos).getId(), pos, currentSemester);
+		getGradesAndAbsancesTask.execute(students.get(pos).getId(), pos,
+				currentSemester);
 		// this will be called later from the async thread
 		// showStudents(pos, gradesAndAttendances);
 	}
@@ -203,6 +232,9 @@ public class DetailedClassActivity extends Activity {
 			ft.commit();
 			getFragmentManager().executePendingTransactions();
 			btnToggleSemester.setVisibility(View.VISIBLE);
+			btnMotivateInterval
+					.setVisibility((teacher.getClassgroup().getId() == classGroup
+							.getId()) ? View.VISIBLE : View.INVISIBLE);
 		}
 	}
 

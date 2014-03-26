@@ -23,6 +23,7 @@ import com.catalog.model.Semester;
 import com.catalog.model.StudentMark;
 import com.catalog.model.TimetableDays;
 import com.catalog.model.views.MasterClassVM;
+import com.catalog.model.views.MotivateIntervalVM;
 import com.catalog.model.views.SemesterVM;
 import com.catalog.model.views.StudentsVM;
 import com.catalog.model.views.SubjectClassesVM;
@@ -59,6 +60,9 @@ public interface Api_I {
 
 	public ArrayList<GradesAttendForSubject> getGradesAttendForSubjectList(
 			int studentId, Semester semester);
+
+	public MotivateIntervalVM motivateInterval(int studentId, int teacherId,
+			int classGroupId, long date1, long date2);
 
 	public SemesterVM getSemestersInfo();
 
