@@ -52,6 +52,7 @@ import com.catalog.model.ClassGroup;
 import com.catalog.model.GradesAttendForSubject;
 import com.catalog.model.Student;
 import com.catalog.model.StudentMark;
+import com.catalog.model.StudentReport;
 import com.catalog.model.Subject;
 import com.catalog.model.Teacher;
 import com.devsmart.android.ui.HorizontalListView;
@@ -89,14 +90,15 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 	 * Private members
 	 */
 	private int selectedStudentIndex = 0;
+	private int selectedSemesterIndex = 0;
 	private Student selectedStudent;
 	private ClassGroup selectedClassGroup;
 	private Teacher teacher;
 	private boolean isClosedSituation;
 
 	public static DetailedClassStudentsDetailsFragment newInstance(
-			int selectedStudentIndex, Student selectedStudent,
-			ClassGroup classGroup, Teacher teacher,
+			int selectedStudentIndex, int selectedSemesterIndex,
+			Student selectedStudent, ClassGroup classGroup, Teacher teacher,
 			ArrayList<GradesAttendForSubject> gradesAndAttendances,
 			boolean isClosedSituation) {
 
@@ -105,6 +107,7 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 		// Supply index input as an argument.
 		Bundle args = new Bundle();
 		args.putInt("index", selectedStudentIndex);
+		args.putInt(Constants.Bundle_SelectedSemester, selectedSemesterIndex);
 		args.putSerializable(Constants.Bundle_Student, selectedStudent);
 		args.putSerializable(Constants.Bundle_ClassGroup, classGroup);
 		args.putSerializable(Constants.Bundle_Teacher, teacher);
@@ -123,6 +126,8 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 		super.onCreate(myBundle);
 
 		selectedStudentIndex = getArguments().getInt("index", 0);
+		selectedSemesterIndex = getArguments().getInt(
+				Constants.Bundle_SelectedSemester);
 		selectedStudent = (Student) getArguments().getSerializable(
 				Constants.Bundle_Student);
 		selectedClassGroup = (ClassGroup) getArguments().getSerializable(
@@ -319,7 +324,6 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 				Comparators.ComparatorByAbsanceDate);
 		for (Attendance element : gradesAndAttendances.get(position)
 				.getAttendaces()) {
-			// TODO: Temporary if...
 			if (element.getDate() != null) {
 				if (!element.isMotivat())
 					attendanceBuffer[position] += dateFormat.format(element
@@ -331,7 +335,6 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 			} else
 				attendanceBuffer[position] += "N/A\n";
 		}
-		// m_adapter.notifyDataSetChanged();
 	}
 
 	public void reconstructGradesText(int position) {
@@ -359,29 +362,41 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 				finalMark = mark.getMark();
 			}
 		}
-		if (gradesAndAttendances.get(position).getMarks().size() != 0) {
-			if (finalMark != 0) {
 
-				float marksAvarage = avarage
-						/ (float) (gradesAndAttendances.get(position)
-								.getMarks().size() - 1);
+		StudentReport reportForCurrentSemester = getReportForCurrentSemester(position);
 
-				float genAvarage = (float) (((marksAvarage * 3) + finalMark) / 4.0);
-
-				avarageBuffer[position] = String.valueOf(genAvarage);
-
-			} else
-				avarageBuffer[position] = String
-						.valueOf((avarage / (float) gradesAndAttendances
-								.get(position).getMarks().size()));
+		if (reportForCurrentSemester != null) {
+			avarageBuffer[position] = String.valueOf(reportForCurrentSemester
+					.getAverage());
 		}
-		// m_adapter.notifyDataSetChanged();
+
+		// if (gradesAndAttendances.get(position).getMarks().size() != 0) {
+		// if (finalMark != 0) {
+		//
+		// float marksAvarage = avarage
+		// / (float) (gradesAndAttendances.get(position)
+		// .getMarks().size() - 1);
+		//
+		// float genAvarage = (float) (((marksAvarage * 3) + finalMark) / 4.0);
+		//
+		// avarageBuffer[position] = String.valueOf(genAvarage);
+		//
+		// } else
+		// avarageBuffer[position] = String
+		// .valueOf((avarage / (float) gradesAndAttendances
+		// .get(position).getMarks().size()));
+		// }
 	}
 
 	private void constructAddGradeOrAbsenceDialog(int position) {
 
 		if (!act.isLoading()) {
-			if (!isClosedSituation) {
+			StudentReport reportForCurrentSemester = getReportForCurrentSemester(position);
+			if (gradesAndAttendances.get(position).getMarks().isEmpty()
+					|| gradesAndAttendances.get(position).getAttendaces()
+							.isEmpty()
+					|| (reportForCurrentSemester != null
+							&& !reportForCurrentSemester.isClosedSituation() && !isClosedSituation)) {
 				AddGradesOrAbsenceDialog d = new AddGradesOrAbsenceDialog(act,
 						this, position, act.getClassGroup(), selectedStudent,
 						gradesAndAttendances.get(position).getSubject(),
@@ -395,9 +410,22 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 		}
 	}
 
+	private StudentReport getReportForCurrentSemester(int position) {
+		if (selectedSemesterIndex == 0)
+			return gradesAndAttendances.get(position).getStudentReport1();
+		else
+			return gradesAndAttendances.get(position).getStudentReport2();
+	}
+
+	// TODO: temp for the reports. find a better way, modify server!
 	private void constructEditGradesDialog(int position) {
 		if (!act.isLoading()) {
-			if (!isClosedSituation) {
+			StudentReport reportForCurrentSemester = getReportForCurrentSemester(position);
+			if (gradesAndAttendances.get(position).getMarks().isEmpty()
+					|| gradesAndAttendances.get(position).getAttendaces()
+							.isEmpty()
+					|| (reportForCurrentSemester != null
+							&& !reportForCurrentSemester.isClosedSituation() && !isClosedSituation)) {
 				EditGradesOrAbsencesDialog d = new EditGradesOrAbsencesDialog(
 						act, this, position, selectedStudent,
 						gradesAndAttendances.get(position).getSubject(),

@@ -89,7 +89,9 @@ public class Constants {
 	public static final String Bundle_SelectedStudentIndex = "selectedStudentIndex";
 	public static final String Bundle_Semester = "Semester";
 	public static final String Bundle_ClosedSituation = "ClosedSituation";
+	public static final String Bundle_SelectedSemester = "SelectedSemester";
 
+	
 	/*
 	 * Shared Prefs
 	 */

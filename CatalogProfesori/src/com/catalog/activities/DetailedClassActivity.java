@@ -218,8 +218,9 @@ public class DetailedClassActivity extends Activity {
 
 			// Make new fragment to show this selection.
 			DetailedClassStudentsDetailsFragment details = DetailedClassStudentsDetailsFragment
-					.newInstance(studentIndex, selectedStudent, classGroup,
-							teacher, gradesAndAttendances,
+					.newInstance(studentIndex, currentSemesterIndex,
+							selectedStudent, classGroup, teacher,
+							gradesAndAttendances,
 							isClosedSituation(gradesAndAttendances));
 
 			classTitle.setText("Clasa a" + classGroup.getYearOfStudy() + "-a "
@@ -247,6 +248,7 @@ public class DetailedClassActivity extends Activity {
 	}
 
 	private boolean isClosedSituation(
+	// TODO: deal with final reports
 			ArrayList<GradesAttendForSubject> gradesAndAttendances) {
 		if (currentSemesterIndex == 0) {
 			if (gradesAndAttendances.get(0).getStudentReport1() != null
