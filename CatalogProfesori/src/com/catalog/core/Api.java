@@ -404,7 +404,7 @@ public class Api implements Api_I {
 		RestTemplate restTemplate = new RestTemplate();
 
 		String url = "http://" + IP + EXTENSION
-				+ "/subjectTeacherForClass/findByClassSubjectTeacher/"
+				+ "/teacher/findByClassSubjectTeacherT/"
 				+ classGroupId + "," + subjectId + "," + teacherId + ".json";
 
 		// Add the Jackson message converter

@@ -834,12 +834,12 @@ public class AsyncTaskFactory {
 
 			SubjectTeacherForClass stfc = stfcVM.getSubjectTeacherForClass();
 
-			if (stfc.getId() > -1 && student.getId() > -1)
+			if (stfc.getId() > -1 && student.getId() > -1 && stfc.getSubject() != null)
 				mark = api.addStudentMark(student.getId(), stfc.getId(), grade,
 						finalExam, date);
 			else
 				return FAIL;
-			if (mark != null && mark.getId() > -1)
+			if (mark != null && mark.getId() > -1 && mark.getDate() != null)
 				return SUCCESS;
 			else
 				return FAIL;
@@ -1105,7 +1105,7 @@ public class AsyncTaskFactory {
 					classGroupId, subjectId, teacherId);
 			SubjectTeacherForClass stfc = stfcVM.getSubjectTeacherForClass();
 
-			if (stfc.getId() > -1 && student.getId() > -1)
+			if (stfc.getId() > -1 && student.getId() > -1 && stfc.getSubject() != null)
 				attendance = api.addAttendance(student.getId(), stfc.getId(),
 						date);
 			else

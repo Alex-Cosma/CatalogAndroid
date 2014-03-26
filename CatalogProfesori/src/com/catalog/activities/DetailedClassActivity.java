@@ -239,7 +239,9 @@ public class DetailedClassActivity extends Activity {
 			btnToggleSemester.setVisibility(View.VISIBLE);
 			btnMotivateInterval
 					.setVisibility((teacher.getClassgroup().getId() == classGroup
-							.getId()) ? View.VISIBLE : View.INVISIBLE);
+							.getId()) ? (isClosedSituation(gradesAndAttendances) ? View.INVISIBLE
+							: View.VISIBLE)
+							: View.INVISIBLE);
 
 		}
 	}
@@ -247,19 +249,22 @@ public class DetailedClassActivity extends Activity {
 	private boolean isClosedSituation(
 			ArrayList<GradesAttendForSubject> gradesAndAttendances) {
 		if (currentSemesterIndex == 0) {
-//			if (gradesAndAttendances.get(0).getStudentReport1()
-//					.isClosedSituation()) {
+			if (gradesAndAttendances.get(0).getStudentReport1() != null
+					&& gradesAndAttendances.get(0).getStudentReport1()
+							.isClosedSituation()) {
 				ivClosedSituation.setVisibility(View.VISIBLE);
-//				return true;
-//			}
+				return true;
+			}
 			return true;
 		} else {
-//			if (gradesAndAttendances.get(0).getStudentReport2()
-//					.isClosedSituation()) {
-//				ivClosedSituation.setVisibility(View.VISIBLE);
-//				return true;
-//			}
+			if (gradesAndAttendances.get(0).getStudentReport2() != null
+					&& gradesAndAttendances.get(0).getStudentReport2()
+							.isClosedSituation()) {
+				ivClosedSituation.setVisibility(View.VISIBLE);
+				return true;
+			}
 		}
+		ivClosedSituation.setVisibility(View.INVISIBLE);
 		return false;
 	}
 
