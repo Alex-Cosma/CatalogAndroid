@@ -44,6 +44,15 @@
                 android:layout_toRightOf="@id/tv_className"
                 android:visibility="invisible" />
 
+            <ImageView
+                android:id="@+id/ivClosedSituation"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_toRightOf="@+id/progressBar"
+                android:background="@drawable/notallowed"
+                android:visibility="invisible" >
+            </ImageView>
+
             <Button
                 android:id="@+id/btnToggleSemester"
                 android:layout_width="wrap_content"

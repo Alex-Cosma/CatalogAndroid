@@ -34,6 +34,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.catalog.activities.DetailedClassActivity;
 import com.catalog.activities.R;
@@ -45,6 +46,7 @@ import com.catalog.dialogs.AddGradesOrAbsenceDialog;
 import com.catalog.dialogs.EditGradesOrAbsencesDialog;
 import com.catalog.helper.Comparators;
 import com.catalog.helper.Constants;
+import com.catalog.helper.CustomToast;
 import com.catalog.model.Attendance;
 import com.catalog.model.ClassGroup;
 import com.catalog.model.GradesAttendForSubject;
@@ -90,11 +92,13 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 	private Student selectedStudent;
 	private ClassGroup selectedClassGroup;
 	private Teacher teacher;
+	private boolean isClosedSituation;
 
 	public static DetailedClassStudentsDetailsFragment newInstance(
 			int selectedStudentIndex, Student selectedStudent,
 			ClassGroup classGroup, Teacher teacher,
-			ArrayList<GradesAttendForSubject> gradesAndAttendances) {
+			ArrayList<GradesAttendForSubject> gradesAndAttendances,
+			boolean isClosedSituation) {
 
 		DetailedClassStudentsDetailsFragment df = new DetailedClassStudentsDetailsFragment();
 
@@ -106,6 +110,7 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 		args.putSerializable(Constants.Bundle_Teacher, teacher);
 		args.putSerializable(Constants.Bundle_GradesAndAbsences,
 				gradesAndAttendances);
+		args.putBoolean(Constants.Bundle_ClosedSituation, isClosedSituation);
 
 		df.setArguments(args);
 
@@ -128,6 +133,10 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 
 		gradesAndAttendances = (ArrayList<GradesAttendForSubject>) getArguments()
 				.getSerializable(Constants.Bundle_GradesAndAbsences);
+
+		isClosedSituation = getArguments().getBoolean(
+				Constants.Bundle_ClosedSituation, false);
+
 		if (selectedClassGroup == null || selectedStudent == null
 				|| teacher == null || gradesAndAttendances == null)
 			return;
@@ -148,7 +157,6 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 			attendanceBuffer[i] = new String("");
 			avarageBuffer[i] = new String("");
 			finalMarkBuffer[i] = new String("");
-
 		}
 	}
 
@@ -373,24 +381,35 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 	private void constructAddGradeOrAbsenceDialog(int position) {
 
 		if (!act.isLoading()) {
-			AddGradesOrAbsenceDialog d = new AddGradesOrAbsenceDialog(act,
-					this, position, act.getClassGroup(), selectedStudent,
-					gradesAndAttendances.get(position).getSubject(), teacher);
+			if (!isClosedSituation) {
+				AddGradesOrAbsenceDialog d = new AddGradesOrAbsenceDialog(act,
+						this, position, act.getClassGroup(), selectedStudent,
+						gradesAndAttendances.get(position).getSubject(),
+						teacher);
 
-			d.show();
+				d.show();
+			} else {
+				new CustomToast(act, getResources().getString(
+						R.string.situation_closed)).show();
+			}
 		}
 	}
 
 	private void constructEditGradesDialog(int position) {
 		if (!act.isLoading()) {
-			EditGradesOrAbsencesDialog d = new EditGradesOrAbsencesDialog(act,
-					this, position, selectedStudent, gradesAndAttendances.get(
-							position).getSubject(),
-					(ArrayList<StudentMark>) gradesAndAttendances.get(position)
-							.getMarks(),
-					(ArrayList<Attendance>) gradesAndAttendances.get(position)
-							.getAttendaces());
-			d.show();
+			if (!isClosedSituation) {
+				EditGradesOrAbsencesDialog d = new EditGradesOrAbsencesDialog(
+						act, this, position, selectedStudent,
+						gradesAndAttendances.get(position).getSubject(),
+						(ArrayList<StudentMark>) gradesAndAttendances.get(
+								position).getMarks(),
+						(ArrayList<Attendance>) gradesAndAttendances.get(
+								position).getAttendaces());
+				d.show();
+			} else {
+				new CustomToast(act, getResources().getString(
+						R.string.situation_closed)).show();
+			}
 		}
 	}
 

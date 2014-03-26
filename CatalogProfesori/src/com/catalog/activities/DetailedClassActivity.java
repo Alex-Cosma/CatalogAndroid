@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,6 +84,7 @@ public class DetailedClassActivity extends Activity {
 	private Button btnToggleSemester;
 	private Button btnMotivateInterval;
 	private TextView tvSemester;
+	private ImageView ivClosedSituation;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,8 @@ public class DetailedClassActivity extends Activity {
 
 		btnToggleSemester = (Button) findViewById(R.id.btnToggleSemester);
 		btnMotivateInterval = (Button) findViewById(R.id.btnMotivateInterval);
+
+		ivClosedSituation = (ImageView) findViewById(R.id.ivClosedSituation);
 
 		View headerView = findViewById(R.id.listitem_grades_head);
 		tvSemester = (TextView) headerView.findViewById(R.id.tv_semester);
@@ -215,7 +219,8 @@ public class DetailedClassActivity extends Activity {
 			// Make new fragment to show this selection.
 			DetailedClassStudentsDetailsFragment details = DetailedClassStudentsDetailsFragment
 					.newInstance(studentIndex, selectedStudent, classGroup,
-							teacher, gradesAndAttendances);
+							teacher, gradesAndAttendances,
+							isClosedSituation(gradesAndAttendances));
 
 			classTitle.setText("Clasa a" + classGroup.getYearOfStudy() + "-a "
 					+ classGroup.getName() + " - "
@@ -235,7 +240,27 @@ public class DetailedClassActivity extends Activity {
 			btnMotivateInterval
 					.setVisibility((teacher.getClassgroup().getId() == classGroup
 							.getId()) ? View.VISIBLE : View.INVISIBLE);
+
 		}
+	}
+
+	private boolean isClosedSituation(
+			ArrayList<GradesAttendForSubject> gradesAndAttendances) {
+		if (currentSemesterIndex == 0) {
+//			if (gradesAndAttendances.get(0).getStudentReport1()
+//					.isClosedSituation()) {
+				ivClosedSituation.setVisibility(View.VISIBLE);
+//				return true;
+//			}
+			return true;
+		} else {
+//			if (gradesAndAttendances.get(0).getStudentReport2()
+//					.isClosedSituation()) {
+//				ivClosedSituation.setVisibility(View.VISIBLE);
+//				return true;
+//			}
+		}
+		return false;
 	}
 
 	private void updateViewsForSemesterChange() {
