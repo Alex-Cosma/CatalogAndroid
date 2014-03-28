@@ -25,49 +25,52 @@ import com.catalog.model.TimetableDays;
 import com.catalog.model.views.MasterClassVM;
 import com.catalog.model.views.MotivateIntervalVM;
 import com.catalog.model.views.SemesterVM;
+import com.catalog.model.views.StudentFinalScoresForAllSemestersVM;
 import com.catalog.model.views.StudentsVM;
 import com.catalog.model.views.SubjectClassesVM;
 import com.catalog.model.views.SubjectTeacherForClassVM;
 import com.catalog.model.views.TeacherVM;
 
-public interface Api_I {
+interface Api_I {
 
-	public int login(String username, String password);
+	int login(String username, String password);
 
-	public TeacherVM getTeacher();
+	TeacherVM getTeacher();
 
-	public boolean changePassword(String newPassword);
+	boolean changePassword(String newPassword);
 
-	public MasterClassVM getMasterClass(int id);
+	MasterClassVM getMasterClass(int id);
 
-	public StudentsVM getStudentsForClass(int id);
+	StudentsVM getStudentsForClass(int id);
 
-	public ArrayList<TimetableDays> getTeacherTimetable();
+	ArrayList<TimetableDays> getTeacherTimetable();
 
-	public StudentMark addStudentMark(int studentId, int stfcId, int grade,
+	StudentMark addStudentMark(int studentId, int stfcId, int grade,
 			boolean finalExam, long date);
 
-	public StudentMark editStudentMark(int markId, int newMark, long date);
+	StudentMark editStudentMark(int markId, int newMark, long date);
 
-	public Attendance addAttendance(int studentId, int stfcId, long date);
+	Attendance addAttendance(int studentId, int stfcId, long date);
 
-	public Attendance editAttendance(int attendanceId, boolean motivated);
+	Attendance editAttendance(int attendanceId, boolean motivated);
 
-	public SubjectTeacherForClassVM getSubjectTeacherForClass(int classGroupId,
+	SubjectTeacherForClassVM getSubjectTeacherForClass(int classGroupId,
 			int subjectId, int teacherId);
 
-	public SubjectClassesVM getSubjectsForTeacherSubjects();
+	SubjectClassesVM getSubjectsForTeacherSubjects();
 
-	public ArrayList<GradesAttendForSubject> getGradesAttendForSubjectList(
+	ArrayList<GradesAttendForSubject> getGradesAttendForSubjectList(
 			int studentId, Semester semester);
 
-	public MotivateIntervalVM motivateInterval(int studentId, int teacherId,
+	MotivateIntervalVM motivateInterval(int studentId, int teacherId,
 			int classGroupId, long date1, long date2);
 
-	public SemesterVM getSemestersInfo();
+	SemesterVM getSemestersInfo();
 
 	void setStartTime();
 
 	long getElapsedTime(String callingMethod);
+
+	StudentFinalScoresForAllSemestersVM getFinalScoresForStudent(int studentId);
 
 }

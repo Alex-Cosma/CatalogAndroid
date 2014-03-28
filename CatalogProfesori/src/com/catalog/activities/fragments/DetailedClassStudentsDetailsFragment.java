@@ -392,21 +392,35 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 
 		if (!act.isLoading()) {
 			StudentReport reportForCurrentSemester = getReportForCurrentSemester(position);
-			if (gradesAndAttendances.get(position).getMarks().isEmpty()
-					|| gradesAndAttendances.get(position).getAttendaces()
-							.isEmpty()
-					|| (reportForCurrentSemester != null
-							&& !reportForCurrentSemester.isClosedSituation() && !isClosedSituation)) {
-				AddGradesOrAbsenceDialog d = new AddGradesOrAbsenceDialog(act,
-						this, position, act.getClassGroup(), selectedStudent,
-						gradesAndAttendances.get(position).getSubject(),
-						teacher);
-
-				d.show();
-			} else {
+			if (reportForCurrentSemester != null
+					&& (reportForCurrentSemester.isClosedSituation() || isClosedSituation)) {
 				new CustomToast(act, getResources().getString(
 						R.string.situation_closed)).show();
 			}
+			AddGradesOrAbsenceDialog d = new AddGradesOrAbsenceDialog(act,
+					this, position, act.getClassGroup(), selectedStudent,
+					gradesAndAttendances.get(position).getSubject(), teacher);
+
+			d.show();
+		}
+	}
+
+	private void constructEditGradesDialog(int position) {
+		if (!act.isLoading()) {
+			StudentReport reportForCurrentSemester = getReportForCurrentSemester(position);
+			if (reportForCurrentSemester != null
+					&& (reportForCurrentSemester.isClosedSituation() || isClosedSituation)) {
+				new CustomToast(act, getResources().getString(
+						R.string.situation_closed)).show();
+			}
+			EditGradesOrAbsencesDialog d = new EditGradesOrAbsencesDialog(act,
+					this, position, selectedStudent, gradesAndAttendances.get(
+							position).getSubject(),
+					(ArrayList<StudentMark>) gradesAndAttendances.get(position)
+							.getMarks(),
+					(ArrayList<Attendance>) gradesAndAttendances.get(position)
+							.getAttendaces());
+			d.show();
 		}
 	}
 
@@ -415,30 +429,6 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 			return gradesAndAttendances.get(position).getStudentReport1();
 		else
 			return gradesAndAttendances.get(position).getStudentReport2();
-	}
-
-	// TODO: temp for the reports. find a better way, modify server!
-	private void constructEditGradesDialog(int position) {
-		if (!act.isLoading()) {
-			StudentReport reportForCurrentSemester = getReportForCurrentSemester(position);
-			if (gradesAndAttendances.get(position).getMarks().isEmpty()
-					|| gradesAndAttendances.get(position).getAttendaces()
-							.isEmpty()
-					|| (reportForCurrentSemester != null
-							&& !reportForCurrentSemester.isClosedSituation() && !isClosedSituation)) {
-				EditGradesOrAbsencesDialog d = new EditGradesOrAbsencesDialog(
-						act, this, position, selectedStudent,
-						gradesAndAttendances.get(position).getSubject(),
-						(ArrayList<StudentMark>) gradesAndAttendances.get(
-								position).getMarks(),
-						(ArrayList<Attendance>) gradesAndAttendances.get(
-								position).getAttendaces());
-				d.show();
-			} else {
-				new CustomToast(act, getResources().getString(
-						R.string.situation_closed)).show();
-			}
-		}
 	}
 
 	@Override

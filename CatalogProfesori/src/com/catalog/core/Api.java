@@ -46,6 +46,7 @@ import com.catalog.model.views.GradesAttendForSubjectVM;
 import com.catalog.model.views.MasterClassVM;
 import com.catalog.model.views.MotivateIntervalVM;
 import com.catalog.model.views.SemesterVM;
+import com.catalog.model.views.StudentFinalScoresForAllSemestersVM;
 import com.catalog.model.views.StudentMarkVM;
 import com.catalog.model.views.StudentsVM;
 import com.catalog.model.views.SubjectClassesVM;
@@ -404,8 +405,8 @@ public class Api implements Api_I {
 		RestTemplate restTemplate = new RestTemplate();
 
 		String url = "http://" + IP + EXTENSION
-				+ "/teacher/findByClassSubjectTeacherT/"
-				+ classGroupId + "," + subjectId + "," + teacherId + ".json";
+				+ "/teacher/findByClassSubjectTeacherT/" + classGroupId + ","
+				+ subjectId + "," + teacherId + ".json";
 
 		// Add the Jackson message converter
 		restTemplate.getMessageConverters().add(
@@ -609,6 +610,38 @@ public class Api implements Api_I {
 		getElapsedTime("motivateInterval - ");
 		return motivateIntervalVM;
 
+	}
+
+	@Override
+	public StudentFinalScoresForAllSemestersVM getFinalScoresForStudent(
+			int studentId) {
+		setStartTime();
+
+		HttpEntity<?> requestEntity = getAuthHttpEntity();
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		String url = "http://" + IP + EXTENSION
+				+ "/teacher/getFinalReportForStudent/" + studentId + ".json";
+
+		// Add the Jackson message converter
+		restTemplate.getMessageConverters().add(
+				new MappingJacksonHttpMessageConverter());
+
+		ResponseEntity<StudentFinalScoresForAllSemestersVM> responseEntity;
+		StudentFinalScoresForAllSemestersVM studentFinalScoresForAllSemestersVM = null;
+		try {
+			responseEntity = restTemplate.exchange(url, HttpMethod.GET,
+					requestEntity, StudentFinalScoresForAllSemestersVM.class);
+			studentFinalScoresForAllSemestersVM = responseEntity.getBody();
+
+		} catch (Exception e) {
+			return null;
+		}
+
+		getElapsedTime("getFinalScoresForStudent - ");
+
+		return studentFinalScoresForAllSemestersVM;
 	}
 
 	private HttpEntity<?> getAuthHttpEntity() {

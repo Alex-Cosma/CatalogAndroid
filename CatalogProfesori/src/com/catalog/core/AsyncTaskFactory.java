@@ -50,6 +50,7 @@ import com.catalog.model.TimetableDays;
 import com.catalog.model.views.MasterClassVM;
 import com.catalog.model.views.MotivateIntervalVM;
 import com.catalog.model.views.SemesterVM;
+import com.catalog.model.views.StudentFinalScoresForAllSemestersVM;
 import com.catalog.model.views.StudentsVM;
 import com.catalog.model.views.SubjectClassesVM;
 import com.catalog.model.views.SubjectTeacherForClassVM;
@@ -574,6 +575,7 @@ public class AsyncTaskFactory {
 		private int studentIndexInList;
 		private ArrayList<GradesAttendForSubject> gradesAndAttendances;
 		private Semester semester;
+		private StudentFinalScoresForAllSemestersVM finalScoresForStudent;
 
 		public GetAllMarksAndAbsencesForSubjects(DetailedClassActivity activity) {
 			mActivityRef = new WeakReference<DetailedClassActivity>(activity);
@@ -605,8 +607,12 @@ public class AsyncTaskFactory {
 			ArrayList<GradesAttendForSubject> m = api
 					.getGradesAttendForSubjectList(studentId, semester);
 
-			if (m != null) {
+			StudentFinalScoresForAllSemestersVM finalScoresForStudent = api
+					.getFinalScoresForStudent(studentId);
+
+			if (m != null && finalScoresForStudent != null) {
 				this.gradesAndAttendances = m;
+				this.finalScoresForStudent = finalScoresForStudent;
 				return SUCCESS;
 			} else
 				return FAIL;
@@ -615,12 +621,17 @@ public class AsyncTaskFactory {
 		@Override
 		protected void onPostExecute(Integer result) {
 			DetailedClassActivity activity = mActivityRef.get();
-			if (activity == null || result == FAIL) {
+			if (activity == null) {
 				return;
 			}
 
-			activity.showStudents(studentIndexInList, gradesAndAttendances);
-			// enable user input
+			if (result == SUCCESS) {
+				activity.showStudents(studentIndexInList, gradesAndAttendances,
+						finalScoresForStudent);
+			} else {
+				new CustomToast(activity, activity.getResources().getString(
+						R.string.eroare_va_rugam_sa_incercati_din_nou)).show();
+			}
 			activity.hideLoading();
 
 		}
@@ -834,7 +845,8 @@ public class AsyncTaskFactory {
 
 			SubjectTeacherForClass stfc = stfcVM.getSubjectTeacherForClass();
 
-			if (stfc.getId() > -1 && student.getId() > -1 && stfc.getSubject() != null)
+			if (stfc.getId() > -1 && student.getId() > -1
+					&& stfc.getSubject() != null)
 				mark = api.addStudentMark(student.getId(), stfc.getId(), grade,
 						finalExam, date);
 			else
@@ -1105,7 +1117,8 @@ public class AsyncTaskFactory {
 					classGroupId, subjectId, teacherId);
 			SubjectTeacherForClass stfc = stfcVM.getSubjectTeacherForClass();
 
-			if (stfc.getId() > -1 && student.getId() > -1 && stfc.getSubject() != null)
+			if (stfc.getId() > -1 && student.getId() > -1
+					&& stfc.getSubject() != null)
 				attendance = api.addAttendance(student.getId(), stfc.getId(),
 						date);
 			else

@@ -16,6 +16,7 @@
 package com.catalog.activities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
@@ -42,8 +43,10 @@ import com.catalog.model.ClassGroup;
 import com.catalog.model.GradesAttendForSubject;
 import com.catalog.model.Semester;
 import com.catalog.model.Student;
+import com.catalog.model.StudentFinalScore;
 import com.catalog.model.Teacher;
 import com.catalog.model.views.SemesterVM;
+import com.catalog.model.views.StudentFinalScoresForAllSemestersVM;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 
@@ -128,8 +131,8 @@ public class DetailedClassActivity extends Activity {
 
 		if (semestersInfo != null) {
 			currentSemester = semestersInfo.getCurrentSemester();
-			currentSemesterIndex = semestersInfo.getSemesterList().indexOf(
-					currentSemester);
+			currentSemesterIndex = currentSemester.getName().contains("II") ? 1
+					: 0;
 
 			updateViewsForSemesterChange();
 
@@ -204,9 +207,12 @@ public class DetailedClassActivity extends Activity {
 	 * Helper function to show the details of a selected item, either by
 	 * displaying a fragment in-place in the current UI, or starting a whole new
 	 * activity in which it is displayed.
+	 * 
+	 * @param finalScoresForStudent
 	 */
 	public void showStudents(int studentIndex,
-			ArrayList<GradesAttendForSubject> gradesAndAttendances) {
+			ArrayList<GradesAttendForSubject> gradesAndAttendances,
+			StudentFinalScoresForAllSemestersVM finalScoresForStudent) {
 		if (students == null)
 			return;
 		if (isMultiPane()) {
@@ -221,7 +227,7 @@ public class DetailedClassActivity extends Activity {
 					.newInstance(studentIndex, currentSemesterIndex,
 							selectedStudent, classGroup, teacher,
 							gradesAndAttendances,
-							isClosedSituation(gradesAndAttendances));
+							isClosedSituation(finalScoresForStudent));
 
 			classTitle.setText("Clasa a" + classGroup.getYearOfStudy() + "-a "
 					+ classGroup.getName() + " - "
@@ -240,7 +246,7 @@ public class DetailedClassActivity extends Activity {
 			btnToggleSemester.setVisibility(View.VISIBLE);
 			btnMotivateInterval
 					.setVisibility((teacher.getClassgroup().getId() == classGroup
-							.getId()) ? (isClosedSituation(gradesAndAttendances) ? View.INVISIBLE
+							.getId()) ? (isClosedSituation(finalScoresForStudent) ? View.INVISIBLE
 							: View.VISIBLE)
 							: View.INVISIBLE);
 
@@ -248,23 +254,15 @@ public class DetailedClassActivity extends Activity {
 	}
 
 	private boolean isClosedSituation(
-	// TODO: deal with final reports
-			ArrayList<GradesAttendForSubject> gradesAndAttendances) {
-		if (currentSemesterIndex == 0) {
-			if (gradesAndAttendances.get(0).getStudentReport1() != null
-					&& gradesAndAttendances.get(0).getStudentReport1()
-							.isClosedSituation()) {
-				ivClosedSituation.setVisibility(View.VISIBLE);
-				return true;
-			}
+			StudentFinalScoresForAllSemestersVM finalScoresForStudent) {
+		List<StudentFinalScore> finalScores = finalScoresForStudent
+				.getStudentFinalScoreList();
+
+		if ((finalScores.size() > currentSemesterIndex)
+				&& finalScores.get(currentSemesterIndex) != null
+				&& finalScores.get(currentSemesterIndex).isClosedSituation()) {
+			ivClosedSituation.setVisibility(View.VISIBLE);
 			return true;
-		} else {
-			if (gradesAndAttendances.get(0).getStudentReport2() != null
-					&& gradesAndAttendances.get(0).getStudentReport2()
-							.isClosedSituation()) {
-				ivClosedSituation.setVisibility(View.VISIBLE);
-				return true;
-			}
 		}
 		ivClosedSituation.setVisibility(View.INVISIBLE);
 		return false;

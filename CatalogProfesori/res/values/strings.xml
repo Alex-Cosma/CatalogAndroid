@@ -73,7 +73,7 @@
     <string name="note_added">Nota a fost adăugată!</string>
     <string name="interval_motivated">Absențele au fost motivate!</string>
     <string name="interval_not_motivated">Eroare! Absențele NU au fost motivate!</string>
-    <string name="situation_closed">Situația a fost deja încheiată. Nu se mai pot face modificări!</string>
+    <string name="situation_closed">Avertisment! Situația a fost deja încheiată.</string>
     <string name="note_not_added">Eroare! Nota nu a fost adăugată!</string>
     <string name="absance_added">Absența a fost adăugată!</string>
     <string name="absance_not_added">Eroare! Absența nu a fost adăugată!</string>
@@ -109,5 +109,6 @@
     <string name="motiveaza">Motivează</string>
     <string name="de_la_data_">De la data:</string>
     <string name="de_la_data">De la data:</string>
+    <string name="eroare_va_rugam_sa_incercati_din_nou">Eroare! Vă rugăm să încercați din nou.</string>
 
 </resources>
