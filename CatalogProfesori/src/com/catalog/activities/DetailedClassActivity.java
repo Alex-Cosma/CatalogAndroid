@@ -91,7 +91,8 @@ public class DetailedClassActivity extends Activity {
 	private Button btnCloseClassSituation;
 	private TextView tvSemester;
 	private ImageView ivClosedSituation;
-
+	boolean isClassMaster;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -144,7 +145,11 @@ public class DetailedClassActivity extends Activity {
 
 		classTitle.setText("Clasa a" + classGroup.getYearOfStudy() + "-a "
 				+ classGroup.getName());
-
+		isClassMaster = teacher.getClassgroup().getId() == classGroup
+				.getId();
+		btnCloseClassSituation.setVisibility(isClassMaster ? View.VISIBLE
+				: View.INVISIBLE);
+		
 		setupListeners();
 
 	}
@@ -284,6 +289,7 @@ public class DetailedClassActivity extends Activity {
 			Student selectedStudent = students.get(studentIndex);
 
 			boolean closedSituation = isClosedSituation(finalScoresForStudent);
+			
 			DetailedClassStudentsDetailsFragment details = DetailedClassStudentsDetailsFragment
 					.newInstance(studentIndex, currentSemesterIndex,
 							selectedStudent, classGroup, teacher,
@@ -299,17 +305,13 @@ public class DetailedClassActivity extends Activity {
 			ft.commit();
 			getFragmentManager().executePendingTransactions();
 			btnToggleSemester.setVisibility(View.VISIBLE);
-			boolean isClassMaster = teacher.getClassgroup().getId() == classGroup
-					.getId();
+
 			btnMotivateInterval
 					.setVisibility(isClassMaster ? (closedSituation ? View.INVISIBLE
 							: View.VISIBLE)
 							: View.INVISIBLE);
 
 			ivClosedSituation.setVisibility(closedSituation ? View.VISIBLE
-					: View.INVISIBLE);
-
-			btnCloseClassSituation.setVisibility(isClassMaster ? View.VISIBLE
 					: View.INVISIBLE);
 
 		}
