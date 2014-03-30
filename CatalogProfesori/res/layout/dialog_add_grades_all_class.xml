@@ -11,45 +11,35 @@
         android:padding="25dp" >
 
         <LinearLayout
-            android:id="@+id/layout_grades"
+            android:id="@+id/llGrades1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/border_left"
             android:orientation="vertical"
             android:padding="15dp" >
-
-            <TextView
-                android:id="@+id/tv_genericGrades"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/note"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/layout_absences"
+        <CheckBox
+            android:id="@+id/cbFinalMark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/layout_grades"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/border_left"
-            android:orientation="vertical"
-            android:padding="15dp" >
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="@string/final_mark" />
 
-            <TextView
-                android:id="@+id/tv_genericAbsences"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/absente"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/btn_selectDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/cbFinalMark"
+            android:background="@android:color/transparent" />
 
         <Button
             android:id="@+id/btn_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/layout_absences"
+            android:layout_below="@id/llGrades1"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="25dp"
             android:background="@drawable/btn_blue"

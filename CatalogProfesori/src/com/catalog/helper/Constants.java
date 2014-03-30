@@ -58,6 +58,7 @@ public class Constants {
 	public static final String EditGradesOrAbsencesDialog = "EditGradesOrAbsencesDialog";
 	public static final String ChangePasswordDialog = "ChangePasswordDialog";
 	public static final String MotivateIntervalDialog = "MotivateIntervalDialog";
+	public static final String AddGradesForAllClassDialog = "AddGradesForAllClassDialog";
 
 	/*
 	 * Method names constants (for AsyncTask Factory)
@@ -91,7 +92,6 @@ public class Constants {
 	public static final String Bundle_ClosedSituation = "ClosedSituation";
 	public static final String Bundle_SelectedSemester = "SelectedSemester";
 
-	
 	/*
 	 * Shared Prefs
 	 */
@@ -116,5 +116,6 @@ public class Constants {
 	public static final String UI_ACTION_WORK_FROM_SCHOOL = "UX_WORK_FROM_SCHOOL";
 	public static final String UI_ACTION_WORK_FROM_HOME = "UX_WORK_FROM_HOME";
 	public static final String UI_ACTION_MOTIVATE_INTERVAL = "UX_MOTIVATE_INTERVAL";
+	public static final String UI_ACTION_ADD_GRADES_MASS = "UX_ADD_GRADES_MASS";
 
 }

@@ -396,8 +396,8 @@ public class Api implements Api_I {
 	}
 
 	@Override
-	public SubjectTeacherForClassVM getSubjectTeacherForClass(int classGroupId,
-			int subjectId, int teacherId) {
+	public SubjectTeacherForClassVM getSubjectTeacherForClass(int subjectId,
+			int teacherId, int classGroupId) {
 		setStartTime();
 
 		HttpEntity<?> requestEntity = getAuthHttpEntity();
@@ -482,7 +482,8 @@ public class Api implements Api_I {
 					requestEntity, GradesAttendForSubjectVM.class);
 			allGradesAndAbsences = responseEntity.getBody();
 			// TODO: fix
-			trimForSemester(allGradesAndAbsences, semester);
+			if (semester != null)
+				trimForSemester(allGradesAndAbsences, semester);
 		} catch (RestClientException e) {
 			return null;
 		}

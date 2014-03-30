@@ -23,7 +23,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 
+import com.catalog.activities.AllClassesActivity;
 import com.catalog.activities.DetailedClassActivity;
 import com.catalog.activities.LoginActivity;
 import com.catalog.activities.MenuActivity;
@@ -55,6 +57,7 @@ import com.catalog.model.views.StudentsVM;
 import com.catalog.model.views.SubjectClassesVM;
 import com.catalog.model.views.SubjectTeacherForClassVM;
 import com.catalog.model.views.TeacherVM;
+import com.google.analytics.tracking.android.MapBuilder;
 
 /**
  * Singleton class which returns the appropriate Async Task. <br>
@@ -146,8 +149,18 @@ public class AsyncTaskFactory {
 			else
 				return null;
 		}
+		/**
+		 * MotivateIntervalDialog
+		 */
 		if (className.equals(Constants.MotivateIntervalDialog)) {
 			return new MotivateIntervalTask((DetailedClassActivity) ctx);
+		}
+
+		/**
+		 * AddGradesForAllClassDialog
+		 */
+		if (className.equals(Constants.AddGradesForAllClassDialog)) {
+			return new AddGradesForAllClassTask((AllClassesActivity) ctx);
 		}
 
 		/**
@@ -247,8 +260,8 @@ public class AsyncTaskFactory {
 				return FAIL;
 
 			// put them in both places
-			activity.students = studentsVM.getStudentList();
-			Collections.sort(activity.students, Comparators.ComparatorByName);
+			activity.setStudents(studentsVM.getStudentList());
+			Collections.sort(activity.getStudents(), Comparators.ComparatorByName);
 			return SUCCESS;
 		}
 
@@ -264,9 +277,9 @@ public class AsyncTaskFactory {
 			}
 			activity.hideLoading();
 
-			if (activity.students != null && activity.students.size() > 0) {
+			if (activity.getStudents() != null && activity.getStudents().size() > 0) {
 
-				for (int i = 0; i < activity.students.size(); i++) {
+				for (int i = 0; i < activity.getStudents().size(); i++) {
 					// gradesContainer
 					// .addView(buildSubjectItem(m_students.get(i)));
 
@@ -274,7 +287,7 @@ public class AsyncTaskFactory {
 					// activity.students.get(i).setFirstName(i + " ");
 					// activity.students.get(i).setLastName("Student ");
 
-					activity.m_adapter.add(activity.students.get(i));
+					activity.m_adapter.add(activity.getStudents().get(i));
 
 				}
 			}
@@ -841,7 +854,7 @@ public class AsyncTaskFactory {
 				return FAIL;
 
 			SubjectTeacherForClassVM stfcVM = api.getSubjectTeacherForClass(
-					classGroupId, subjectId, teacherId);
+					subjectId, teacherId, classGroupId);
 
 			SubjectTeacherForClass stfc = stfcVM.getSubjectTeacherForClass();
 
@@ -863,8 +876,6 @@ public class AsyncTaskFactory {
 			if (activity == null) {
 				return;
 			}
-			// TODO: AI GRIJA SA SCHIMBI AICI. TEMPORAR PETNRU FAZA CU
-			// SEMESTRELE
 
 			if (result == SUCCESS) {
 				CustomToast toast = new CustomToast(activity, activity
@@ -891,6 +902,121 @@ public class AsyncTaskFactory {
 		@Override
 		protected void onCancelled() {
 			DetailedClassActivity activity = mActivityRef.get();
+			if (activity == null) {
+				return;
+			}
+
+		}
+	}
+
+	/**
+	 * Add grades for all students in a class task.
+	 * 
+	 * @author Alex
+	 */
+	private class AddGradesForAllClassTask extends
+			AsyncTask<Object, Void, Integer> {
+
+		private WeakReference<AllClassesActivity> mActivityRef;
+		private StudentMark[] marks;
+		private int positionInSubjectsList;
+		private DetailedClassStudentsDetailsFragment fragment;
+
+		public AddGradesForAllClassTask(AllClassesActivity activity) {
+			mActivityRef = new WeakReference<AllClassesActivity>(activity);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			if (mActivityRef == null) {
+				return;
+			}
+
+			AllClassesActivity activity = mActivityRef.get();
+
+			if (activity == null) {
+				return;
+			}
+
+			// disable user input
+			activity.showLoading();
+		}
+
+		@Override
+		protected Integer doInBackground(Object... params) {
+			int subjectId = (Integer) params[0];
+			int teacherId = (Integer) params[1];
+			int classGroupId = (Integer) params[2];
+			ArrayList<Student> students = (ArrayList<Student>) params[3];
+			EditText[] editableGrades = (EditText[]) params[4];
+			boolean[] editedGrades = (boolean[]) params[5];
+			boolean finalExam = (Boolean) params[6];
+			long date = (Long) params[7];
+
+			AllClassesActivity activity = mActivityRef.get();
+			if (activity == null)
+				return FAIL;
+
+			SubjectTeacherForClassVM stfcVM = api.getSubjectTeacherForClass(
+					subjectId, teacherId, classGroupId);
+
+			SubjectTeacherForClass stfc = stfcVM.getSubjectTeacherForClass();
+
+			if (stfc == null || stfc.getId() < 0)
+				return FAIL;
+			
+			marks = new StudentMark[editableGrades.length];
+			for (int i = 0; i < editedGrades.length; i++) {
+				if (editedGrades[i] == true) {
+					int studentId = students.get(i).getId();
+					Integer grade = Integer.valueOf(editableGrades[i].getText()
+							.toString());
+
+					marks[i] = api.addStudentMark(studentId, stfc.getId(),
+							grade, finalExam, date);
+				}
+			}
+
+			boolean ok = true;
+
+			for (int i = 0; i < editableGrades.length; i++) {
+				if (editedGrades[i] == true
+						&& (marks[i] == null || marks[i].getId() < 0)) {
+					ok = false;
+					break;
+				}
+			}
+
+			return ok ? SUCCESS : FAIL;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			AllClassesActivity activity = mActivityRef.get();
+			if (activity == null) {
+				return;
+			}
+
+			if (result == SUCCESS) {
+				CustomToast toast = new CustomToast(activity, activity
+						.getResources().getString(R.string.notes_added));
+
+				toast.show();
+
+			} else {
+				CustomToast toast = new CustomToast(activity, activity
+						.getResources().getString(R.string.note_not_added));
+
+				toast.show();
+			}
+			// enable user input
+			activity.hideLoading();
+
+		}
+
+		@Override
+		protected void onCancelled() {
+			AllClassesActivity activity = mActivityRef.get();
 			if (activity == null) {
 				return;
 			}
@@ -1114,7 +1240,7 @@ public class AsyncTaskFactory {
 				return FAIL;
 
 			SubjectTeacherForClassVM stfcVM = api.getSubjectTeacherForClass(
-					classGroupId, subjectId, teacherId);
+					subjectId, teacherId, classGroupId);
 			SubjectTeacherForClass stfc = stfcVM.getSubjectTeacherForClass();
 
 			if (stfc.getId() > -1 && student.getId() > -1

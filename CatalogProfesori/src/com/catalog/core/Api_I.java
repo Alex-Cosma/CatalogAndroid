@@ -54,8 +54,8 @@ interface Api_I {
 
 	Attendance editAttendance(int attendanceId, boolean motivated);
 
-	SubjectTeacherForClassVM getSubjectTeacherForClass(int classGroupId,
-			int subjectId, int teacherId);
+	SubjectTeacherForClassVM getSubjectTeacherForClass(int subjectId,
+			int teacherId, int classGroupId);
 
 	SubjectClassesVM getSubjectsForTeacherSubjects();
 

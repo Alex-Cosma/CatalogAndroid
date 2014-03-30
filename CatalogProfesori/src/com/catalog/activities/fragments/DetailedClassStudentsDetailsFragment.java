@@ -346,8 +346,6 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 		Collections.sort(gradesAndAttendances.get(position).getMarks(),
 				Comparators.ComparatorByMarkDate);
 
-		float avarage = 0;
-		float finalMark = 0;
 		for (StudentMark mark : gradesAndAttendances.get(position).getMarks()) {
 			if (!mark.isFinalExam()) {
 				if (mark.getDate() != null)
@@ -355,11 +353,9 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 							+ dateFormat.format(mark.getDate()) + "\n";
 				else
 					marksBuffer[position] += mark.getMark() + "\n";
-				avarage += mark.getMark();
 			} else {
 				finalMarkBuffer[position] = String.valueOf(mark.getMark());
 
-				finalMark = mark.getMark();
 			}
 		}
 

@@ -18,6 +18,7 @@ package com.catalog.dialogs;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 
 import android.app.Dialog;
@@ -73,7 +74,7 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 	 * Private members
 	 */
 	private AsyncTaskFactory asyncTaskFactory;
-	private boolean editedMarks[];
+	private boolean editedGrades[];
 	private boolean editedAttendances[];
 
 	public EditGradesOrAbsencesDialog(final Context context,
@@ -101,7 +102,7 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 		LinearLayout gradesContainerLayout = (LinearLayout) this
 				.findViewById(R.id.layout_grades);
 		int numberOfGrades = marks.size();
-		editedMarks = new boolean[numberOfGrades];
+		editedGrades = new boolean[numberOfGrades];
 
 		LinearLayout gradesLayout[] = new LinearLayout[numberOfGrades];
 		final EditText editableGrades[] = new EditText[numberOfGrades];
@@ -125,6 +126,8 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 			gradesContainerLayout.addView(gradesLayout[i]);
 		}
 
+		Arrays.fill(editedGrades, false);
+		
 		/*
 		 * Absances
 		 */
@@ -140,7 +143,8 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 			absencesTv[i] = createAttendenceText(context, i, attendence);
 			absencesContainerLayout.addView(absencesTv[i]);
 		}
-
+		
+		Arrays.fill(editedAttendances, false);
 		final Button btnSave = (Button) findViewById(R.id.btn_save);
 
 		btnSave.setOnClickListener(new View.OnClickListener() {
@@ -155,15 +159,15 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 						asyncTaskFactory.getTask(context, CLASS_NAME,
 								Constants.Method_EditAbsance).execute(
 								attendenceId, positionInSubjectsList, fragment);
-						
+
 						CatalogApplication.getGaTracker().send(
 								MapBuilder.createEvent(Constants.UI_ACTION,
-										Constants.UI_ACTION_MOTIVATE_GRADE, null, null)
-										.build());
+										Constants.UI_ACTION_MOTIVATE_GRADE,
+										null, null).build());
 					}
 				}
-				for (int i = 0; i < editedMarks.length; i++) {
-					if (editedMarks[i] == true) {
+				for (int i = 0; i < editedGrades.length; i++) {
+					if (editedGrades[i] == true) {
 						int markId = marks.get(i).getId();
 						Integer mark = Integer.valueOf(editableGrades[i]
 								.getText().toString());
@@ -173,11 +177,11 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 								Constants.Method_EditMark).execute(markId,
 								mark, markTimestamp, positionInSubjectsList,
 								fragment);
-						
+
 						CatalogApplication.getGaTracker().send(
 								MapBuilder.createEvent(Constants.UI_ACTION,
-										Constants.UI_ACTION_EDIT_GRADE, null, null)
-										.build());
+										Constants.UI_ACTION_EDIT_GRADE, null,
+										null).build());
 					}
 				}
 
@@ -254,7 +258,7 @@ public class EditGradesOrAbsencesDialog extends Dialog {
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before,
 				int count) {
-			editedMarks[v.getId()] = true;
+			editedGrades[v.getId()] = true;
 		}
 
 	}

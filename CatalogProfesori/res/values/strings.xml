@@ -70,7 +70,9 @@
     <string name="avarage_grade">Media</string>
     <string name="not_classMaster">Nu sunteți diriginte!</string>
     <string name="details_class">Detalii Clasă</string>
+    <string name="add_grades">Adaugă note</string>
     <string name="note_added">Nota a fost adăugată!</string>
+    <string name="notes_added">Notele au fost adăugate!</string>
     <string name="interval_motivated">Absențele au fost motivate!</string>
     <string name="interval_not_motivated">Eroare! Absențele NU au fost motivate!</string>
     <string name="situation_closed">Avertisment! Situația a fost deja încheiată.</string>

@@ -33,9 +33,11 @@ import android.widget.TextView;
 
 import com.catalog.activities.fragments.AllClassesStudentsDetailsFragment;
 import com.catalog.core.CatalogApplication;
+import com.catalog.dialogs.AddGradesForAllClassDialog;
 import com.catalog.helper.Constants;
 import com.catalog.model.ClassGroup;
 import com.catalog.model.Semester;
+import com.catalog.model.Student;
 import com.catalog.model.Subject;
 import com.catalog.model.SubjectClasses;
 import com.catalog.model.Teacher;
@@ -67,12 +69,16 @@ public class AllClassesActivity extends Activity {
 	private ClassGroup classGroup;
 	private ImageButton ibGrid, ibList;
 	private Button btnClassDetails;
+	private Button btnAddGradesAllClass;
 	private boolean viewingAsList;
 	private int mIndex;
 	private int mPosition;
 
+	private ArrayList<Student> students;
 	private Teacher teacher;
 	private SemesterVM semestersInfo;
+
+	private Subject subject;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +98,7 @@ public class AllClassesActivity extends Activity {
 		classTitle = (TextView) findViewById(R.id.tv_className);
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
 		btnClassDetails = (Button) findViewById(R.id.btnClassDetails);
+		btnAddGradesAllClass = (Button) findViewById(R.id.btnAddGradesAllClass);
 
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
@@ -118,6 +125,17 @@ public class AllClassesActivity extends Activity {
 			}
 		});
 
+		btnAddGradesAllClass.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				AddGradesForAllClassDialog d = new AddGradesForAllClassDialog(
+						AllClassesActivity.this, students, subject, teacher,
+						classGroup);
+				d.show();
+			}
+		});
+
 		ibGrid = (ImageButton) findViewById(R.id.ib_grid);
 		ibGrid.setOnClickListener(viewChangerClickListener);
 		ibList = (ImageButton) findViewById(R.id.ib_list);
@@ -139,15 +157,14 @@ public class AllClassesActivity extends Activity {
 	 * activity in which it is displayed.
 	 */
 	public void showStudents(int subjectNumber, int position, boolean asList) {
-
+		btnAddGradesAllClass.setVisibility(View.INVISIBLE);
 		if (isMultiPane()) {
 			// Check what fragment is shown, replace if needed.
 			// basically it's the frame layout
 			mIndex = subjectNumber;
 			mPosition = position;
 			// Make new fragment to show this selection.
-			Subject subject = subjectClassesList.get(subjectNumber)
-					.getSubject();
+			subject = subjectClassesList.get(subjectNumber).getSubject();
 
 			SubjectClasses subjectClass = subjectClassesList.get(subjectNumber);
 
@@ -163,31 +180,16 @@ public class AllClassesActivity extends Activity {
 							.newInstance(subjectNumber, subject, classGroup,
 									teacher, viewingAsList);
 
-					// Execute a transaction, replacing any existing
-					// fragment with this one inside the frame.
 					FragmentTransaction ft = getFragmentManager()
 							.beginTransaction();
-					// See our res/animator directory for more animator
-					// choices
-					// ft.setCustomAnimations(R.animator.bounce_in_down,
-					// R.animator.slide_out_down);
 					ft.setCustomAnimations(R.animator.fade_in,
 							R.animator.fade_out);
 					ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 					ft.replace(R.id.vf_details, details);
-					// ft.addToBackStack(TAG);
 					ft.commit();
 					getFragmentManager().executePendingTransactions();
 
-					// Otherwise we need to launch a new activity to display
-					// the dialog fragment with selected text.
-					/**
-					 * shouldn't get here, forcing landscape
-					 */
-					// Intent intent = new Intent();
-					// intent.setClass(this, DetailsActivity.class);
-					// intent.putExtra("index", index);
-					// startActivity(intent);
+					btnClassDetails.setVisibility(View.VISIBLE);
 				}
 			}
 		}
@@ -215,6 +217,22 @@ public class AllClassesActivity extends Activity {
 		}
 	};
 
+	/**
+	 * @return the students
+	 */
+	public ArrayList<Student> getStudents() {
+		return students;
+	}
+
+	/**
+	 * @param students
+	 *            the students to set
+	 */
+	public void setStudents(ArrayList<Student> students) {
+		this.students = students;
+		btnAddGradesAllClass.setVisibility(View.VISIBLE);
+	}
+
 	public void showLoading() {
 		progressBar.setVisibility(View.VISIBLE);
 
@@ -240,4 +258,5 @@ public class AllClassesActivity extends Activity {
 		super.onStop();
 		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
 	}
+
 }

@@ -73,7 +73,23 @@
                 android:background="@drawable/btn_blue"
                 android:text="@string/details_class"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/btnAddGradesAllClass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/btnClassDetails"
+                android:background="@drawable/btn_blue"
+                android:text="@string/add_grades"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:visibility="invisible" >
+            </Button>
         </RelativeLayout>
 
         <ViewFlipper

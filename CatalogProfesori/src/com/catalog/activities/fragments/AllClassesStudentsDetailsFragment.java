@@ -43,6 +43,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.catalog.activities.AllClassesActivity;
 import com.catalog.activities.R;
 import com.catalog.activities.R.anim;
 import com.catalog.activities.R.id;
@@ -82,7 +83,7 @@ public class AllClassesStudentsDetailsFragment extends Fragment {
 	 */
 	public GridView gridview;
 	public ListView listview;
-	public ArrayList<Student> students = null;
+	private ArrayList<Student> students = null;
 	public StudentAdapter m_adapter;
 
 	/*
@@ -91,7 +92,7 @@ public class AllClassesStudentsDetailsFragment extends Fragment {
 	private int mIndex = 0;
 	private ClassGroup selectedClassGroup;
 	private Teacher teacher;
-	private Activity act;
+	private AllClassesActivity act;
 	private AsyncTaskFactory asyncTaskFactory;
 	private AsyncTask<Object, Void, Integer> getStudentsTask;
 	private ProgressBar progressBar;
@@ -153,7 +154,7 @@ public class AllClassesStudentsDetailsFragment extends Fragment {
 	private void initUI() {
 
 		vf = (ViewFlipper) this.getActivity().findViewById(R.id.vf_details);
-		act = getActivity();
+		act = (AllClassesActivity) getActivity();
 		progressBar = (ProgressBar) act.findViewById(R.id.progressBar);
 
 		asyncTaskFactory = AsyncTaskFactory.getInstance(AppPreferences
@@ -162,9 +163,9 @@ public class AllClassesStudentsDetailsFragment extends Fragment {
 		getStudentsTask = asyncTaskFactory.getTask(this, CLASS_NAME, "");
 		getStudentsTask.execute(selectedClassGroup.getId());
 
-		students = new ArrayList<Student>();
+		setStudents(new ArrayList<Student>());
 		this.m_adapter = new StudentAdapter(act, R.layout.listgriditem_student,
-				students);
+				getStudents());
 
 		gridview = (GridView) this.getActivity()
 				.findViewById(R.id.details_grid);
@@ -296,11 +297,27 @@ public class AllClassesStudentsDetailsFragment extends Fragment {
 	}
 
 	private void constructEditGradesDialog(int position) {
-		Student s = students.get(position);
+		Student s = getStudents().get(position);
 		// EditGradesOrAbsencesDialog d = new EditGradesOrAbsencesDialog(act,
 		// s);
 		// d.show();
 
+	}
+
+	/**
+	 * @return the students
+	 */
+	public ArrayList<Student> getStudents() {
+		return students;
+	}
+
+	/**
+	 * @param students
+	 *            the students to set
+	 */
+	public void setStudents(ArrayList<Student> students) {
+		this.students = students;
+		act.setStudents(students);
 	}
 
 	public void showLoading() {
@@ -324,4 +341,5 @@ public class AllClassesStudentsDetailsFragment extends Fragment {
 		super.onStop();
 		CatalogApplication.getGaTracker().set(Fields.SCREEN_NAME, null);
 	}
+
 }
