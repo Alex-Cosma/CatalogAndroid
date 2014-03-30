@@ -22,6 +22,7 @@ import com.catalog.model.GradesAttendForSubject;
 import com.catalog.model.Semester;
 import com.catalog.model.StudentMark;
 import com.catalog.model.TimetableDays;
+import com.catalog.model.views.CloseClassSituationVM;
 import com.catalog.model.views.MasterClassVM;
 import com.catalog.model.views.MotivateIntervalVM;
 import com.catalog.model.views.SemesterVM;
@@ -72,5 +73,7 @@ interface Api_I {
 	long getElapsedTime(String callingMethod);
 
 	StudentFinalScoresForAllSemestersVM getFinalScoresForStudent(int studentId);
+
+	CloseClassSituationVM closeClassSituation(int classGroupId, int semesterId);
 
 }

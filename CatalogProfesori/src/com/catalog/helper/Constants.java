@@ -76,6 +76,8 @@ public class Constants {
 	public static final String Method_GetTeacherTimetable = "GetTeacherTimetable";
 	public static final String Method_GetMasterClass = "GetMasterClass";
 	public static final String Method_GetCurrentSmester = "GetCurrentSemest";
+	public static final String Method_CloseStudentSituation = "CloseStudentSituation";
+	public static final String Method_CloseClassSituation = "CloseClassSituation";
 
 	/*
 	 * Bundle constants
@@ -117,5 +119,6 @@ public class Constants {
 	public static final String UI_ACTION_WORK_FROM_HOME = "UX_WORK_FROM_HOME";
 	public static final String UI_ACTION_MOTIVATE_INTERVAL = "UX_MOTIVATE_INTERVAL";
 	public static final String UI_ACTION_ADD_GRADES_MASS = "UX_ADD_GRADES_MASS";
+	public static final String UI_ACTION_CLOSE_CLASS_SITUATION = "UX_CLOSE_CLASS_SITUATION";
 
 }

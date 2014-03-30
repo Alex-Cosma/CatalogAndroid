@@ -49,6 +49,7 @@ import com.catalog.model.Subject;
 import com.catalog.model.SubjectClasses;
 import com.catalog.model.SubjectTeacherForClass;
 import com.catalog.model.TimetableDays;
+import com.catalog.model.views.CloseClassSituationVM;
 import com.catalog.model.views.MasterClassVM;
 import com.catalog.model.views.MotivateIntervalVM;
 import com.catalog.model.views.SemesterVM;
@@ -178,7 +179,9 @@ public class AsyncTaskFactory {
 					.equals(Constants.Method_GetGradesAndAbsencesForStudent))
 				return new GetAllMarksAndAbsencesForSubjects(
 						(DetailedClassActivity) ctx);
-			else
+			else if (methodName.equals(Constants.Method_CloseClassSituation)) {
+				return new CloseClassSituationTask((DetailedClassActivity) ctx);
+			} else
 				return null;
 		}
 		/**
@@ -261,7 +264,8 @@ public class AsyncTaskFactory {
 
 			// put them in both places
 			activity.setStudents(studentsVM.getStudentList());
-			Collections.sort(activity.getStudents(), Comparators.ComparatorByName);
+			Collections.sort(activity.getStudents(),
+					Comparators.ComparatorByName);
 			return SUCCESS;
 		}
 
@@ -277,7 +281,8 @@ public class AsyncTaskFactory {
 			}
 			activity.hideLoading();
 
-			if (activity.getStudents() != null && activity.getStudents().size() > 0) {
+			if (activity.getStudents() != null
+					&& activity.getStudents().size() > 0) {
 
 				for (int i = 0; i < activity.getStudents().size(); i++) {
 					// gradesContainer
@@ -964,7 +969,7 @@ public class AsyncTaskFactory {
 
 			if (stfc == null || stfc.getId() < 0)
 				return FAIL;
-			
+
 			marks = new StudentMark[editableGrades.length];
 			for (int i = 0; i < editedGrades.length; i++) {
 				if (editedGrades[i] == true) {
@@ -1093,6 +1098,86 @@ public class AsyncTaskFactory {
 			}
 			activity.hideLoading();
 			activity.showStudents(studentIndex);
+		}
+
+		@Override
+		protected void onCancelled() {
+			DetailedClassActivity activity = mActivityRef.get();
+			if (activity == null) {
+				return;
+			}
+
+		}
+	}
+
+	private class CloseClassSituationTask extends
+			AsyncTask<Object, Void, Integer> {
+
+		private WeakReference<DetailedClassActivity> mActivityRef;
+		private int studentIndex;
+
+		public CloseClassSituationTask(DetailedClassActivity activity) {
+			mActivityRef = new WeakReference<DetailedClassActivity>(activity);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			if (mActivityRef == null) {
+				return;
+			}
+
+			DetailedClassActivity activity = mActivityRef.get();
+
+			if (activity == null) {
+				return;
+			}
+
+			// disable user input
+			activity.showLoading();
+		}
+
+		@Override
+		protected Integer doInBackground(Object... params) {
+			int classGroupId = (Integer) params[0];
+			int semesterId = (Integer) params[1];
+			studentIndex = (Integer) params[2];
+
+			DetailedClassActivity activity = mActivityRef.get();
+			if (activity == null)
+				return FAIL;
+
+			CloseClassSituationVM motivateIntervalVM = api.closeClassSituation(
+					classGroupId, semesterId);
+
+			if (motivateIntervalVM != null) {
+				if (motivateIntervalVM.getStatus()[0].equals("OK")) {
+					return SUCCESS;
+				}
+			}
+			return FAIL;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			DetailedClassActivity activity = mActivityRef.get();
+			if (activity == null) {
+				return;
+			}
+
+			if (result == SUCCESS) {
+				CustomToast toast = new CustomToast(activity, activity
+						.getResources().getString(R.string.situation_closed));
+				toast.show();
+
+			} else {
+				CustomToast toast = new CustomToast(activity, activity
+						.getResources()
+						.getString(R.string.situation_not_closed));
+				toast.show();
+			}
+			activity.hideLoading();
+			if (studentIndex > -1)
+				activity.showStudents(studentIndex);
 		}
 
 		@Override

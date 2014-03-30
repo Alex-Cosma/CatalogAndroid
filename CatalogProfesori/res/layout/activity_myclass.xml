@@ -37,21 +37,21 @@
                 android:textColor="#FFFFFF"
                 android:textStyle="bold" />
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/tv_className"
-                android:visibility="invisible" />
-
             <ImageView
                 android:id="@+id/ivClosedSituation"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_toRightOf="@+id/progressBar"
+                android:layout_toRightOf="@+id/tv_className"
                 android:background="@drawable/notallowed"
                 android:visibility="invisible" >
             </ImageView>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/ivClosedSituation"
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/btnToggleSemester"
@@ -72,6 +72,19 @@
                 android:layout_toLeftOf="@+id/btnToggleSemester"
                 android:background="@drawable/btn_blue"
                 android:text="@string/motivare_interval"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:visibility="invisible" >
+            </Button>
+
+            <Button
+                android:id="@+id/btnCloseSituation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/btnMotivateInterval"
+                android:background="@drawable/btn_red"
+                android:text="@string/incheie_situatia"
                 android:textColor="#FFFFFF"
                 android:textSize="12sp"
                 android:visibility="invisible" >

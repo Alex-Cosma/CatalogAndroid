@@ -391,7 +391,7 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 			if (reportForCurrentSemester != null
 					&& (reportForCurrentSemester.isClosedSituation() || isClosedSituation)) {
 				new CustomToast(act, getResources().getString(
-						R.string.situation_closed)).show();
+						R.string.situation_already_closed)).show();
 			}
 			AddGradesOrAbsenceDialog d = new AddGradesOrAbsenceDialog(act,
 					this, position, act.getClassGroup(), selectedStudent,
@@ -407,7 +407,7 @@ public class DetailedClassStudentsDetailsFragment extends Fragment {
 			if (reportForCurrentSemester != null
 					&& (reportForCurrentSemester.isClosedSituation() || isClosedSituation)) {
 				new CustomToast(act, getResources().getString(
-						R.string.situation_closed)).show();
+						R.string.situation_already_closed)).show();
 			}
 			EditGradesOrAbsencesDialog d = new EditGradesOrAbsencesDialog(act,
 					this, position, selectedStudent, gradesAndAttendances.get(

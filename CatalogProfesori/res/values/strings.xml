@@ -75,7 +75,9 @@
     <string name="notes_added">Notele au fost adăugate!</string>
     <string name="interval_motivated">Absențele au fost motivate!</string>
     <string name="interval_not_motivated">Eroare! Absențele NU au fost motivate!</string>
-    <string name="situation_closed">Avertisment! Situația a fost deja încheiată.</string>
+    <string name="situation_already_closed">Avertisment! Situația a fost deja încheiată.</string>
+    <string name="situation_closed">Situația a fost încheiată.</string>
+    <string name="situation_not_closed">Eroare! Situația nu a fost încheiată.</string>
     <string name="note_not_added">Eroare! Nota nu a fost adăugată!</string>
     <string name="absance_added">Absența a fost adăugată!</string>
     <string name="absance_not_added">Eroare! Absența nu a fost adăugată!</string>
@@ -94,8 +96,10 @@
     <string name="coming_soon">În construcții :)</string>
     <string name="no_subject_entries">Nu aveți asignate materii.</string>
     <string name="choose_your_location">Alegeți locația dumneavoastră</string>
+    <string name="dialog_title_close_situation">Încheie Situația</string>
     <string name="yes">Da</string>
     <string name="work_from_home">Lucrați de acasă?</string>
+    <string name="dialog_question_close_situation">Sunteți siguri că doriți să încheiați situația?</string>
     <string name="no">Nu</string>
     <string name="menu_about">Despre Aplicație</string>
     <string name="title_activity_about_app">AboutAppActivity</string>
@@ -108,6 +112,7 @@
     <string name="sem_i">Sem. I</string>
     <string name="sem_ii">Sem. II</string>
     <string name="motivare_interval">Motivare Interval</string>
+    <string name="incheie_situatia">Încheie Situația</string>
     <string name="motiveaza">Motivează</string>
     <string name="de_la_data_">De la data:</string>
     <string name="de_la_data">De la data:</string>

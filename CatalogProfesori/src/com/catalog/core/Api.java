@@ -42,6 +42,7 @@ import com.catalog.model.Semester;
 import com.catalog.model.StudentMark;
 import com.catalog.model.TimetableDays;
 import com.catalog.model.views.AttendanceSingleVM;
+import com.catalog.model.views.CloseClassSituationVM;
 import com.catalog.model.views.GradesAttendForSubjectVM;
 import com.catalog.model.views.MasterClassVM;
 import com.catalog.model.views.MotivateIntervalVM;
@@ -643,6 +644,38 @@ public class Api implements Api_I {
 		getElapsedTime("getFinalScoresForStudent - ");
 
 		return studentFinalScoresForAllSemestersVM;
+	}
+
+	@Override
+	public CloseClassSituationVM closeClassSituation(int classGroupId,
+			int semesterId) {
+		setStartTime();
+
+		HttpEntity<?> requestEntity = getAuthHttpEntity();
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		String url = "http://" + IP + EXTENSION
+				+ "/teacher/closeClassSituationT/" + classGroupId + ","
+				+ semesterId + ".json";
+
+		// Add the Jackson message converter
+		restTemplate.getMessageConverters().add(
+				new MappingJacksonHttpMessageConverter());
+
+		ResponseEntity<CloseClassSituationVM> responseEntity;
+		CloseClassSituationVM closeClassSituation = null;
+		try {
+			responseEntity = restTemplate.exchange(url, HttpMethod.GET,
+					requestEntity, CloseClassSituationVM.class);
+			closeClassSituation = responseEntity.getBody();
+
+		} catch (Exception e) {
+			return null;
+		}
+
+		getElapsedTime("closeClassSituation - ");
+		return closeClassSituation;
 	}
 
 	private HttpEntity<?> getAuthHttpEntity() {

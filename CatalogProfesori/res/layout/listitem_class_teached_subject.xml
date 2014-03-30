@@ -1,37 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/layout_subject"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:background="#DBDBDB"
-	android:minHeight="75dip" >
+    android:id="@+id/layout_subject"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#DBDBDB"
+    android:minHeight="75dip" >
 
-	<RelativeLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_centerVertical="true"
-		android:background="#DBDBDB"
-		android:paddingLeft="25dp" >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="#DBDBDB"
+        android:paddingLeft="15dp" >
 
-		<ImageView
-			android:id="@+id/iv_bullets"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginRight="10dp"
-			android:src="@drawable/ic_action_xhdpi_bulleted_list" />
+        <ImageView
+            android:id="@+id/iv_bullets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_action_xhdpi_bulleted_list" />
 
-		<TextView
-			android:id="@+id/tv_subject"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_toRightOf="@id/iv_bullets"
-			android:paddingTop="1dp"
-			
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:textColor="#151515"
-			android:textSize="20sp"
-			android:textStyle="bold" />
-	</RelativeLayout>
+        <TextView
+            android:id="@+id/tv_subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_bullets"
+            android:paddingTop="1dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#151515"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
 </RelativeLayout>

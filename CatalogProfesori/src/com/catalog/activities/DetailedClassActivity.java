@@ -19,7 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,7 +32,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.catalog.activities.fragments.DetailedClassStudentsDetailsFragment;
 import com.catalog.core.AppPreferences;
@@ -82,10 +83,12 @@ public class DetailedClassActivity extends Activity {
 	private ProgressBar progressBar;
 	private AsyncTaskFactory asyncTaskFactory;
 	private AsyncTask<Object, Void, Integer> getGradesAndAbsancesTask;
+	private AsyncTask<Object, Void, Integer> closeClassSituation;
 	private int currentSelectedStudentIndex;
 
 	private Button btnToggleSemester;
 	private Button btnMotivateInterval;
+	private Button btnCloseClassSituation;
 	private TextView tvSemester;
 	private ImageView ivClosedSituation;
 
@@ -105,6 +108,7 @@ public class DetailedClassActivity extends Activity {
 
 		btnToggleSemester = (Button) findViewById(R.id.btnToggleSemester);
 		btnMotivateInterval = (Button) findViewById(R.id.btnMotivateInterval);
+		btnCloseClassSituation = (Button) findViewById(R.id.btnCloseSituation);
 
 		ivClosedSituation = (ImageView) findViewById(R.id.ivClosedSituation);
 
@@ -141,6 +145,8 @@ public class DetailedClassActivity extends Activity {
 		classTitle.setText("Clasa a" + classGroup.getYearOfStudy() + "-a "
 				+ classGroup.getName());
 
+		btnCloseClassSituation.setVisibility(View.VISIBLE);
+
 		setupListeners();
 
 	}
@@ -172,6 +178,63 @@ public class DetailedClassActivity extends Activity {
 
 				if (currentSelectedStudentIndex > -1)
 					constructMotivateIntervalDialog();
+			}
+		});
+
+		btnCloseClassSituation.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				new AlertDialog.Builder(DetailedClassActivity.this)
+						.setIcon(android.R.drawable.ic_dialog_alert)
+						.setTitle(
+								getResources().getString(
+										R.string.dialog_title_close_situation)
+										+ " - "
+										+ "Clasa a"
+										+ classGroup.getYearOfStudy()
+										+ "-a "
+										+ classGroup.getName())
+						.setMessage(R.string.dialog_question_close_situation)
+						.setPositiveButton(R.string.yes,
+								new DialogInterface.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										CatalogApplication
+												.getGaTracker()
+												.send(MapBuilder
+														.createEvent(
+																Constants.UI_ACTION,
+																Constants.UI_ACTION_CLOSE_CLASS_SITUATION,
+																null, null)
+														.build());
+										closeClassSituation = asyncTaskFactory
+												.getTask(
+														DetailedClassActivity.this,
+														CLASS_NAME,
+														Constants.Method_CloseClassSituation);
+
+										closeClassSituation.execute(
+												classGroup.getId(),
+												currentSemester.getId(),
+												currentSelectedStudentIndex);
+									}
+
+								})
+						.setNegativeButton(R.string.no,
+								new DialogInterface.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										dialog.dismiss();
+									}
+
+								}).show();
+
 			}
 		});
 	}
@@ -222,34 +285,31 @@ public class DetailedClassActivity extends Activity {
 
 			Student selectedStudent = students.get(studentIndex);
 
-			// Make new fragment to show this selection.
+			boolean closedSituation = isClosedSituation(finalScoresForStudent);
 			DetailedClassStudentsDetailsFragment details = DetailedClassStudentsDetailsFragment
 					.newInstance(studentIndex, currentSemesterIndex,
 							selectedStudent, classGroup, teacher,
-							gradesAndAttendances,
-							isClosedSituation(finalScoresForStudent));
+							gradesAndAttendances, closedSituation);
 
-			classTitle.setText("Clasa a" + classGroup.getYearOfStudy() + "-a "
-					+ classGroup.getName() + " - "
-					+ selectedStudent.getLastName() + " "
+			classTitle.setText(selectedStudent.getLastName() + " "
 					+ selectedStudent.getFirstName());
 
-			// Execute a transaction, replacing any existing
-			// fragment with this one inside the frame.
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			ft.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
 			ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 			ft.replace(R.id.listview, details);
-			// ft.addToBackStack(TAG);
 			ft.commit();
 			getFragmentManager().executePendingTransactions();
 			btnToggleSemester.setVisibility(View.VISIBLE);
+			boolean isClassMaster = teacher.getClassgroup().getId() == classGroup
+					.getId();
 			btnMotivateInterval
-					.setVisibility((teacher.getClassgroup().getId() == classGroup
-							.getId()) ? (isClosedSituation(finalScoresForStudent) ? View.INVISIBLE
+					.setVisibility(isClassMaster ? (closedSituation ? View.INVISIBLE
 							: View.VISIBLE)
 							: View.INVISIBLE);
 
+			ivClosedSituation.setVisibility(closedSituation ? View.INVISIBLE
+					: View.VISIBLE);
 		}
 	}
 
@@ -261,10 +321,8 @@ public class DetailedClassActivity extends Activity {
 		if ((finalScores.size() > currentSemesterIndex)
 				&& finalScores.get(currentSemesterIndex) != null
 				&& finalScores.get(currentSemesterIndex).isClosedSituation()) {
-			ivClosedSituation.setVisibility(View.VISIBLE);
 			return true;
 		}
-		ivClosedSituation.setVisibility(View.INVISIBLE);
 		return false;
 	}
 
