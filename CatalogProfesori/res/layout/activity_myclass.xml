@@ -41,6 +41,7 @@
                 android:id="@+id/ivClosedSituation"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/tv_className"
                 android:background="@drawable/notallowed"
                 android:visibility="invisible" >

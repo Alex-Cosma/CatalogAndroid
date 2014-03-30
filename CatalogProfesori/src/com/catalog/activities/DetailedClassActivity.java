@@ -145,8 +145,6 @@ public class DetailedClassActivity extends Activity {
 		classTitle.setText("Clasa a" + classGroup.getYearOfStudy() + "-a "
 				+ classGroup.getName());
 
-		btnCloseClassSituation.setVisibility(View.VISIBLE);
-
 		setupListeners();
 
 	}
@@ -308,8 +306,12 @@ public class DetailedClassActivity extends Activity {
 							: View.VISIBLE)
 							: View.INVISIBLE);
 
-			ivClosedSituation.setVisibility(closedSituation ? View.INVISIBLE
-					: View.VISIBLE);
+			ivClosedSituation.setVisibility(closedSituation ? View.VISIBLE
+					: View.INVISIBLE);
+
+			btnCloseClassSituation.setVisibility(isClassMaster ? View.VISIBLE
+					: View.INVISIBLE);
+
 		}
 	}
 
@@ -321,6 +323,7 @@ public class DetailedClassActivity extends Activity {
 		if ((finalScores.size() > currentSemesterIndex)
 				&& finalScores.get(currentSemesterIndex) != null
 				&& finalScores.get(currentSemesterIndex).isClosedSituation()) {
+
 			return true;
 		}
 		return false;

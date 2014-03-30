@@ -194,12 +194,12 @@ public class AllClassesStudentsDetailsFragment extends Fragment {
 
 		// registerForContextMenu(gridview);
 		// registerForContextMenu(listview);
-
-		LayoutAnimationController controller = AnimationUtils
-				.loadLayoutAnimation(getActivity(),
-						R.anim.list_layout_controller);
-		gridview.setLayoutAnimation(controller);
-		listview.setLayoutAnimation(controller);
+		//
+		// LayoutAnimationController controller = AnimationUtils
+		// .loadLayoutAnimation(getActivity(),
+		// R.anim.list_layout_controller);
+		// gridview.setLayoutAnimation(controller);
+		// listview.setLayoutAnimation(controller);
 
 	}
 

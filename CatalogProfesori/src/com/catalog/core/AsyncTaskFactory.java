@@ -113,7 +113,7 @@ public class AsyncTaskFactory {
 		 * AddGradesClassStudentsDetailsFragment
 		 */
 		if (className.equals(Constants.AllClassesStudentsDetailsFragment)) {
-			return new GetStudentsTaskAddGrades(
+			return new GetStudentsAllClassesActivityTask(
 					(AllClassesStudentsDetailsFragment) ctx);
 		}
 
@@ -221,11 +221,11 @@ public class AsyncTaskFactory {
 	 * @author Alex
 	 * 
 	 */
-	private class GetStudentsTaskAddGrades extends
+	private class GetStudentsAllClassesActivityTask extends
 			AsyncTask<Object, Void, Integer> {
 		private WeakReference<AllClassesStudentsDetailsFragment> mActivityRef;
 
-		public GetStudentsTaskAddGrades(
+		public GetStudentsAllClassesActivityTask(
 				AllClassesStudentsDetailsFragment activity) {
 			mActivityRef = new WeakReference<AllClassesStudentsDetailsFragment>(
 					activity);
@@ -262,7 +262,6 @@ public class AsyncTaskFactory {
 			if (studentsVM == null)
 				return FAIL;
 
-			// put them in both places
 			activity.setStudents(studentsVM.getStudentList());
 			Collections.sort(activity.getStudents(),
 					Comparators.ComparatorByName);
@@ -279,15 +278,11 @@ public class AsyncTaskFactory {
 			if (activity == null) {
 				return;
 			}
-			activity.hideLoading();
 
 			if (activity.getStudents() != null
 					&& activity.getStudents().size() > 0) {
 
 				for (int i = 0; i < activity.getStudents().size(); i++) {
-					// gradesContainer
-					// .addView(buildSubjectItem(m_students.get(i)));
-
 					// TDO: si aici schimba inapoi
 					// activity.students.get(i).setFirstName(i + " ");
 					// activity.students.get(i).setLastName("Student ");
@@ -296,10 +291,12 @@ public class AsyncTaskFactory {
 
 				}
 			}
-
+			
 			activity.gridview.setAdapter(activity.m_adapter);
 			activity.listview.setAdapter(activity.m_adapter);
-			activity.m_adapter.notifyDataSetChanged();
+			// activity.m_adapter.notifyDataSetChanged();
+
+			activity.hideLoading();
 
 			return;
 		}
