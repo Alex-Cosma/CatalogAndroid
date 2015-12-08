@@ -65,9 +65,9 @@ public class Api implements Api_I {
 	private static final int FAIL = Constants.FAIL;
 	private static final int BAD_CONNECTION = Constants.BAD_CONNECTION;
 	private static final int UNAUTHORIZED = Constants.UNAUTHORIZED;
-	// private static String IP_EXTERNAL = "www.e-racovita.ro:8033/";
+	 private static String IP_EXTERNAL = "www.e-racovita.ro:8033/";
 
-	private static String IP_EXTERNAL = "10.0.3.2:8080/";
+//	private static String IP_EXTERNAL = "10.0.3.2:8080/";
 
 	private static String IP_INTERNAL = "192.168.31.6:8080/";
 	private static String EXTENSION_EXTERNAL = "catalog-online";
